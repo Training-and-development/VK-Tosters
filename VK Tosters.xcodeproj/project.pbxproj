@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		23A2A33123D5B5840060E76D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33023D5B5840060E76D /* AppDelegate.swift */; };
 		23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33223D5B5840060E76D /* SceneDelegate.swift */; };
-		23A2A33523D5B5840060E76D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33423D5B5840060E76D /* ViewController.swift */; };
 		23A2A33823D5B5840060E76D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33623D5B5840060E76D /* Main.storyboard */; };
 		23A2A33A23D5B5850060E76D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33923D5B5850060E76D /* Assets.xcassets */; };
 		23A2A33D23D5B5850060E76D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33B23D5B5850060E76D /* LaunchScreen.storyboard */; };
@@ -19,6 +18,10 @@
 		23A2A35923D5C8D90060E76D /* SwiftyVK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35423D5C8D90060E76D /* SwiftyVK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23A2A35A23D5C8D90060E76D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */; };
 		23A2A35B23D5C8D90060E76D /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23A2A36323D5DA930060E76D /* VKDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A36223D5DA930060E76D /* VKDelegate.swift */; };
+		23A2A36523D5DB270060E76D /* VKConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A36423D5DB270060E76D /* VKConstants.swift */; };
+		23A2A36823D5E07F0060E76D /* ApiV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A36723D5E07F0060E76D /* ApiV1.swift */; };
+		23A2A36C23D5E2500060E76D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A36B23D5E2500060E76D /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,7 +44,6 @@
 		23A2A32D23D5B5830060E76D /* VK Tosters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK Tosters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A2A33023D5B5840060E76D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23A2A33223D5B5840060E76D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		23A2A33423D5B5840060E76D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		23A2A33723D5B5840060E76D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		23A2A33923D5B5850060E76D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		23A2A33C23D5B5850060E76D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +51,10 @@
 		23A2A35323D5C8D90060E76D /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		23A2A35423D5C8D90060E76D /* SwiftyVK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyVK.framework; path = Carthage/Build/iOS/SwiftyVK.framework; sourceTree = "<group>"; };
 		23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		23A2A36223D5DA930060E76D /* VKDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKDelegate.swift; sourceTree = "<group>"; };
+		23A2A36423D5DB270060E76D /* VKConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKConstants.swift; sourceTree = "<group>"; };
+		23A2A36723D5E07F0060E76D /* ApiV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiV1.swift; sourceTree = "<group>"; };
+		23A2A36B23D5E2500060E76D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,12 +91,14 @@
 		23A2A32F23D5B5840060E76D /* VK Tosters */ = {
 			isa = PBXGroup;
 			children = (
-				23A2A33023D5B5840060E76D /* AppDelegate.swift */,
-				23A2A33223D5B5840060E76D /* SceneDelegate.swift */,
-				23A2A33423D5B5840060E76D /* ViewController.swift */,
-				23A2A33623D5B5840060E76D /* Main.storyboard */,
+				23A2A36623D5E0700060E76D /* Api */,
+				23A2A36123D5D0120060E76D /* Constants */,
+				23A2A35E23D5CFF80060E76D /* Delegates */,
+				23A2A36D23D5EE610060E76D /* Helpers */,
+				23A2A35F23D5D0050060E76D /* Storyboards */,
+				23A2A35D23D5CFF10060E76D /* ViewControllers */,
+				23A2A36023D5D00C0060E76D /* Xibs */,
 				23A2A33923D5B5850060E76D /* Assets.xcassets */,
-				23A2A33B23D5B5850060E76D /* LaunchScreen.storyboard */,
 				23A2A33E23D5B5850060E76D /* Info.plist */,
 			);
 			path = "VK Tosters";
@@ -104,6 +112,63 @@
 				23A2A35423D5C8D90060E76D /* SwiftyVK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		23A2A35D23D5CFF10060E76D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A36B23D5E2500060E76D /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		23A2A35E23D5CFF80060E76D /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A33023D5B5840060E76D /* AppDelegate.swift */,
+				23A2A33223D5B5840060E76D /* SceneDelegate.swift */,
+				23A2A36223D5DA930060E76D /* VKDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		23A2A35F23D5D0050060E76D /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A33623D5B5840060E76D /* Main.storyboard */,
+				23A2A33B23D5B5850060E76D /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		23A2A36023D5D00C0060E76D /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Xibs;
+			sourceTree = "<group>";
+		};
+		23A2A36123D5D0120060E76D /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A36423D5DB270060E76D /* VKConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		23A2A36623D5E0700060E76D /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A36723D5E07F0060E76D /* ApiV1.swift */,
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		23A2A36D23D5EE610060E76D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,9 +243,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A2A33523D5B5840060E76D /* ViewController.swift in Sources */,
 				23A2A33123D5B5840060E76D /* AppDelegate.swift in Sources */,
 				23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */,
+				23A2A36523D5DB270060E76D /* VKConstants.swift in Sources */,
+				23A2A36C23D5E2500060E76D /* ViewController.swift in Sources */,
+				23A2A36323D5DA930060E76D /* VKDelegate.swift in Sources */,
+				23A2A36823D5E07F0060E76D /* ApiV1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
