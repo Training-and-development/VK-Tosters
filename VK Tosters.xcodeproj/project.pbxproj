@@ -13,7 +13,29 @@
 		23A2A33823D5B5840060E76D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33623D5B5840060E76D /* Main.storyboard */; };
 		23A2A33A23D5B5850060E76D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33923D5B5850060E76D /* Assets.xcassets */; };
 		23A2A33D23D5B5850060E76D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33B23D5B5850060E76D /* LaunchScreen.storyboard */; };
+		23A2A35623D5C8D90060E76D /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35323D5C8D90060E76D /* Alamofire.framework */; };
+		23A2A35723D5C8D90060E76D /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35323D5C8D90060E76D /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23A2A35823D5C8D90060E76D /* SwiftyVK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35423D5C8D90060E76D /* SwiftyVK.framework */; };
+		23A2A35923D5C8D90060E76D /* SwiftyVK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35423D5C8D90060E76D /* SwiftyVK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23A2A35A23D5C8D90060E76D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */; };
+		23A2A35B23D5C8D90060E76D /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23A2A35C23D5C8D90060E76D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				23A2A35723D5C8D90060E76D /* Alamofire.framework in Embed Frameworks */,
+				23A2A35923D5C8D90060E76D /* SwiftyVK.framework in Embed Frameworks */,
+				23A2A35B23D5C8D90060E76D /* SwiftyJSON.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		23A2A32D23D5B5830060E76D /* VK Tosters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK Tosters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,6 +46,9 @@
 		23A2A33923D5B5850060E76D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		23A2A33C23D5B5850060E76D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		23A2A33E23D5B5850060E76D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23A2A35323D5C8D90060E76D /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		23A2A35423D5C8D90060E76D /* SwiftyVK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyVK.framework; path = Carthage/Build/iOS/SwiftyVK.framework; sourceTree = "<group>"; };
+		23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +56,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A2A35623D5C8D90060E76D /* Alamofire.framework in Frameworks */,
+				23A2A35823D5C8D90060E76D /* SwiftyVK.framework in Frameworks */,
+				23A2A35A23D5C8D90060E76D /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +70,7 @@
 			children = (
 				23A2A32F23D5B5840060E76D /* VK Tosters */,
 				23A2A32E23D5B5830060E76D /* Products */,
+				23A2A35223D5C8D90060E76D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +96,16 @@
 			path = "VK Tosters";
 			sourceTree = "<group>";
 		};
+		23A2A35223D5C8D90060E76D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A35323D5C8D90060E76D /* Alamofire.framework */,
+				23A2A35523D5C8D90060E76D /* SwiftyJSON.framework */,
+				23A2A35423D5C8D90060E76D /* SwiftyVK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,6 +116,7 @@
 				23A2A32923D5B5830060E76D /* Sources */,
 				23A2A32A23D5B5830060E76D /* Frameworks */,
 				23A2A32B23D5B5830060E76D /* Resources */,
+				23A2A35C23D5C8D90060E76D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,6 +326,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NN4HS983N7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "VK Tosters/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,6 +348,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NN4HS983N7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "VK Tosters/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

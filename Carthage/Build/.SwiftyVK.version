@@ -1,0 +1,10 @@
+{
+  "commitish" : "3.4.1",
+  "iOS" : [
+    {
+      "name" : "SwiftyVK",
+      "hash" : "f9ec49606d0a280bcc3a4df97a12a24e61de119742e26b1eb38e2ce8234530fb",
+      "swiftToolchainVersion" : "5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
+    }
+  ]
+}
