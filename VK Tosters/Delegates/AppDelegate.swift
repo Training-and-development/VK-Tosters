@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         vkDelegateReference = VKDelegate()
+        UILabel.appearance().font = UIFont(name: "Lato-Heavy", size: 13)
         return true
     }
 

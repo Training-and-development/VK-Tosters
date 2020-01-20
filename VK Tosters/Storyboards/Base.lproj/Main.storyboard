@@ -30,23 +30,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSr-Az-PMa">
-                                <rect key="frame" x="175.5" y="385" width="63" height="38"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
-                                <state key="normal" title="Action">
-                                    <color key="titleColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="action:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WAp-AZ-fUd"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="bSr-Az-PMa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Qr5-O2-tMK"/>
-                            <constraint firstItem="bSr-Az-PMa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XAK-5P-1Oj"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Root View Controller" id="rzC-4z-LGn"/>
