@@ -59,7 +59,7 @@ class UIToasterView: UIView {
         
         switch style {
         case .default:
-            color = Colors.shared.green
+            color = Colors.shared.blue
         case .success:
             color = Colors.shared.green
         case .warning:

@@ -68,6 +68,8 @@ private extension BottomPopupPresentationController {
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
         swipeGesture.direction = [.down, .up]
         dimmingView.isUserInteractionEnabled = true
-        [tapGesture, swipeGesture].forEach { dimmingView.addGestureRecognizer($0) }
+        [tapGesture, swipeGesture].forEach {
+            dimmingView.addGestureRecognizer($0)
+        }
     }
 }

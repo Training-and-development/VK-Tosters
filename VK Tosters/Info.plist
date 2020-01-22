@@ -81,5 +81,7 @@
 		<string>Lato-Thin.ttf</string>
 		<string>Lato-Thinitallic.ttf</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

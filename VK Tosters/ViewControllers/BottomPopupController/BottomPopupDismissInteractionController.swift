@@ -20,6 +20,33 @@ final class BottomPopupDismissInteractionController: UIPercentDrivenInteractiveT
     private unowned var attributesDelegate: BottomPopupAttributesDelegate
     weak var delegate: BottomPopupDismissInteractionControllerDelegate?
     
+    override var completionSpeed: CGFloat {
+        get {
+            return 1
+        }
+        set {
+            return
+        }
+    }
+    
+    override var completionCurve: UIView.AnimationCurve {
+        get {
+            return .easeInOut
+        }
+        set {
+            return
+        }
+    }
+    
+    override var duration: CGFloat {
+        get {
+            return 1
+        }
+        set {
+            return
+        }
+    }
+    
     private var currentPercent: CGFloat = 0 {
         didSet {
             delegate?.dismissInteractionPercentChanged(from: oldValue, to: currentPercent)
@@ -36,9 +63,15 @@ final class BottomPopupDismissInteractionController: UIPercentDrivenInteractiveT
     
     private func finishAnimation(withVelocity velocity: CGPoint) {
         if currentPercent > kMinPercentOfVisiblePartToCompleteAnimation || velocity.y > kSwipeDownThreshold {
-            finish()
+            UIView.transition(with: presentedViewController!.view, duration: 1, options: .curveEaseOut, animations: {
+                self.finish()
+                self.presentedViewController?.view.layoutIfNeeded()
+            })
         } else {
-            cancel()
+            UIView.transition(with: presentedViewController!.view, duration: 1, options: .curveEaseOut, animations: {
+                self.cancel()
+                self.presentedViewController?.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -59,10 +92,11 @@ final class BottomPopupDismissInteractionController: UIPercentDrivenInteractiveT
             presentedViewController?.dismiss(animated: true, completion: nil)
         case .changed:
             update(currentPercent)
-        default:
+        case .ended:
             let velocity = pan.velocity(in: presentedViewController?.view)
             transitioningDelegate?.isInteractiveDismissStarted = false
             finishAnimation(withVelocity: velocity)
+        default: break
         }
     }
 }

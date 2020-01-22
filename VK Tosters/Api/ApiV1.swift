@@ -9,31 +9,9 @@
 import Foundation
 import SwiftyVK
 import SwiftyJSON
+import PromiseKit
 
 final class ApiV1 {
-    class func action(_ tag: Int) {
-        switch tag {
-        case 1:
-            authorize()
-        case 2:
-            logout()
-        case 3:
-            captcha()
-        case 4:
-            usersGet()
-        case 5:
-            friendsGet()
-        case 6:
-            uploadPhoto()
-        case 7:
-            validation()
-        case 8:
-            share()
-        default:
-            print("Unrecognized action!")
-        }
-    }
-    
     class func authorize() {
         VK.sessions.default.logIn(
             onSuccess: { info in
@@ -66,19 +44,24 @@ final class ApiV1 {
             .send()
     }
     
-    class func usersGet() {
-        VK.API.Users.get(.empty)
-            .configure(with: Config.init(httpMethod: .POST))
+    class func usersGet(userId: String, fields: String) {
+        VK.API.Users.get([
+            .userId: userId,
+            .fields: fields])
+            .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { print("SwiftyVK: users.get successed with \n \(JSON($0))") }
             .onError { print("SwiftyVK: friends.get fail \n \($0)") }
             .send()
     }
     
-    class func friendsGet() {
-        VK.API.Friends.get(.empty)
-            .onSuccess { print("SwiftyVK: friends.get successed with \n \(JSON($0))") }
-            .onError { print("SwiftyVK: friends.get failed with \n \($0)") }
-            .send()
+    class func friendsGet(count: String, fields: String) -> Promise<JSON> {
+        return Promise<JSON> { response in
+            VK.API.Friends.get([
+                .count: count,
+                .fields: fields])
+                .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
+                .send()
+        }
     }
     
     class func uploadPhoto() {

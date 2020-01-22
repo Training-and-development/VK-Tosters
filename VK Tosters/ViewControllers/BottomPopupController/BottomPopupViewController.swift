@@ -8,6 +8,8 @@
 
 import UIKit
 
+public typealias CompletionHandler = (_ success: Bool) -> Void
+
 open class BottomPopupViewController: UIViewController, BottomPopupAttributesDelegate {
     private var transitionHandler: BottomPopupTransitionHandler?
     open weak var popupDelegate: BottomPopupDelegate?
@@ -16,25 +18,30 @@ open class BottomPopupViewController: UIViewController, BottomPopupAttributesDel
     
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
+        setParameters()
         initialize()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        setParameters()
         initialize()
     }
     
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     open override func viewDidLoad() {
-        
         super.viewDidLoad()
         transitionHandler?.notifyViewLoaded(withPopupDelegate: popupDelegate)
         popupDelegate?.bottomPopupViewLoaded()
         self.view.accessibilityIdentifier = popupViewAccessibilityIdentifier
+        setupPopup()
+        setupButtons()
     }
     
-    open override  func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         curveTopCorners()
@@ -92,4 +99,14 @@ open class BottomPopupViewController: UIViewController, BottomPopupAttributesDel
     open var popupShouldBeganDismiss: Bool { return BottomPopupConstants.shouldBeganDismiss }
     
     open var popupViewAccessibilityIdentifier: String { return BottomPopupConstants.defaultPopupViewAccessibilityIdentifier }
+    
+    open func setupPopup() { }
+    
+    open func setParameters(duration: Double? = 0, dimmingViewAlpha: CGFloat? = 0, headerText: String? = "", descriptionText: String? = "", confrimText: String? = "", declineText: String? = "") { }
+    
+    open func setupButtons() { }
+    
+    @objc open func confrimAction(completion: @escaping CompletionHandler) -> () { }
+    
+    @objc open func declineAction(completion: @escaping CompletionHandler) -> () { }
 }
