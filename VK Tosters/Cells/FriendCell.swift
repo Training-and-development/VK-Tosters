@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FriendCell: UITableViewCell {
-    let nameLabel: UILabel = {
-        let name = UILabel()
-        return name
-    }()
-    
+    @IBOutlet weak var avatarView: UIImageView!
+    @IBOutlet weak var nameView: UILabel!
+    @IBOutlet weak var descriptionView: UILabel!
+    @IBOutlet weak var rootView: UIView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -22,9 +23,38 @@ class FriendCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setupConstrints() {
-        self.contentView.addSubview(nameLabel)
-        nameLabel.text = " disgs "
-        nameLabel.textColor = .green
+    func setup(model: Friend) {
+        setupCellComponent()
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.setActiveUser(model: model)
+            guard model.deactivated != "" else { return }
+            strongSelf.setDeactiveUser(deactivated: model.deactivated!)
+        }
+    }
+    
+    func setActiveUser(model: Friend) {
+        nameView.text = model.name
+        if model.online == 0 {
+            descriptionView.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+        } else if model.online == 1 {
+            descriptionView.text = "Онлайн"
+        }
+        avatarView.kf.setImage(with: URL(string: model.photo100))
+    }
+    
+    func setDeactiveUser(deactivated: String) {
+        descriptionView.text = FriendsLocalization.getDeactivateState(deactivate: deactivated)
+    }
+    
+    func setupCellComponent() {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.avatarView.setRounded()
+            strongSelf.nameView.font = UIFont(name: "Lato-Bold", size: 18)
+            strongSelf.nameView.textColor = Colors.shared.black
+            strongSelf.descriptionView.font = UIFont(name: "Lato-Regular", size: 15)
+            strongSelf.descriptionView.textColor = Colors.shared.metal
+        }
     }
 }

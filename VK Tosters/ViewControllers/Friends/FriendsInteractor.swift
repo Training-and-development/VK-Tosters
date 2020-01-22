@@ -13,25 +13,26 @@ import UIKit
 import SwiftyVK
 import SwiftyJSON
 
-struct Response {
-    let count: Int
-    let items: [Friend]
-}
-
 class FriendsInteractor: FriendsInteractorProtocol {
     weak var presenter: FriendsPresenterProtocol?
-    let fields: String = "nickname, domain, sex, bdate, city, country, timezone, photo_50, photo_100, photo_200_orig, has_mobile, contacts, education, online, relation, last_seen, status, can_write_private_message, can_see_all_posts, can_post, universities"
+    var friendsJSON: [JSON] = []
+    var responseJSON: JSON = []
+    
     
     func start() {
-        VK.API.Friends.get([.count: String(50), .fields: fields])
+        VK.API.Friends.get([.count: String(50), .fields: ApiFriendsFields.getFriendsField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
-                self.handleResponse(response: JSON(response))
+                self.responseJSON = JSON(response)
+                self.friendsJSON = self.responseJSON[ApiFriendsResponse.items].arrayValue
+                self.handleResponse(response: self.responseJSON)
+                ResponseState.isLoaded = true
                 DispatchQueue.main.async {
                     self.presenter?.onEvent(message: "Success", .default)
                 }
         }
         .onError { error in
+            ResponseState.isLoaded = false
             DispatchQueue.main.async {
                 self.presenter?.onEvent(message: "Error", .error)
             }
@@ -41,9 +42,8 @@ class FriendsInteractor: FriendsInteractorProtocol {
     
     func handleResponse(response: JSON) {
         DispatchQueue.main.async {
-            let json = response["items"].arrayValue
-            let friends = json.map { Friend(json: $0) }
-            print(friends)
+            let mapItems = self.friendsJSON.map { Friend(json: $0) }
+            self.presenter?.onLoadData()
         }
     }
 }

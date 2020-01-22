@@ -10,15 +10,29 @@
 
 import UIKit
 
+struct ResponseState {
+    static var isLoaded: Bool = false
+}
+
 class FriendsPresenter: FriendsPresenterProtocol {
     weak private var view: FriendsViewProtocol?
     var interactor: FriendsInteractorProtocol?
     private let router: FriendsWireframeProtocol
+    var isFirstRun: Bool = true
 
     init(interface: FriendsViewProtocol, interactor: FriendsInteractorProtocol?, router: FriendsWireframeProtocol) {
         self.view = interface
         self.interactor = interactor
         self.router = router
+        self.isFirstRun = false
+        NotificationCenter.default.addObserver(self, selector: #selector(onReachabilityStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
+    }
+    
+    deinit {
+        ResponseState.isLoaded = false
+        NotificationCenter.default.removeObserver(self)
+        isFirstRun = true
+        print("FriendsPresenter deinited")
     }
 
     func start() {
@@ -27,5 +41,42 @@ class FriendsPresenter: FriendsPresenterProtocol {
     
     func onEvent(message: String, _ style: ToastStyle) {
         view?.showToast(message: message, style)
+    }
+    
+    func onLoadData() {
+        view?.reloadTableView()
+    }
+    
+    func onTapUser(indexPath: IndexPath) {
+        // self.onEvent(message: "Это \(self.getFriend(indexPath: indexPath).name)", .success)
+        router.openProfile(userId: getFriend(indexPath: indexPath).id)
+    }
+    
+    func getFriend(indexPath: IndexPath) -> Friend {
+        let friendJSON = interactor?.friendsJSON[indexPath.row]
+        let friend = friendJSON.map { Friend(json: $0) }
+        return friend!
+    }
+    
+    func getFriendsCount() -> Int {
+        return interactor!.friendsJSON.count
+    }
+}
+extension FriendsPresenter {
+    @objc func onReachabilityStatusChanged(_ notification: NSNotification) {
+        if let info = notification.userInfo {
+            if info[ReachabilityNotificationStatusItem] != nil {
+                if (SwiftReachability.sharedManager?.isReachable())! {
+                    guard !isFirstRun else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+                        self.view?.showToast(message: CommonLocalization.connected, .default)
+                    })
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+                        self.view?.showToast(message: CommonLocalization.notConnected, .default)
+                    })
+                }
+            }
+        }
     }
 }

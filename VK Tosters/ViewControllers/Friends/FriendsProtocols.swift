@@ -9,20 +9,26 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 //MARK: Wireframe -
 protocol FriendsWireframeProtocol: class {
-    
+    func openProfile(userId: Int)
 }
 //MARK: Presenter -
 protocol FriendsPresenterProtocol: class {
     func start()
     func onEvent(message: String, _ style: ToastStyle)
+    func onLoadData()
+    func onTapUser(indexPath: IndexPath)
+    func getFriend(indexPath: IndexPath) -> Friend
+    func getFriendsCount() -> Int
 }
 
 //MARK: Interactor -
 protocol FriendsInteractorProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
+    var friendsJSON: [JSON] { get }
     func start()
 }
 
@@ -30,4 +36,5 @@ protocol FriendsInteractorProtocol: class {
 protocol FriendsViewProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
     func showToast(message: String, _ style: ToastStyle)
+    func reloadTableView()
 }

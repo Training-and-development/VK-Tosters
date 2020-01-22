@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceholderCell" rowHeight="58" id="KGk-i7-Jjw" customClass="PlaceholderCell" customModule="VK_Tosters" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RMK-bG-mfy" userLabel="PlaceholderView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M51-JB-pfB" userLabel="AvatarPH">
+                                <rect key="frame" x="12" y="8" width="42" height="42"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="EZB-bz-Kia"/>
+                                    <constraint firstAttribute="width" constant="42" id="Zti-Vw-0Pl"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYE-L6-VMI" userLabel="NamePH">
+                                <rect key="frame" x="62" y="8" width="123" height="19"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="OJF-zc-s0v"/>
+                                    <constraint firstAttribute="height" constant="19" id="jZF-I1-4Rf"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eiJ-h1-K4J" userLabel="DescriptionPH">
+                                <rect key="frame" x="62" y="31" width="196" height="19"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="196" id="Wv0-ff-Hqf"/>
+                                    <constraint firstAttribute="height" constant="19" id="aMY-Vz-JqX"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="M51-JB-pfB" firstAttribute="centerY" secondItem="RMK-bG-mfy" secondAttribute="centerY" id="An7-Qd-U6J"/>
+                            <constraint firstItem="ZYE-L6-VMI" firstAttribute="top" secondItem="RMK-bG-mfy" secondAttribute="top" constant="8" id="JuR-bb-l3R"/>
+                            <constraint firstItem="M51-JB-pfB" firstAttribute="leading" secondItem="RMK-bG-mfy" secondAttribute="leading" constant="12" id="MmH-N8-t0b"/>
+                            <constraint firstAttribute="bottom" secondItem="eiJ-h1-K4J" secondAttribute="bottom" constant="8" id="Zmm-fR-J9F"/>
+                            <constraint firstItem="eiJ-h1-K4J" firstAttribute="leading" secondItem="M51-JB-pfB" secondAttribute="trailing" constant="8" id="d45-jA-xAF"/>
+                            <constraint firstItem="ZYE-L6-VMI" firstAttribute="leading" secondItem="M51-JB-pfB" secondAttribute="trailing" constant="8" id="dxZ-5m-p6R"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="RMK-bG-mfy" secondAttribute="bottom" id="2Z2-A6-54Y"/>
+                    <constraint firstItem="RMK-bG-mfy" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="WoP-0e-pwZ"/>
+                    <constraint firstAttribute="trailing" secondItem="RMK-bG-mfy" secondAttribute="trailing" id="Ygb-ma-YiS"/>
+                    <constraint firstItem="RMK-bG-mfy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ldj-1q-eS2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="avatarPlacceholder" destination="M51-JB-pfB" id="lJh-zs-8C5"/>
+                <outlet property="descriptionPlacceholder" destination="eiJ-h1-K4J" id="Wr6-d4-H25"/>
+                <outlet property="namePlacceholder" destination="ZYE-L6-VMI" id="lui-fH-Jtt"/>
+                <outlet property="placeholderView" destination="RMK-bG-mfy" id="UbQ-qP-bcP"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="134.59821428571428"/>
+        </tableViewCell>
+    </objects>
+</document>

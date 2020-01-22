@@ -13,8 +13,13 @@ import UIKit
 class FriendsRouter: FriendsWireframeProtocol {
     
     weak var viewController: FriendsViewProtocol?
+    var baseViewController: UIViewController? {
+        didSet {
+            print("")
+        }
+    }
     
-    class func createModule(viewController: FriendsViewProtocol) {
+    static func createModule(viewController: FriendsViewController) {
         let interactor = FriendsInteractor()
         let router = FriendsRouter()
         let presenter = FriendsPresenter(interface: viewController, interactor: interactor, router: router)
@@ -23,5 +28,12 @@ class FriendsRouter: FriendsWireframeProtocol {
         interactor.presenter = presenter
         router.viewController = viewController
         presenter.interactor = interactor
+        router.baseViewController = viewController
+    }
+    
+    func openProfile(userId: Int) {
+        let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
+        ProfileViewController.userId = "\(userId)"
+        self.baseViewController?.present(profileViewController, animated: true, completion: nil)
     }
 }

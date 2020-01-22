@@ -15,13 +15,13 @@ enum ToastStyle: Int {
 
 class UIToaster: UIView {
     var toastHeight: CGFloat = 36.0
-    var toast = UIToasterView(frame: .zero, style: .default, message: "", font: UIFont(name: "Lato-Regular", size: 13)!)
+    var toast = UIToasterView(frame: .zero, style: .default, message: "", font: UIFont(name: "Lato-Regular", size: 13.5)!)
     
     func show(view: UIView, style: ToastStyle, message: String, duration: TimeInterval) {
         toast = UIToasterView(frame: CGRect(x: 0, y: -toastHeight, width: view.frame.width, height: toastHeight), style: style, message: message, font: UIFont(name: "Lato-Regular", size: 13)!)
         view.addSubview(toast)
         
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             self.toast.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: self.toastHeight)
             view.layoutIfNeeded()
         }, completion: { finished in
@@ -34,7 +34,7 @@ class UIToaster: UIView {
     
     func hide(view: UIView, toast: UIToasterView, isNeedAnimation: Bool) {
         if isNeedAnimation {
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 toast.frame = CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight)
                 view.layoutIfNeeded()
             }, completion: { finished in

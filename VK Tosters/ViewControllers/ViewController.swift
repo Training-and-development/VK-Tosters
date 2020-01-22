@@ -48,7 +48,7 @@ class ViewController: UIViewController {
     
     private func setupNavigationController() {
         let rightButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(logoutAction(_:)))
-        rightButton.title = "Login (out)"
+        rightButton.title = "Управление"
         self.navigationItem.rightBarButtonItem = rightButton
     }
     
@@ -150,8 +150,10 @@ extension ViewController {
                 if (SwiftReachability.sharedManager?.isReachable())! {
                     guard !isFirstRun else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
-                        self.toaster.show(view: self.view, style: .default, message: "Подключено", duration: 1)
+                        for controller in self.navigationController!.viewControllers {
+                            self.toaster.hide(view: controller.view, toast: self.toaster.toast, isNeedAnimation: false)
+                            self.toaster.show(view: controller.view, style: .default, message: "Подключено", duration: 1)
+                        }
                     })
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {

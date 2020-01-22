@@ -1,8 +1,8 @@
 //
-//  Friend.swift
+//  User.swift
 //  VK Tosters
 //
-//  Created by programmist_np on 21/01/2020.
+//  Created by programmist_np on 22/01/2020.
 //  Copyright © 2020 programmist_np. All rights reserved.
 //
 
@@ -10,17 +10,16 @@ import Foundation
 import SwiftyJSON
 import RealmSwift
 
-class Friend: NSObject {
+class User: NSObject {
     var id: Int = 0
     var name: String = ""
     var isClosed: Bool = false
     var canAccessClosed: Bool = false
     var sex = 0, online: Int = 0
-    var trackCode: String = ""
     var deactivated: String?
     var time: Int = 0
     var platform: Int = 0
-    var photo100: String = ""
+    var photoOriginal: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
     
     convenience init(json: JSON) {
@@ -31,11 +30,10 @@ class Friend: NSObject {
         self.canAccessClosed = json["can_access_closed"].boolValue
         self.sex = json["sex"].intValue
         self.online = json["online"].intValue
-        self.trackCode = json["track_code"].stringValue
         self.deactivated = json["deactivated"].stringValue
         self.time = json["last_seen"]["time"].intValue
         self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
         self.platform = json["last_seen"]["platform"].intValue
-        self.photo100 = json["photo_100"].stringValue
+        self.photoOriginal = json["photo_max_orig"].stringValue
     }
 }
