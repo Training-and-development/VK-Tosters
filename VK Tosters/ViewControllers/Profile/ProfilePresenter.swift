@@ -22,11 +22,15 @@ class ProfilePresenter: ProfilePresenterProtocol {
         self.router = router
     }
 
-    func start(userId: String) {
-        interactor?.start(userId: userId)
+    func start(userId: String, nameWithGen: String) {
+        interactor?.start(userId: userId, nameWithGen: nameWithGen)
     }
     
     func onDataLoad(user: User) {
         view?.setData(model: user)
+    }
+    
+    func onEvent(message: String, _ style: ToastStyle) {
+        view?.getToast(message: message, style)
     }
 }

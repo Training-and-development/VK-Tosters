@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
+enum NameCases: String {
+    case nom
+    case gen
+    case dat
+    case acc
+    case ins
+    case abl
+}
+
 extension String {
     func height(constraintedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let label =  UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
@@ -34,5 +43,9 @@ extension String{
         let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.height)
+    }
+    
+    func withNameCase(nameCase: NameCases) -> String {
+        return self
     }
 }

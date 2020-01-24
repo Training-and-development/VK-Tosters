@@ -20,30 +20,66 @@ class FriendsInteractor: FriendsInteractorProtocol {
     
     
     func start() {
+        getFriends()
+    }
+    
+    func getFriends() {
         VK.API.Friends.get([.count: String(50), .fields: ApiFriendsFields.getFriendsField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.responseJSON = JSON(response)
-                self.friendsJSON = self.responseJSON[ApiFriendsResponse.items].arrayValue
                 self.handleResponse(response: self.responseJSON)
                 ResponseState.isLoaded = true
-                DispatchQueue.main.async {
-                    self.presenter?.onEvent(message: "Success", .default)
-                }
         }
         .onError { error in
             ResponseState.isLoaded = false
             DispatchQueue.main.async {
-                self.presenter?.onEvent(message: "Error", .error)
+                self.presenter?.onEvent(message: "Произошла ошибка при загрузке", .error)
             }
         }
         .send()
     }
     
+    func getNameWithCase(nameCase: NameCases, userId: String, completionHandler: GetUserNameHandler?) {
+        VK.API.Users.get([.userId: userId, .fields: "first_name", .nameCase: String(describing: nameCase)])
+            .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
+            .onSuccess { response in
+                let responseJSON = JSON(response).arrayValue
+                let mapItems = responseJSON.map { User(json: $0) }
+                UserNameWithCase.name = mapItems[0].name
+                completionHandler!(true)
+        }
+        .onError { error in
+            completionHandler!(false)
+            print(String(describing: error))
+        }
+        .send()
+    }
+    
     func handleResponse(response: JSON) {
+        friendsJSON = response[ApiFriendsResponse.items].arrayValue
+        let mapItems = self.friendsJSON.map { Friend(json: $0) }
         DispatchQueue.main.async {
-            let mapItems = self.friendsJSON.map { Friend(json: $0) }
             self.presenter?.onLoadData()
         }
+    }
+    
+    func deleteFriendsRequest(userId: String, completionHandler: DeleteFriendHandler?) {
+        VK.API.Friends.delete([.userId: userId])
+            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
+            .onSuccess{ _ in
+                DispatchQueue.main.async {
+                    self.getFriends()
+                    self.presenter?.onEvent(message: "Вы удалили \(UserNameWithCase.name)", .success)
+                    completionHandler!(true)
+                }
+        }
+        .onError { _ in
+            DispatchQueue.main.async {
+                self.presenter?.onEvent(message: "Произошла ошибка", .error)
+                completionHandler!(false)
+            }
+        }
+        .send()
     }
 }

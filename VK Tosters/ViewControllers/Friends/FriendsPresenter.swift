@@ -18,20 +18,15 @@ class FriendsPresenter: FriendsPresenterProtocol {
     weak private var view: FriendsViewProtocol?
     var interactor: FriendsInteractorProtocol?
     private let router: FriendsWireframeProtocol
-    var isFirstRun: Bool = true
 
     init(interface: FriendsViewProtocol, interactor: FriendsInteractorProtocol?, router: FriendsWireframeProtocol) {
         self.view = interface
         self.interactor = interactor
         self.router = router
-        self.isFirstRun = false
-        NotificationCenter.default.addObserver(self, selector: #selector(onReachabilityStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
     }
     
     deinit {
         ResponseState.isLoaded = false
-        NotificationCenter.default.removeObserver(self)
-        isFirstRun = true
         print("FriendsPresenter deinited")
     }
 
@@ -40,7 +35,7 @@ class FriendsPresenter: FriendsPresenterProtocol {
     }
     
     func onEvent(message: String, _ style: ToastStyle) {
-        view?.showToast(message: message, style)
+        view?.getToast(message: message, style)
     }
     
     func onLoadData() {
@@ -48,8 +43,29 @@ class FriendsPresenter: FriendsPresenterProtocol {
     }
     
     func onTapUser(indexPath: IndexPath) {
-        // self.onEvent(message: "Это \(self.getFriend(indexPath: indexPath).name)", .success)
-        router.openProfile(userId: getFriend(indexPath: indexPath).id)
+        let queue = DispatchQueue.global(qos: .utility)
+        queue.async{
+            self.interactor?.getNameWithCase(nameCase: .gen, userId: self.getFriend(indexPath: indexPath).id, completionHandler: { success in
+                guard success else { return() }
+                DispatchQueue.main.async {
+                    self.router.openProfile(userId: self.getFriend(indexPath: indexPath).id, nameWithGenCase: UserNameWithCase.name)
+                }
+                return()
+            })
+        }
+    }
+    
+    func onSwipeUser(indexPath: IndexPath, completion: DeleteFriendCompletionHandler?) {
+        interactor?.deleteFriendsRequest(userId: getFriend(indexPath: indexPath).id, completionHandler: { success in
+            if success {
+                self.view?.getToast(message: "Вы удалили \(UserNameWithCase.name)", .success)
+                completion?(true)
+            } else {
+                self.view?.getToast(message: "Произошла ошибка", .error)
+                completion?(false)
+            }
+            return ()
+        })
     }
     
     func getFriend(indexPath: IndexPath) -> Friend {
@@ -61,22 +77,19 @@ class FriendsPresenter: FriendsPresenterProtocol {
     func getFriendsCount() -> Int {
         return interactor!.friendsJSON.count
     }
-}
-extension FriendsPresenter {
-    @objc func onReachabilityStatusChanged(_ notification: NSNotification) {
-        if let info = notification.userInfo {
-            if info[ReachabilityNotificationStatusItem] != nil {
-                if (SwiftReachability.sharedManager?.isReachable())! {
-                    guard !isFirstRun else { return }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.view?.showToast(message: CommonLocalization.connected, .default)
-                    })
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.view?.showToast(message: CommonLocalization.notConnected, .default)
-                    })
+    
+    func getName(nameCase: NameCases, indexPath: IndexPath) {
+        interactor?.getNameWithCase(nameCase: nameCase, userId: getFriend(indexPath: indexPath).id, completionHandler: { success in
+            if success {
+                DispatchQueue.main.async {
+                    self.view?.openPopup(headerText: "Удаление из друзей", descriptionText: "Действительно удалить \(UserNameWithCase.name) из друзей?", confrimText: "Да", declineText: "Отмена")
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.view?.getToast(message: CommonLocalization.notConnected, .error)
                 }
             }
-        }
+            return ()
+        })
     }
 }

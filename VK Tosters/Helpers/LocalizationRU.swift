@@ -8,6 +8,10 @@
 
 import Foundation
 
+struct UserNameWithCase {
+    static var name: String = ""
+}
+
 struct FriendsLocalization {
     static func getLastSeen(sex: Int, time: Date) -> String {
         let currentTime: NSNumber = NSNumber(value: Date().timeIntervalSince1970)

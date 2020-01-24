@@ -12,13 +12,15 @@ import Foundation
 import UIKit
 import SwiftyVK
 import SwiftyJSON
+import Realm
+import RealmSwift
 
 class ProfileInteractor: ProfileInteractorProtocol {
 
     weak var presenter: ProfilePresenterProtocol?
     var user: [JSON] = []
     
-    func start(userId: String) {
+    func start(userId: String, nameWithGen: String) {
         VK.API.Users.get([.userId: userId, .fields: ApiUsersFields.getUsersField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
@@ -26,7 +28,7 @@ class ProfileInteractor: ProfileInteractorProtocol {
                 self.handleDataLoad(user: self.user)
         }
         .onError { error in
-            print(error.localizedDescription)
+            self.presenter?.onEvent(message: "Произошла ошибка при загрузке профиля \(nameWithGen)", .error)
         }
         .send()
     }

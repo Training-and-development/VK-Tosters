@@ -13,7 +13,7 @@ import SwiftyJSON
 
 //MARK: Wireframe -
 protocol FriendsWireframeProtocol: class {
-    func openProfile(userId: Int)
+    func openProfile(userId: String, nameWithGenCase: String)
 }
 //MARK: Presenter -
 protocol FriendsPresenterProtocol: class {
@@ -21,8 +21,10 @@ protocol FriendsPresenterProtocol: class {
     func onEvent(message: String, _ style: ToastStyle)
     func onLoadData()
     func onTapUser(indexPath: IndexPath)
+    func onSwipeUser(indexPath: IndexPath, completion: DeleteFriendCompletionHandler?)
     func getFriend(indexPath: IndexPath) -> Friend
     func getFriendsCount() -> Int
+    func getName(nameCase: NameCases, indexPath: IndexPath)
 }
 
 //MARK: Interactor -
@@ -30,11 +32,14 @@ protocol FriendsInteractorProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
     var friendsJSON: [JSON] { get }
     func start()
+    func getNameWithCase(nameCase: NameCases, userId: String, completionHandler: GetUserNameHandler?)
+    func deleteFriendsRequest(userId: String, completionHandler: DeleteFriendHandler?)
 }
 
 //MARK: View -
 protocol FriendsViewProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
-    func showToast(message: String, _ style: ToastStyle)
+    func getToast(message: String, _ style: ToastStyle)
     func reloadTableView()
+    func openPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?)
 }

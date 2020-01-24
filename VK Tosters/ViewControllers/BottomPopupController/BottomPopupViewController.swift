@@ -8,8 +8,6 @@
 
 import UIKit
 
-public typealias CompletionHandler = (_ success: Bool) -> Void
-
 open class BottomPopupViewController: UIViewController, BottomPopupAttributesDelegate {
     private var transitionHandler: BottomPopupTransitionHandler?
     open weak var popupDelegate: BottomPopupDelegate?
@@ -106,7 +104,7 @@ open class BottomPopupViewController: UIViewController, BottomPopupAttributesDel
     
     open func setupButtons() { }
     
-    @objc open func confrimAction(completion: @escaping CompletionHandler) -> () { }
+    @objc open func confrimActionHandler() -> () { }
     
-    @objc open func declineAction(completion: @escaping CompletionHandler) -> () { }
+    @objc open func declineActionHandler() -> () { }
 }

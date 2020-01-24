@@ -10,26 +10,45 @@
 
 import UIKit
 
-class FriendsViewController: UIViewController, FriendsViewProtocol {
+struct SavedVariables {
+    static var indexPath: IndexPath?
+}
+
+class FriendsViewController: BaseViewController, FriendsViewProtocol {
     @IBOutlet weak var mainTable: UITableView!
     let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
 
 	var presenter: FriendsPresenterProtocol?
-    let toaster = UIToaster()
+    let searchController = UISearchController(searchResultsController: nil)
     
 	override func viewDidLoad() {
         super.viewDidLoad()
         FriendsRouter.createModule(viewController: self)
         presenter?.start()
         setupTable()
+        setupSearch()
+        setupError()
     }
     
     func setupTable() {
         mainTable.delegate = self
         mainTable.dataSource = self
+        mainTable.keyboardDismissMode = .onDrag
+        mainTable.allowsMultipleSelectionDuringEditing = true
+        mainTable.tableHeaderView = searchController.searchBar
         mainTable.register(UINib(nibName: "FriendCell", bundle: nil), forCellReuseIdentifier: "FriendCell")
         mainTable.register(UINib(nibName: "PlaceholderCell", bundle: nil), forCellReuseIdentifier: "PlaceholderCell")
         setupFooter()
+    }
+    
+    func setupSearch() {
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.searchTextField.borderStyle = .roundedRect
+        UITextField.appearance(whenContainedInInstancesOf: ([UISearchBar.self])).borderStyle = .roundedRect
+        searchController.searchBar.placeholder = "Поискать в друзьях"
+        searchController.searchBar.setValue("Отмена", forKey:"cancelButtonText")
+        definesPresentationContext = true
     }
     
     func setupFooter() {
@@ -43,16 +62,37 @@ class FriendsViewController: UIViewController, FriendsViewProtocol {
         mainTable.tableFooterView?.bounds.size.height = 38
     }
     
-    func showToast(message: String, _ style: ToastStyle) {
-        toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-            self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
-            self.toaster.show(view: self.view, style: style, message: message, duration: 1)
+    func getToast(message: String, _ style: ToastStyle) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+            self.showToast(message: message, style)
         })
     }
     
     func reloadTableView() {
-        mainTable.reloadData()
+        UIView.transition(with: mainTable, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.mainTable.reloadData()
+        }, completion: nil)
+    }
+    
+    func openPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?) {
+        self.showPopup(headerText: headerText, descriptionText: descriptionText, confrimText: confrimText, declineText: declineText)
+    }
+    
+    public override func confrimAction() {
+        self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, completion: nil)
+    }
+    
+    override func onReachabilityStatusChanged(_ notification: NSNotification) {
+        if let info = notification.userInfo {
+            if info[ReachabilityNotificationStatusItem] != nil {
+                if (SwiftReachability.sharedManager?.isReachable())! {
+                    self.presenter?.start()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+                        self.showToast(message: "Подключено", .default, duration: 1)
+                    })
+                }
+            }
+        }
     }
 }
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -82,7 +122,32 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Сообщение", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
+            self.getToast(message: "Отправка сообщений временно недоступна", .warning)
+        })
+        editAction.backgroundColor = Colors.shared.blue
+        
+        let deleteAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Удалить", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
+            self.presenter?.getName(nameCase: .acc, indexPath: indexPath)
+            SavedVariables.indexPath = indexPath
+        })
+        deleteAction.backgroundColor = Colors.shared.red
+        return [deleteAction, editAction]
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 58
+    }
+}
+extension FriendsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        //
     }
 }

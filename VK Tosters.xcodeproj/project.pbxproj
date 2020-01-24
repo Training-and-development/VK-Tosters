@@ -32,6 +32,17 @@
 		2365855C23D743380045A07B /* KingfisherSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855723D743380045A07B /* KingfisherSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2365855D23D743380045A07B /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855823D743380045A07B /* PromiseKit.framework */; };
 		2365855E23D743380045A07B /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855823D743380045A07B /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2383B18E23DB167C007D7D76 /* CBTabItemAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B18A23DB167B007D7D76 /* CBTabItemAnimation.swift */; };
+		2383B18F23DB167C007D7D76 /* CBTabItemDeselectAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B18B23DB167B007D7D76 /* CBTabItemDeselectAnimation.swift */; };
+		2383B19023DB167C007D7D76 /* CBTabItemSelectAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B18C23DB167B007D7D76 /* CBTabItemSelectAnimation.swift */; };
+		2383B19123DB167C007D7D76 /* CBTabItemBasicAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B18D23DB167B007D7D76 /* CBTabItemBasicAnimation.swift */; };
+		2383B19523DB1681007D7D76 /* CBFlashyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B19223DB1681007D7D76 /* CBFlashyTabBarController.swift */; };
+		2383B19623DB1681007D7D76 /* CBTabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B19323DB1681007D7D76 /* CBTabBarButton.swift */; };
+		2383B19723DB1681007D7D76 /* CBFlashyTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B19423DB1681007D7D76 /* CBFlashyTabBar.swift */; };
+		2383B19A23DB384B007D7D76 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B19823DB384B007D7D76 /* BaseViewController.swift */; };
+		2383B19E23DB3B61007D7D76 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B19C23DB3B61007D7D76 /* error.png */; };
+		2383B19F23DB3B61007D7D76 /* error_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B19D23DB3B61007D7D76 /* error_image.png */; };
+		2383B1A223DB3EFB007D7D76 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B1A123DB3EFB007D7D76 /* ErrorViewController.swift */; };
 		23A2A33123D5B5840060E76D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33023D5B5840060E76D /* AppDelegate.swift */; };
 		23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33223D5B5840060E76D /* SceneDelegate.swift */; };
 		23A2A33823D5B5840060E76D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A2A33623D5B5840060E76D /* Main.storyboard */; };
@@ -80,6 +91,8 @@
 		23A2A3D523D61EE90060E76D /* BottomPopupTransitionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A3CD23D61EE90060E76D /* BottomPopupTransitionHandler.swift */; };
 		23A2A3D623D61EE90060E76D /* BottomPopupPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A3CE23D61EE90060E76D /* BottomPopupPresentationController.swift */; };
 		23B5BE3623D848C00038870C /* ApiFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5BE3523D848C00038870C /* ApiFields.swift */; };
+		23BB969223D9E06C006A659C /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969123D9E06C006A659C /* ViewControllerExtension.swift */; };
+		23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969323DA014A006A659C /* CompletionHandlers.swift */; };
 		23C2C42023D857D7008A3C6F /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C2C41F23D857D7008A3C6F /* FriendCell.xib */; };
 		23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */; };
 		23C2C42423D87F4C008A3C6F /* PlaceholderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */; };
@@ -136,6 +149,17 @@
 		2365855623D743380045A07B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		2365855723D743380045A07B /* KingfisherSwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KingfisherSwiftUI.framework; path = Carthage/Build/iOS/KingfisherSwiftUI.framework; sourceTree = "<group>"; };
 		2365855823D743380045A07B /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		2383B18A23DB167B007D7D76 /* CBTabItemAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBTabItemAnimation.swift; sourceTree = "<group>"; };
+		2383B18B23DB167B007D7D76 /* CBTabItemDeselectAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBTabItemDeselectAnimation.swift; sourceTree = "<group>"; };
+		2383B18C23DB167B007D7D76 /* CBTabItemSelectAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBTabItemSelectAnimation.swift; sourceTree = "<group>"; };
+		2383B18D23DB167B007D7D76 /* CBTabItemBasicAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBTabItemBasicAnimation.swift; sourceTree = "<group>"; };
+		2383B19223DB1681007D7D76 /* CBFlashyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFlashyTabBarController.swift; sourceTree = "<group>"; };
+		2383B19323DB1681007D7D76 /* CBTabBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBTabBarButton.swift; sourceTree = "<group>"; };
+		2383B19423DB1681007D7D76 /* CBFlashyTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFlashyTabBar.swift; sourceTree = "<group>"; };
+		2383B19823DB384B007D7D76 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		2383B19C23DB3B61007D7D76 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
+		2383B19D23DB3B61007D7D76 /* error_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_image.png; sourceTree = "<group>"; };
+		2383B1A123DB3EFB007D7D76 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		23A2A32D23D5B5830060E76D /* VK Tosters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK Tosters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A2A33023D5B5840060E76D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23A2A33223D5B5840060E76D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +207,8 @@
 		23A2A3CD23D61EE90060E76D /* BottomPopupTransitionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupTransitionHandler.swift; sourceTree = "<group>"; };
 		23A2A3CE23D61EE90060E76D /* BottomPopupPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupPresentationController.swift; sourceTree = "<group>"; };
 		23B5BE3523D848C00038870C /* ApiFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiFields.swift; sourceTree = "<group>"; };
+		23BB969123D9E06C006A659C /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		23BB969323DA014A006A659C /* CompletionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
 		23C2C41F23D857D7008A3C6F /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FriendCell.xib; path = ../../../../../.Trash/FriendCell.xib; sourceTree = "<group>"; };
 		23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCell.swift; sourceTree = "<group>"; };
 		23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceholderCell.xib; sourceTree = "<group>"; };
@@ -229,6 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				2364B7CD23D6DE6F00419A5B /* cross_icon.png */,
+				2383B19D23DB3B61007D7D76 /* error_image.png */,
+				2383B19C23DB3B61007D7D76 /* error.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -265,6 +293,39 @@
 				23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		2383B18823DB164C007D7D76 /* CBFlashyTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				2383B18923DB1650007D7D76 /* Animations */,
+				2383B19423DB1681007D7D76 /* CBFlashyTabBar.swift */,
+				2383B19223DB1681007D7D76 /* CBFlashyTabBarController.swift */,
+				2383B19323DB1681007D7D76 /* CBTabBarButton.swift */,
+			);
+			path = CBFlashyTabBarController;
+			sourceTree = "<group>";
+		};
+		2383B18923DB1650007D7D76 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				2383B18A23DB167B007D7D76 /* CBTabItemAnimation.swift */,
+				2383B18D23DB167B007D7D76 /* CBTabItemBasicAnimation.swift */,
+				2383B18B23DB167B007D7D76 /* CBTabItemDeselectAnimation.swift */,
+				2383B18C23DB167B007D7D76 /* CBTabItemSelectAnimation.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		2383B1A023DB3EC7007D7D76 /* AdditionalControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2383B19823DB384B007D7D76 /* BaseViewController.swift */,
+				2383B1A123DB3EFB007D7D76 /* ErrorViewController.swift */,
+				23A2A3B323D61DCE0060E76D /* PopupViewController.swift */,
+				23A2A36B23D5E2500060E76D /* ViewController.swift */,
+			);
+			path = AdditionalControllers;
 			sourceTree = "<group>";
 		};
 		23A2A32423D5B5830060E76D = {
@@ -321,12 +382,11 @@
 		23A2A35D23D5CFF10060E76D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				23FE15EA23D8A6EC00A19990 /* Profile */,
+				2383B1A023DB3EC7007D7D76 /* AdditionalControllers */,
+				23A2A3B623D61EB20060E76D /* BottomPopupController */,
 				2365852623D6E9B00045A07B /* Friends */,
 				2364B7CF23D6E92100419A5B /* News */,
-				23A2A3B623D61EB20060E76D /* BottomPopupController */,
-				23A2A36B23D5E2500060E76D /* ViewController.swift */,
-				23A2A3B323D61DCE0060E76D /* PopupViewController.swift */,
+				23FE15EA23D8A6EC00A19990 /* Profile */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -379,12 +439,14 @@
 		23A2A36D23D5EE610060E76D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2383B18823DB164C007D7D76 /* CBFlashyTabBarController */,
 				23A2A37223D5FA070060E76D /* Extensions */,
 				23A2A36E23D5EFB30060E76D /* UIToaster.swift */,
 				23A2A37023D5F5F80060E76D /* Colors.swift */,
 				23A2A3AD23D607270060E76D /* NotificationName.swift */,
 				23A2A3AF23D614D90060E76D /* ReachabilityDetect.swift */,
 				23FE15E823D8942D00A19990 /* LocalizationRU.swift */,
+				23BB969323DA014A006A659C /* CompletionHandlers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -395,6 +457,7 @@
 				23A2A37323D5FA1A0060E76D /* StringExtension.swift */,
 				2365853323D705DE0045A07B /* ViewExtension.swift */,
 				23C2C42523D88446008A3C6F /* DateExtension.swift */,
+				23BB969123D9E06C006A659C /* ViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -527,6 +590,7 @@
 				23A2A39D23D604810060E76D /* Lato-Bold.ttf in Resources */,
 				23A2A33D23D5B5850060E76D /* LaunchScreen.storyboard in Resources */,
 				23A2A3A723D604820060E76D /* Lato-MediumItalic.ttf in Resources */,
+				2383B19F23DB3B61007D7D76 /* error_image.png in Resources */,
 				23C2C42023D857D7008A3C6F /* FriendCell.xib in Resources */,
 				23A2A3AA23D604820060E76D /* Lato-SemiboldItalic.ttf in Resources */,
 				23A2A39C23D604810060E76D /* Lato-BlackItalic.ttf in Resources */,
@@ -542,6 +606,7 @@
 				23A2A39F23D604810060E76D /* Lato-Hairline.ttf in Resources */,
 				23A2A3A323D604820060E76D /* Lato-Italic.ttf in Resources */,
 				23A2A33823D5B5840060E76D /* Main.storyboard in Resources */,
+				2383B19E23DB3B61007D7D76 /* error.png in Resources */,
 				23A2A3AB23D604820060E76D /* Lato-Thin.ttf in Resources */,
 				23A2A3A523D604820060E76D /* Lato-LightItalic.ttf in Resources */,
 				2365852523D6E9710045A07B /* NewsViewController.xib in Resources */,
@@ -560,29 +625,38 @@
 				23A2A33123D5B5840060E76D /* AppDelegate.swift in Sources */,
 				2365852223D6E9710045A07B /* NewsViewController.swift in Sources */,
 				23B5BE3623D848C00038870C /* ApiFields.swift in Sources */,
+				2383B19023DB167C007D7D76 /* CBTabItemSelectAnimation.swift in Sources */,
 				2365853823D72C3B0045A07B /* FriendCell.swift in Sources */,
 				23A2A37123D5F5F80060E76D /* Colors.swift in Sources */,
+				2383B1A223DB3EFB007D7D76 /* ErrorViewController.swift in Sources */,
 				23A2A3CF23D61EE90060E76D /* BottomPopupPresentAnimator.swift in Sources */,
 				23A2A3B423D61DCE0060E76D /* PopupViewController.swift in Sources */,
 				23A2A3D423D61EE90060E76D /* BottomPopupNavigationController.swift in Sources */,
 				2365854C23D735DC0045A07B /* FriendsRouter.swift in Sources */,
+				2383B19723DB1681007D7D76 /* CBFlashyTabBar.swift in Sources */,
 				23A2A3D323D61EE90060E76D /* BottomPopupUtils.swift in Sources */,
 				2365852423D6E9710045A07B /* NewsInteractor.swift in Sources */,
+				2383B19523DB1681007D7D76 /* CBFlashyTabBarController.swift in Sources */,
+				2383B19A23DB384B007D7D76 /* BaseViewController.swift in Sources */,
 				23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */,
 				23C2C42623D88446008A3C6F /* DateExtension.swift in Sources */,
 				23A2A3AE23D607270060E76D /* NotificationName.swift in Sources */,
 				23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */,
 				2365852023D6E9710045A07B /* NewsPresenter.swift in Sources */,
+				23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */,
 				23A2A36F23D5EFB30060E76D /* UIToaster.swift in Sources */,
 				2365852123D6E9710045A07B /* NewsRouter.swift in Sources */,
 				23A2A36523D5DB270060E76D /* VKConstants.swift in Sources */,
 				2365854223D731B40045A07B /* FriendsViewController.swift in Sources */,
 				23A2A37423D5FA1A0060E76D /* StringExtension.swift in Sources */,
 				23FE15F323D8A71C00A19990 /* ProfileViewController.swift in Sources */,
+				2383B18E23DB167C007D7D76 /* CBTabItemAnimation.swift in Sources */,
 				2365854D23D735DC0045A07B /* FriendsProtocols.swift in Sources */,
 				23A2A36C23D5E2500060E76D /* ViewController.swift in Sources */,
+				2383B18F23DB167C007D7D76 /* CBTabItemDeselectAnimation.swift in Sources */,
 				2324A10423D75CAF004BC5EB /* Friend.swift in Sources */,
 				2365852323D6E9710045A07B /* NewsProtocols.swift in Sources */,
+				2383B19623DB1681007D7D76 /* CBTabBarButton.swift in Sources */,
 				23A2A3D123D61EE90060E76D /* BottomPopupDismissInteractionController.swift in Sources */,
 				23FE15F223D8A71C00A19990 /* ProfileRouter.swift in Sources */,
 				2365854B23D735DC0045A07B /* FriendsPresenter.swift in Sources */,
@@ -592,10 +666,12 @@
 				23FE15F123D8A71C00A19990 /* ProfilePresenter.swift in Sources */,
 				23FE15F523D8A71C00A19990 /* ProfileInteractor.swift in Sources */,
 				2365853423D705DE0045A07B /* ViewExtension.swift in Sources */,
+				2383B19123DB167C007D7D76 /* CBTabItemBasicAnimation.swift in Sources */,
 				23A2A36323D5DA930060E76D /* VKDelegate.swift in Sources */,
 				23A2A36823D5E07F0060E76D /* ApiV1.swift in Sources */,
 				23FE15E923D8942D00A19990 /* LocalizationRU.swift in Sources */,
 				23A2A3D223D61EE90060E76D /* BottomPopupDismissAnimator.swift in Sources */,
+				23BB969223D9E06C006A659C /* ViewControllerExtension.swift in Sources */,
 				23A2A3B023D614D90060E76D /* ReachabilityDetect.swift in Sources */,
 				23A2A3D623D61EE90060E76D /* BottomPopupPresentationController.swift in Sources */,
 				23FE15F823D8BD8F00A19990 /* User.swift in Sources */,

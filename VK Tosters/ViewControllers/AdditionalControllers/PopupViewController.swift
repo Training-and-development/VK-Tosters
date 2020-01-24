@@ -27,7 +27,7 @@ class PopupViewController: BottomPopupViewController {
     var confrimText: String?
     var declineText: String?
     
-    var rootController: ViewController?
+    var rootController: BaseViewController?
             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +49,8 @@ class PopupViewController: BottomPopupViewController {
         self.declineButton.isUserInteractionEnabled = true
         self.confrimButton.isUserInteractionEnabled = true
         
-        let gestureConfrim: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(declineAction(completion:)))
-        let gestureDecline: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(confrimAction(completion:)))
+        let gestureConfrim: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(declineActionHandler))
+        let gestureDecline: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(confrimActionHandler))
         
         gestureConfrim.numberOfTapsRequired = 1
         gestureDecline.numberOfTapsRequired = 1
@@ -101,8 +101,8 @@ class PopupViewController: BottomPopupViewController {
         dismissControl.imageView?.tintColor = Colors.shared.metal
     }
     
-    @objc override func confrimAction(completion: @escaping CompletionHandler) -> () {
-        super.confrimAction(completion: completion)
+    @objc override func confrimActionHandler() -> () {
+        super.confrimActionHandler()
         dismiss(animated: true, completion: { [weak self] in
             guard let strongSelf = self else { return }
             let controller = strongSelf.rootController
@@ -110,8 +110,8 @@ class PopupViewController: BottomPopupViewController {
         })
     }
     
-    @objc override func declineAction(completion: @escaping CompletionHandler) -> () {
-        super.declineAction(completion: completion)
+    @objc override func declineActionHandler() -> () {
+        super.declineActionHandler()
         dismiss(animated: true, completion: nil)
     }
     

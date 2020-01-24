@@ -9,30 +9,32 @@
 import Foundation
 import UIKit
 
-enum ToastStyle: Int {
+public enum ToastStyle: Int {
     case `default` = 1, success, warning, error
 }
 
-class UIToaster: UIView {
-    var toastHeight: CGFloat = 36.0
-    var toast = UIToasterView(frame: .zero, style: .default, message: "", font: UIFont(name: "Lato-Regular", size: 13.5)!)
+open class UIToaster: UIView {
+    open var toastHeight: CGFloat = 36.0
+    open var toast = UIToasterView(frame: .zero, style: .default, message: "", font: UIFont(name: "Lato-Regular", size: 13.5)!)
     
-    func show(view: UIView, style: ToastStyle, message: String, duration: TimeInterval) {
-        toast = UIToasterView(frame: CGRect(x: 0, y: -toastHeight, width: view.frame.width, height: toastHeight), style: style, message: message, font: UIFont(name: "Lato-Regular", size: 13)!)
-        view.addSubview(toast)
-        
-        UIView.animate(withDuration: 0.25, animations: {
-            self.toast.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: self.toastHeight)
-            view.layoutIfNeeded()
-        }, completion: { finished in
-            guard duration > 0 else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                self.hide(view: view, toast: self.toast, isNeedAnimation: true)
+    open func show(view: UIView, style: ToastStyle, message: String, duration: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+            self.toast = UIToasterView(frame: CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight), style: style, message: message, font: UIFont(name: "Lato-Regular", size: 13)!)
+            view.addSubview(self.toast)
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.toast.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: self.toastHeight)
+                view.layoutIfNeeded()
+            }, completion: { finished in
+                guard duration > 0 else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    self.hide(view: view, toast: self.toast, isNeedAnimation: true)
+                })
             })
         })
     }
     
-    func hide(view: UIView, toast: UIToasterView, isNeedAnimation: Bool) {
+    open func hide(view: UIView, toast: UIToasterView, isNeedAnimation: Bool) {
         if isNeedAnimation {
             UIView.animate(withDuration: 0.25, animations: {
                 toast.frame = CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight)
@@ -51,8 +53,8 @@ class UIToaster: UIView {
     }
 }
 
-class UIToasterView: UIView {
-    init(frame: CGRect, style: ToastStyle, message: String, font: UIFont) {
+open class UIToasterView: UIView {
+    public init(frame: CGRect, style: ToastStyle, message: String, font: UIFont) {
         super.init(frame: frame)
         
         var color: UIColor!
@@ -79,7 +81,7 @@ class UIToasterView: UIView {
         self.addSubview(label)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

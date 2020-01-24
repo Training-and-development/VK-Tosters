@@ -16,14 +16,15 @@ protocol ProfileWireframeProtocol: class {
 }
 //MARK: Presenter -
 protocol ProfilePresenterProtocol: class {
-    func start(userId: String)
+    func start(userId: String, nameWithGen: String)
     func onDataLoad(user: User)
+    func onEvent(message: String, _ style: ToastStyle)
 }
 
 //MARK: Interactor -
 protocol ProfileInteractorProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
-    func start(userId: String)
+    func start(userId: String, nameWithGen: String)
 }
 
 //MARK: View -
@@ -31,4 +32,5 @@ protocol ProfileViewProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
     static var userId: String { get }
     func setData(model: User)
+    func getToast(message: String, _ style: ToastStyle)
 }

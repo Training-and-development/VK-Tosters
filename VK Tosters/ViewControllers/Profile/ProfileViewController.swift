@@ -11,18 +11,19 @@
 import UIKit
 import Kingfisher
 
-class ProfileViewController: UIViewController, ProfileViewProtocol {
+class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var photoProfile: UIImageView!
     @IBOutlet weak var profileLabel: UILabel!
     
 	var presenter: ProfilePresenterProtocol?
     
     static var userId: String = ""
+    static var nameWithGenCase: String = ""
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
-        presenter?.start(userId: ProfileViewController.userId)
+        presenter?.start(userId: ProfileViewController.userId, nameWithGen: ProfileViewController.nameWithGenCase)
         setup()
     }
     
@@ -34,5 +35,9 @@ class ProfileViewController: UIViewController, ProfileViewProtocol {
     func setup() {
         profileLabel.font = UIFont(name: "Lato-Bold", size: 18)
         profileLabel.textColor = Colors.shared.black
+    }
+    
+    func getToast(message: String, _ style: ToastStyle) {
+        self.showToast(message: message, style)
     }
 }

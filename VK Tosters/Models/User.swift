@@ -11,7 +11,7 @@ import SwiftyJSON
 import RealmSwift
 
 class User: NSObject {
-    var id: Int = 0
+    var id: String = ""
     var name: String = ""
     var isClosed: Bool = false
     var canAccessClosed: Bool = false
@@ -24,7 +24,7 @@ class User: NSObject {
     
     convenience init(json: JSON) {
         self.init()
-        self.id = json["id"].intValue
+        self.id = json["id"].stringValue
         self.name = "\(json["first_name"].stringValue) \(json["last_name"].stringValue)"
         self.isClosed = json["is_closed"].boolValue
         self.canAccessClosed = json["can_access_closed"].boolValue
