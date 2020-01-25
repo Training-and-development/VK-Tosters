@@ -17,14 +17,17 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     
 	var presenter: ProfilePresenterProtocol?
     
+    let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
+    
     static var userId: String = ""
     static var nameWithGenCase: String = ""
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
-        presenter?.start(userId: ProfileViewController.userId, nameWithGen: ProfileViewController.nameWithGenCase)
+        presenter?.start(userId: ProfileViewController.userId)
         setup()
+        setupError()
     }
     
     func setData(model: User) {
@@ -35,9 +38,43 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     func setup() {
         profileLabel.font = UIFont(name: "Lato-Bold", size: 18)
         profileLabel.textColor = Colors.shared.black
+        profileLabel.layer.shadowColor = Colors.shared.smoke.cgColor
+        profileLabel.layer.shadowRadius = 5.0
+        profileLabel.layer.shadowOpacity = 1.0
+        profileLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
+    }
+    
+    func setupError() {
+        self.view.addSubview(errorView)
+        errorView.autoAlignAxis(toSuperviewAxis: .vertical)
+        errorView.autoAlignAxis(toSuperviewAxis: .horizontal)
+        errorView.setup()
+        errorView.isHidden = true
     }
     
     func getToast(message: String, _ style: ToastStyle) {
         self.showToast(message: message, style)
+    }
+    
+    override func showErrorView() {
+        photoProfile.isHidden = true
+        profileLabel.isHidden = true
+        errorView.isHidden = false
+    }
+    
+    override func hideErrorView() {
+        photoProfile.isHidden = false
+        profileLabel.isHidden = false
+        errorView.isHidden = true
+    }
+    
+    override func onReachabilityStatusChanged(_ notification: Notification) {
+        if let info = notification.userInfo {
+            if info[ReachabilityNotificationStatusItem] != nil {
+                if (SwiftReachability.sharedManager?.isReachable())! {
+                    self.presenter?.start(userId: ProfileViewController.userId)
+                }
+            }
+        }
     }
 }

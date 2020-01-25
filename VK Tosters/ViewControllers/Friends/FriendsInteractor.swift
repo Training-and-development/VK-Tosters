@@ -28,13 +28,16 @@ class FriendsInteractor: FriendsInteractorProtocol {
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.responseJSON = JSON(response)
-                self.handleResponse(response: self.responseJSON)
+                self.friendsJSON = self.responseJSON[ApiFriendsResponse.items].arrayValue
+                DispatchQueue.main.async {
+                    self.presenter?.onLoadData(hasError: false)
+                }
                 ResponseState.isLoaded = true
         }
         .onError { error in
             ResponseState.isLoaded = false
             DispatchQueue.main.async {
-                self.presenter?.onEvent(message: "Произошла ошибка при загрузке", .error)
+                self.presenter?.onLoadData(hasError: true)
             }
         }
         .send()
@@ -57,10 +60,9 @@ class FriendsInteractor: FriendsInteractorProtocol {
     }
     
     func handleResponse(response: JSON) {
-        friendsJSON = response[ApiFriendsResponse.items].arrayValue
         let mapItems = self.friendsJSON.map { Friend(json: $0) }
         DispatchQueue.main.async {
-            self.presenter?.onLoadData()
+            
         }
     }
     

@@ -3,7 +3,7 @@
   "iOS" : [
     {
       "name" : "SwiftyJSON",
-      "hash" : "d3bd763d4a777dcf3dec178d549b142a785fc63e0467145153bfed652bf9854e",
+      "hash" : "09e57b301d47f6654df74e66bf45e51e984191c27335f7edd9030974bcdcc50e",
       "swiftToolchainVersion" : "5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
     }
   ]

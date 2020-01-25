@@ -31,10 +31,9 @@ class FriendsRouter: FriendsWireframeProtocol {
         router.baseViewController = viewController
     }
     
-    func openProfile(userId: String, nameWithGenCase: String) {
+    func openProfile(userId: String) {
         let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
         ProfileViewController.userId = userId
-        ProfileViewController.nameWithGenCase = nameWithGenCase
         self.baseViewController?.present(profileViewController, animated: true, completion: nil)
     }
 }

@@ -3,7 +3,7 @@
   "iOS" : [
     {
       "name" : "SwiftyVK",
-      "hash" : "f9ec49606d0a280bcc3a4df97a12a24e61de119742e26b1eb38e2ce8234530fb",
+      "hash" : "a3647810b76cf165b7fc1127081013c08032d32a6f7d5172d213c13226051be4",
       "swiftToolchainVersion" : "5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
     }
   ]

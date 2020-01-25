@@ -9,7 +9,6 @@
 import Foundation
 import SwiftyVK
 import SwiftyJSON
-import PromiseKit
 
 final class ApiV1 {
     class func authorize() {
@@ -54,14 +53,12 @@ final class ApiV1 {
             .send()
     }
     
-    class func friendsGet(count: String, fields: String) -> Promise<JSON> {
-        return Promise<JSON> { response in
-            VK.API.Friends.get([
-                .count: count,
-                .fields: fields])
-                .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
-                .send()
-        }
+    class func friendsGet(count: String, fields: String) {
+        VK.API.Friends.get([
+        .count: count,
+        .fields: fields])
+        .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
+        .send()
     }
     
     class func uploadPhoto() {

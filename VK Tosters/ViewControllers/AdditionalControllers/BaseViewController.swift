@@ -10,9 +10,6 @@ import UIKit
 import SwiftyVK
 
 open class BaseViewController: UIViewController {
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var errorImage: UIImageView!
-    
     var toaster = UIToaster()
     var sessionState = VK.sessions.default.state
     var isFirstRun: Bool = true
@@ -35,13 +32,7 @@ open class BaseViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onLogin(_:)), name: NotificationName.shared.onLogin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onLogout(_:)), name: NotificationName.shared.onLogout, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onReachabilityStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
-    }
-    
-    func setupError() {
-        errorLabel.text = "Произошла ошибка подключения"
-        errorLabel.textColor = Colors.shared.metal
-        errorImage.image = errorImage.image?.withRenderingMode(.alwaysTemplate)
-        errorImage.tintColor = Colors.shared.metal
+        NotificationCenter.default.addObserver(self, selector: #selector(controlNetwork(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
     }
     
     open func confrimAction() { }
@@ -49,6 +40,8 @@ open class BaseViewController: UIViewController {
     open func declineAction() { }
     
     open func showErrorView() { }
+    
+    open func hideErrorView() { }
     
     @objc func onLogin(_ notification: Notification) {
         sessionState = SessionState.authorized
@@ -66,7 +59,9 @@ open class BaseViewController: UIViewController {
         })
     }
     
-    @objc func onReachabilityStatusChanged(_ notification: NSNotification) {
+    @objc func onReachabilityStatusChanged(_ notification: Notification) { }
+    
+    @objc private func controlNetwork(_ notification: Notification) {
         if let info = notification.userInfo {
             if info[ReachabilityNotificationStatusItem] != nil {
                 if (SwiftReachability.sharedManager?.isReachable())! {

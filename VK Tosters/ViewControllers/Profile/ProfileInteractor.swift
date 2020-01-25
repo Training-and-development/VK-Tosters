@@ -20,7 +20,7 @@ class ProfileInteractor: ProfileInteractorProtocol {
     weak var presenter: ProfilePresenterProtocol?
     var user: [JSON] = []
     
-    func start(userId: String, nameWithGen: String) {
+    func start(userId: String) {
         VK.API.Users.get([.userId: userId, .fields: ApiUsersFields.getUsersField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
@@ -28,7 +28,9 @@ class ProfileInteractor: ProfileInteractorProtocol {
                 self.handleDataLoad(user: self.user)
         }
         .onError { error in
-            self.presenter?.onEvent(message: "Произошла ошибка при загрузке профиля \(nameWithGen)", .error)
+            DispatchQueue.main.async {
+                self.presenter?.onDataLoad(user: nil, hasError: true)
+            }
         }
         .send()
     }
@@ -36,7 +38,7 @@ class ProfileInteractor: ProfileInteractorProtocol {
     func handleDataLoad(user: [JSON]) {
         DispatchQueue.main.async {
             let mapItems = user.map { User(json: $0) }
-            self.presenter?.onDataLoad(user: mapItems[0])
+            self.presenter?.onDataLoad(user: mapItems[0], hasError: false)
         }
     }
 }

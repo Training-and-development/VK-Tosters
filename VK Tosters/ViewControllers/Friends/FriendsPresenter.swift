@@ -38,20 +38,18 @@ class FriendsPresenter: FriendsPresenterProtocol {
         view?.getToast(message: message, style)
     }
     
-    func onLoadData() {
-        view?.reloadTableView()
+    func onLoadData(hasError: Bool) {
+        if hasError {
+            view?.showErrorView()
+        } else {
+            view?.hideErrorView()
+            view?.reloadTableView()
+        }
     }
     
     func onTapUser(indexPath: IndexPath) {
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async{
-            self.interactor?.getNameWithCase(nameCase: .gen, userId: self.getFriend(indexPath: indexPath).id, completionHandler: { success in
-                guard success else { return() }
-                DispatchQueue.main.async {
-                    self.router.openProfile(userId: self.getFriend(indexPath: indexPath).id, nameWithGenCase: UserNameWithCase.name)
-                }
-                return()
-            })
+        DispatchQueue.main.async {
+            self.router.openProfile(userId: self.getFriend(indexPath: indexPath).id)
         }
     }
     

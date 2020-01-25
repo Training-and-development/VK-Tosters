@@ -17,6 +17,8 @@ struct SavedVariables {
 class FriendsViewController: BaseViewController, FriendsViewProtocol {
     @IBOutlet weak var mainTable: UITableView!
     let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
+    let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
+    
 
 	var presenter: FriendsPresenterProtocol?
     let searchController = UISearchController(searchResultsController: nil)
@@ -62,6 +64,24 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         mainTable.tableFooterView?.bounds.size.height = 38
     }
     
+    func setupError() {
+        self.view.addSubview(errorView)
+        errorView.autoAlignAxis(toSuperviewAxis: .vertical)
+        errorView.autoAlignAxis(toSuperviewAxis: .horizontal)
+        errorView.setup()
+        errorView.isHidden = true
+    }
+    
+    override func showErrorView() {
+        errorView.isHidden = false
+        mainTable.isHidden = true
+    }
+    
+    override func hideErrorView() {
+        errorView.isHidden = true
+        mainTable.isHidden = false
+    }
+    
     func getToast(message: String, _ style: ToastStyle) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
             self.showToast(message: message, style)
@@ -82,14 +102,11 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, completion: nil)
     }
     
-    override func onReachabilityStatusChanged(_ notification: NSNotification) {
+    override func onReachabilityStatusChanged(_ notification: Notification) {
         if let info = notification.userInfo {
             if info[ReachabilityNotificationStatusItem] != nil {
                 if (SwiftReachability.sharedManager?.isReachable())! {
                     self.presenter?.start()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.showToast(message: "Подключено", .default, duration: 1)
-                    })
                 }
             }
         }
@@ -118,6 +135,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard presenter != nil else { return }
+        guard ResponseState.isLoaded else { return }
         presenter?.onTapUser(indexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
