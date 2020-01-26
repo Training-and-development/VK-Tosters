@@ -8,13 +8,49 @@
 
 import Foundation
 import SwiftyVK
+import SwiftyJSON
 import UIKit
 
 class VKDelegate: SwiftyVKDelegate {
     let scopes: Scopes = [.offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
+    var profile: JSON = JSON()
 
     init() {
         VK.setUp(appId: VKConstants.shared.appId, delegate: self)
+        let state = VK.sessions.default.state
+        guard state == .authorized else { return }
+        startLongPollServer()
+        getMe()
+    }
+    
+    func startLongPollServer() {
+        VK.sessions.default.longPoll.start(version: LongPollVersion.third) {
+            for event in $0 {
+                switch event {
+                    case let .type1(data):
+                        let json = JSON(data)
+                        print(json)
+                    default:
+                        break
+                }
+            }
+        }
+    }
+    
+    func getMe() {
+        VK.API.Account.getProfileInfo(.empty)
+            .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
+            .onSuccess { response in
+                self.profile = JSON(response)
+                DispatchQueue.main.async {
+                    let profileModel = Profile(json: self.profile)
+                    print(profileModel)
+                }
+        }
+        .onError { error in
+            print(error)
+        }
+        .send()
     }
     
     func vkNeedsScopes(for sessionId: String) -> Scopes {

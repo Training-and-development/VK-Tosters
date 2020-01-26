@@ -43,11 +43,15 @@ open class BaseViewController: UIViewController {
     
     open func hideErrorView() { }
     
+    open func showLoadingView() { }
+    
+    open func hideLoadingView() { }
+    
     @objc func onLogin(_ notification: Notification) {
         sessionState = SessionState.authorized
         NotificationCenter.default.post(name: NotificationName.shared.onChangeSessionState, object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-            self.showToast(message: "Вы авторизованы", .warning, duration: 1)
+            self.showToast(message: "Вы авторизованы", .success, duration: 1)
         })
     }
     
@@ -67,11 +71,11 @@ open class BaseViewController: UIViewController {
                 if (SwiftReachability.sharedManager?.isReachable())! {
                     guard !isFirstRun else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.showToast(message: "Подключено", .default, duration: 1)
+                        self.showToast(message: CommonLocalization.connected, .default, duration: 1)
                     })
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-                        self.showToast(message: "Нет подключения к интернету", .error, duration: -1)
+                        self.showToast(message: CommonLocalization.notConnected, .error, duration: -1)
                     })
                 }
             }

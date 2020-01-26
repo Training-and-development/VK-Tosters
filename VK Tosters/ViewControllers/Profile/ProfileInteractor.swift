@@ -26,19 +26,22 @@ class ProfileInteractor: ProfileInteractorProtocol {
             .onSuccess { response in
                 self.user = JSON(response).arrayValue
                 self.handleDataLoad(user: self.user)
+                DispatchQueue.main.async {
+                    let mapItems = self.user.map { User(jsonFullUser: $0) }
+                    self.presenter?.onRequestSend(isLoaded: true)
+                    self.presenter?.onDataLoad(user: mapItems[0], hasError: false, JSON: response)
+                }
         }
         .onError { error in
             DispatchQueue.main.async {
-                self.presenter?.onDataLoad(user: nil, hasError: true)
+                self.presenter?.onRequestSend(isLoaded: true)
+                self.presenter?.onDataLoad(user: nil, hasError: true, JSON: nil)
             }
         }
         .send()
     }
     
     func handleDataLoad(user: [JSON]) {
-        DispatchQueue.main.async {
-            let mapItems = user.map { User(json: $0) }
-            self.presenter?.onDataLoad(user: mapItems[0], hasError: false)
-        }
+        
     }
 }

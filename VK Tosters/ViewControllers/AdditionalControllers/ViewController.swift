@@ -8,23 +8,17 @@
 
 import UIKit
 import SwiftyVK
+import Kingfisher
 
 class ViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationController()
         setupObservers()
-        
-        SwiftReachability.sharedManager?.startMonitoring()
-        
-        self.view.isUserInteractionEnabled = true
-        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapView(_:)))
-        gesture.numberOfTapsRequired = 1
-        self.view.addGestureRecognizer(gesture)
     }
     
     private func setupNavigationController() {
-        let rightButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(logoutAction(_:)))
+        let rightButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(manageAccountAction(_:)))
         rightButton.title = "Управление"
         self.navigationItem.rightBarButtonItem = rightButton
     }
@@ -40,23 +34,21 @@ class ViewController: BaseViewController {
         return nil
     }
     
-    @objc func logoutAction(_ sender: Any) {
+    @objc func manageAccountAction(_ sender: Any) {
         guard sessionStateCheck() == .authorized else {
             ApiV1.authorize()
             return
         }
-        showPopup(headerText: "Выход из аккаунта", descriptionText: "Вы действительно хотите выйти?", confrimText: nil, declineText: "Выйти")
+        self.showPopup(headerText: "Выход из аккаунта", descriptionText: "Вы действительно хотите выйти?", confrimText: nil, declineText: "Выйти")
     }
     
     override func confrimAction() {
-        guard sessionStateCheck() == .authorized else {
-            ApiV1.authorize()
-            return
-        }
-        ApiV1.logout()
+        print("tap")
     }
     
-    @objc func onTapView(_ sender: Any) {
+    override func declineAction() {
+        print("tap")
+        ApiV1.logout()
     }
 
     @IBAction func onFriendsAction(_ sender: Any) {

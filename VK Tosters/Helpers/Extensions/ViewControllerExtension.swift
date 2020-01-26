@@ -26,9 +26,7 @@ extension BaseViewController {
     }
     
     func showToast(message: String, _ style: ToastStyle, duration: TimeInterval = 1) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-            self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
-        })
+        self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
             self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
             self.toaster.show(view: self.view, style: style, message: message, duration: duration)

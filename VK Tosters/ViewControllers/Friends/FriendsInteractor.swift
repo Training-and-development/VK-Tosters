@@ -30,13 +30,13 @@ class FriendsInteractor: FriendsInteractorProtocol {
                 self.responseJSON = JSON(response)
                 self.friendsJSON = self.responseJSON[ApiFriendsResponse.items].arrayValue
                 DispatchQueue.main.async {
+                    self.presenter?.onRequestSend(isLoaded: true)
                     self.presenter?.onLoadData(hasError: false)
                 }
-                ResponseState.isLoaded = true
         }
         .onError { error in
-            ResponseState.isLoaded = false
             DispatchQueue.main.async {
+                self.presenter?.onRequestSend(isLoaded: true)
                 self.presenter?.onLoadData(hasError: true)
             }
         }
@@ -48,7 +48,7 @@ class FriendsInteractor: FriendsInteractorProtocol {
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 let responseJSON = JSON(response).arrayValue
-                let mapItems = responseJSON.map { User(json: $0) }
+                let mapItems = responseJSON.map { User(jsonFullUser: $0) }
                 UserNameWithCase.name = mapItems[0].name
                 completionHandler!(true)
         }

@@ -22,18 +22,26 @@ class User: NSObject {
     var photoOriginal: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
     
-    convenience init(json: JSON) {
+    convenience init(jsonFullUser: JSON) {
         self.init()
-        self.id = json["id"].stringValue
-        self.name = "\(json["first_name"].stringValue) \(json["last_name"].stringValue)"
-        self.isClosed = json["is_closed"].boolValue
-        self.canAccessClosed = json["can_access_closed"].boolValue
-        self.sex = json["sex"].intValue
-        self.online = json["online"].intValue
-        self.deactivated = json["deactivated"].stringValue
-        self.time = json["last_seen"]["time"].intValue
+        self.id = jsonFullUser["id"].stringValue
+        self.name = "\(jsonFullUser["first_name"].stringValue) \(jsonFullUser["last_name"].stringValue)"
+        self.isClosed = jsonFullUser["is_closed"].boolValue
+        self.canAccessClosed = jsonFullUser["can_access_closed"].boolValue
+        self.sex = jsonFullUser["sex"].intValue
+        self.online = jsonFullUser["online"].intValue
+        self.deactivated = jsonFullUser["deactivated"].stringValue
+        self.time = jsonFullUser["last_seen"]["time"].intValue
         self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
-        self.platform = json["last_seen"]["platform"].intValue
-        self.photoOriginal = json["photo_max_orig"].stringValue
+        self.platform = jsonFullUser["last_seen"]["platform"].intValue
+        self.photoOriginal = jsonFullUser["photo_max_orig"].stringValue
+    }
+    
+    convenience init(jsonRelationUser: JSON) {
+        self.init()
+        self.id = jsonRelationUser["id"].stringValue
+        self.name = "\(jsonRelationUser["first_name"].stringValue) \(jsonRelationUser["last_name"].stringValue)"
+        self.isClosed = jsonRelationUser["is_closed"].boolValue
+        self.canAccessClosed = jsonRelationUser["can_access_closed"].boolValue
     }
 }

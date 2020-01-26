@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         vkDelegateReference = VKDelegate()
         UILabel.appearance().font = UIFont(name: "Lato-Regular", size: 13)
+        SwiftReachability.sharedManager?.startMonitoring()
         return true
     }
 

@@ -1,5 +1,6 @@
-github "SwiftyVK/SwiftyVK"
-github "SwiftyJSON/SwiftyJSON" ~> 4.0
-github "onevcat/Kingfisher" ~> 5.0
-github "PureLayout/PureLayout"
-github "realm/realm-cocoa"
+#github "SwiftyVK/SwiftyVK"
+#github "SwiftyJSON/SwiftyJSON" ~> 4.0
+#github "onevcat/Kingfisher" ~> 5.0
+#github "PureLayout/PureLayout"
+#github "realm/realm-cocoa"
+github "Flipboard/FLAnimatedImage"

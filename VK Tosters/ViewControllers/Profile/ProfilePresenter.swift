@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ProfilePresenter: ProfilePresenterProtocol {
 
@@ -26,12 +27,20 @@ class ProfilePresenter: ProfilePresenterProtocol {
         interactor?.start(userId: userId)
     }
     
-    func onDataLoad(user: User?, hasError: Bool) {
+    func onDataLoad(user: User?, hasError: Bool, JSON: Data?) {
         if !hasError {
             view?.hideErrorView()
-            view?.setData(model: user!)
+            view?.setData(model: user!, JSON: JSON!)
         } else {
             view?.showErrorView()
+        }
+    }
+    
+    func onRequestSend(isLoaded: Bool) {
+        if isLoaded {
+            view?.hideLoadingView()
+        } else {
+            view?.showLoadingView()
         }
     }
     

@@ -22,6 +22,7 @@ protocol FriendsPresenterProtocol: class {
     func onLoadData(hasError: Bool)
     func onTapUser(indexPath: IndexPath)
     func onSwipeUser(indexPath: IndexPath, completion: DeleteFriendCompletionHandler?)
+    func onRequestSend(isLoaded: Bool)
     func getFriend(indexPath: IndexPath) -> Friend
     func getFriendsCount() -> Int
     func getName(nameCase: NameCases, indexPath: IndexPath)
@@ -43,5 +44,7 @@ protocol FriendsViewProtocol: class {
     func reloadTableView()
     func showErrorView()
     func hideErrorView()
+    func showLoadingView()
+    func hideLoadingView()
     func openPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?)
 }

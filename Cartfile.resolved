@@ -1,5 +1,1 @@
-github "PureLayout/PureLayout" "v3.1.5"
-github "SwiftyJSON/SwiftyJSON" "4.3.0"
-github "SwiftyVK/SwiftyVK" "3.4.1"
-github "onevcat/Kingfisher" "5.13.0"
-github "realm/realm-cocoa" "v4.3.1"
+github "Flipboard/FLAnimatedImage" "1.0.14"

@@ -7,59 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Error View Controller-->
-        <scene sceneID="FqV-Oi-jD8">
-            <objects>
-                <viewController id="MiX-Yd-xnj" customClass="ErrorViewController" customModule="VK_Tosters" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DXo-EX-mCw">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gdb-nK-p1N" customClass="ErrorView" customModule="VK_Tosters" customModuleProvider="target">
-                                <rect key="frame" x="95.5" y="320.5" width="223" height="255"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pe-80-34D">
-                                        <rect key="frame" x="16" y="234" width="191" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_image.png" translatesAutoresizingMaskIntoConstraints="NO" id="uzL-F8-zfY">
-                                        <rect key="frame" x="0.0" y="0.0" width="223" height="222"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="8Pe-80-34D" secondAttribute="trailing" constant="16" id="9Oh-Qh-yrD"/>
-                                    <constraint firstItem="8Pe-80-34D" firstAttribute="leading" secondItem="Gdb-nK-p1N" secondAttribute="leading" constant="16" id="G4g-wS-DWi"/>
-                                    <constraint firstItem="uzL-F8-zfY" firstAttribute="top" secondItem="Gdb-nK-p1N" secondAttribute="top" id="RUM-2q-EyI"/>
-                                    <constraint firstItem="uzL-F8-zfY" firstAttribute="leading" secondItem="Gdb-nK-p1N" secondAttribute="leading" id="Wcn-tz-Jqy"/>
-                                    <constraint firstAttribute="trailing" secondItem="uzL-F8-zfY" secondAttribute="trailing" id="WeO-fc-ebA"/>
-                                    <constraint firstItem="8Pe-80-34D" firstAttribute="top" secondItem="uzL-F8-zfY" secondAttribute="bottom" constant="12" id="dfK-eP-FI8"/>
-                                    <constraint firstAttribute="bottom" secondItem="8Pe-80-34D" secondAttribute="bottom" id="sqi-Ay-KoP"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Gdb-nK-p1N" firstAttribute="centerY" secondItem="DXo-EX-mCw" secondAttribute="centerY" id="5S4-x7-2sn"/>
-                            <constraint firstItem="Gdb-nK-p1N" firstAttribute="centerX" secondItem="DXo-EX-mCw" secondAttribute="centerX" id="j9O-tL-QwZ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Dv-Xq-Fs9"/>
-                    </view>
-                    <connections>
-                        <outlet property="errorImage" destination="uzL-F8-zfY" id="vWf-MQ-z3D"/>
-                        <outlet property="errorLabel" destination="8Pe-80-34D" id="i7f-fe-lcX"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Njs-38-fgL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1067" y="-600"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="g0W-oa-EL9">
             <objects>
-                <navigationController modalPresentationStyle="formSheet" id="cvX-Fd-RTi" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="cvX-Fd-RTi" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Ply-ZQ-mjY">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -299,7 +250,6 @@ s</string>
     </scenes>
     <resources>
         <image name="cross_icon.png" width="30" height="30"/>
-        <image name="error_image.png" width="223" height="222"/>
         <image name="person.3.fill" catalog="system" width="71" height="34"/>
     </resources>
 </document>

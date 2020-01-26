@@ -18,7 +18,21 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     @IBOutlet weak var mainTable: UITableView!
     let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
     let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
+    let preloaderView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
+
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        let preloader = UIView()
+        let loadControl = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: refreshControl.bounds.height)))
+        refreshControl.addSubview(preloader)
+        preloader.frame = CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: refreshControl.bounds.height))
+        preloader.addSubview(loadControl)
+        loadControl.autoAlignAxis(toSuperviewAxis: .vertical)
+        loadControl.autoAlignAxis(toSuperviewAxis: .horizontal)
+        return refreshControl
+    }()
     
+    fileprivate var statusBarShouldLight = true
 
 	var presenter: FriendsPresenterProtocol?
     let searchController = UISearchController(searchResultsController: nil)
@@ -27,25 +41,30 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         super.viewDidLoad()
         FriendsRouter.createModule(viewController: self)
         presenter?.start()
+        refreshControl = UIRefreshControl()
         setupTable()
         setupSearch()
         setupError()
+        setupPreloader()
     }
     
     func setupTable() {
         mainTable.delegate = self
         mainTable.dataSource = self
+        mainTable.backgroundColor = Colors.shared.white
+        refreshControl.backgroundColor = .clear
+        refreshControl.tintColor = .clear
+        mainTable.addSubview(refreshControl)
         mainTable.keyboardDismissMode = .onDrag
         mainTable.allowsMultipleSelectionDuringEditing = true
         mainTable.tableHeaderView = searchController.searchBar
         mainTable.register(UINib(nibName: "FriendCell", bundle: nil), forCellReuseIdentifier: "FriendCell")
-        mainTable.register(UINib(nibName: "PlaceholderCell", bundle: nil), forCellReuseIdentifier: "PlaceholderCell")
+        self.navigationController?.navigationItem.titleView = preloaderView
         setupFooter()
     }
     
     func setupSearch() {
         searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.searchTextField.borderStyle = .roundedRect
         UITextField.appearance(whenContainedInInstancesOf: ([UISearchBar.self])).borderStyle = .roundedRect
         searchController.searchBar.placeholder = "Поискать в друзьях"
@@ -72,6 +91,13 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         errorView.isHidden = true
     }
     
+    func setupPreloader() {
+        self.view.addSubview(preloaderView)
+        preloaderView.autoAlignAxis(toSuperviewAxis: .vertical)
+        preloaderView.autoAlignAxis(toSuperviewAxis: .horizontal)
+        mainTable.isHidden = true
+    }
+    
     override func showErrorView() {
         errorView.isHidden = false
         mainTable.isHidden = true
@@ -82,10 +108,18 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         mainTable.isHidden = false
     }
     
+    override func showLoadingView() {
+        preloaderView.isHidden = false
+        mainTable.isHidden = true
+    }
+    
+    override func hideLoadingView() {
+        preloaderView.isHidden = true
+        mainTable.isHidden = false
+    }
+    
     func getToast(message: String, _ style: ToastStyle) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-            self.showToast(message: message, style)
-        })
+        self.showToast(message: message, style, duration: 1)
     }
     
     func reloadTableView() {
@@ -98,7 +132,7 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         self.showPopup(headerText: headerText, descriptionText: descriptionText, confrimText: confrimText, declineText: declineText)
     }
     
-    public override func confrimAction() {
+    override func confrimAction() {
         self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, completion: nil)
     }
     
@@ -114,7 +148,6 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
 }
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard ResponseState.isLoaded else { return 50 }
         guard presenter != nil else { return 1 }
         footerView.text = "Количество друзей: \(presenter!.getFriendsCount())"
         return presenter!.getFriendsCount()
@@ -122,20 +155,13 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard presenter != nil else { return UITableViewCell() }
-        if ResponseState.isLoaded {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendCell
-            cell.setup(model: presenter!.getFriend(indexPath: indexPath))
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceholderCell", for: indexPath) as! PlaceholderCell
-            cell.setup()
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendCell
+        cell.setup(model: presenter!.getFriend(indexPath: indexPath))
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard presenter != nil else { return }
-        guard ResponseState.isLoaded else { return }
         presenter?.onTapUser(indexPath: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }

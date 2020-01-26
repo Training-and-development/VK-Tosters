@@ -112,7 +112,11 @@ class PopupViewController: BottomPopupViewController {
     
     @objc override func declineActionHandler() -> () {
         super.declineActionHandler()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: { [weak self] in
+            guard let strongSelf = self else { return }
+            let controller = strongSelf.rootController
+            controller?.declineAction()
+        })
     }
     
     override var popupHeight: CGFloat {

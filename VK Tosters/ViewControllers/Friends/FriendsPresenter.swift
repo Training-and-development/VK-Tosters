@@ -66,6 +66,14 @@ class FriendsPresenter: FriendsPresenterProtocol {
         })
     }
     
+    func onRequestSend(isLoaded: Bool) {
+        if isLoaded {
+            view?.hideLoadingView()
+        } else {
+            view?.showLoadingView()
+        }
+    }
+    
     func getFriend(indexPath: IndexPath) -> Friend {
         let friendJSON = interactor?.friendsJSON[indexPath.row]
         let friend = friendJSON.map { Friend(json: $0) }

@@ -9,6 +9,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 //MARK: Wireframe -
 protocol ProfileWireframeProtocol: class {
@@ -17,7 +18,8 @@ protocol ProfileWireframeProtocol: class {
 //MARK: Presenter -
 protocol ProfilePresenterProtocol: class {
     func start(userId: String)
-    func onDataLoad(user: User?, hasError: Bool)
+    func onDataLoad(user: User?, hasError: Bool, JSON: Data?)
+    func onRequestSend(isLoaded: Bool)
     func onEvent(message: String, _ style: ToastStyle)
 }
 
@@ -31,8 +33,10 @@ protocol ProfileInteractorProtocol: class {
 protocol ProfileViewProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
     static var userId: String { get }
-    func setData(model: User)
+    func setData(model: User, JSON: Data)
     func showErrorView()
     func hideErrorView()
+    func showLoadingView()
+    func hideLoadingView()
     func getToast(message: String, _ style: ToastStyle)
 }
