@@ -60,5 +60,28 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Lato-Black.ttf</string>
+		<string>Lato-BlackItallic.ttf</string>
+		<string>Lato-Bold.ttf</string>
+		<string>Lato-BoldItallic.ttf</string>
+		<string>Lato-Hairline.ttf</string>
+		<string>Lato-Hairlineitallic.ttf</string>
+		<string>Lato-Heavy.ttf</string>
+		<string>Lato-HeavyItallic.ttf</string>
+		<string>Lato-Itallic.ttf</string>
+		<string>Lato-Light.ttf</string>
+		<string>Lato-LightItallic.ttf</string>
+		<string>Lato-Medium.ttf</string>
+		<string>Lato-MediumItallic.ttf</string>
+		<string>Lato-Regular.ttf</string>
+		<string>Lato-Semibold.ttf</string>
+		<string>Lato-Semibolditallic.ttf</string>
+		<string>Lato-Thin.ttf</string>
+		<string>Lato-Thinitallic.ttf</string>
+	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>
