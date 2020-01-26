@@ -12,6 +12,7 @@
 		2324A10423D75CAF004BC5EB /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2324A10323D75CAF004BC5EB /* Friend.swift */; };
 		2324A10623D76A55004BC5EB /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A10523D76A54004BC5EB /* RealmSwift.framework */; };
 		2324A10723D76A55004BC5EB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A10523D76A54004BC5EB /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2336E83723DE022D00502286 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2336E83623DE022D00502286 /* FriendCell.xib */; };
 		2364B7CE23D6DE6F00419A5B /* cross_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2364B7CD23D6DE6F00419A5B /* cross_icon.png */; };
 		2365852023D6E9710045A07B /* NewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2365851A23D6E9710045A07B /* NewsPresenter.swift */; };
 		2365852123D6E9710045A07B /* NewsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2365851B23D6E9710045A07B /* NewsRouter.swift */; };
@@ -90,7 +91,6 @@
 		23B5BE3623D848C00038870C /* ApiFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5BE3523D848C00038870C /* ApiFields.swift */; };
 		23BB969223D9E06C006A659C /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969123D9E06C006A659C /* ViewControllerExtension.swift */; };
 		23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969323DA014A006A659C /* CompletionHandlers.swift */; };
-		23C2C42023D857D7008A3C6F /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C2C41F23D857D7008A3C6F /* FriendCell.xib */; };
 		23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */; };
 		23C2C42423D87F4C008A3C6F /* PlaceholderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */; };
 		23C2C42623D88446008A3C6F /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C2C42523D88446008A3C6F /* DateExtension.swift */; };
@@ -142,6 +142,7 @@
 		2324A0FF23D7585E004BC5EB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		2324A10323D75CAF004BC5EB /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		2324A10523D76A54004BC5EB /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		2336E83623DE022D00502286 /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
 		2364B7CD23D6DE6F00419A5B /* cross_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross_icon.png; sourceTree = "<group>"; };
 		2365851A23D6E9710045A07B /* NewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPresenter.swift; sourceTree = "<group>"; };
 		2365851B23D6E9710045A07B /* NewsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRouter.swift; sourceTree = "<group>"; };
@@ -216,7 +217,6 @@
 		23B5BE3523D848C00038870C /* ApiFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiFields.swift; sourceTree = "<group>"; };
 		23BB969123D9E06C006A659C /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		23BB969323DA014A006A659C /* CompletionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
-		23C2C41F23D857D7008A3C6F /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FriendCell.xib; path = ../../../../../.Trash/FriendCell.xib; sourceTree = "<group>"; };
 		23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderCell.swift; sourceTree = "<group>"; };
 		23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceholderCell.xib; sourceTree = "<group>"; };
 		23C2C42523D88446008A3C6F /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
@@ -427,7 +427,7 @@
 		23A2A36023D5D00C0060E76D /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
-				23C2C41F23D857D7008A3C6F /* FriendCell.xib */,
+				2336E83623DE022D00502286 /* FriendCell.xib */,
 				23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */,
 			);
 			path = Xibs;
@@ -638,11 +638,11 @@
 				23EDF65823DC4F6F00D7BEAB /* prigi.gif in Resources */,
 				23A2A3A723D604820060E76D /* Lato-MediumItalic.ttf in Resources */,
 				2383B19F23DB3B61007D7D76 /* error_image.png in Resources */,
-				23C2C42023D857D7008A3C6F /* FriendCell.xib in Resources */,
 				23A2A3AA23D604820060E76D /* Lato-SemiboldItalic.ttf in Resources */,
 				23A2A39C23D604810060E76D /* Lato-BlackItalic.ttf in Resources */,
 				2364B7CE23D6DE6F00419A5B /* cross_icon.png in Resources */,
 				23A2A3A223D604820060E76D /* Lato-HeavyItalic.ttf in Resources */,
+				2336E83723DE022D00502286 /* FriendCell.xib in Resources */,
 				2383B24223DB6B6A007D7D76 /* online.png in Resources */,
 				23A2A33A23D5B5850060E76D /* Assets.xcassets in Resources */,
 				23A2A3A023D604810060E76D /* Lato-HairlineItalic.ttf in Resources */,
