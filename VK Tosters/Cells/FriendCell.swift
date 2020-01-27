@@ -56,12 +56,12 @@ class FriendCell: UITableViewCell {
             guard let strongSelf = self else { return }
             strongSelf.avatarView.setRounded()
             strongSelf.nameView.font = UIFont(name: "Lato-Bold", size: 18)
-            strongSelf.nameView.textColor = Colors.shared.black
+            strongSelf.nameView.textColor = .toasterBlack
             strongSelf.descriptionView.font = UIFont(name: "Lato-Regular", size: 15)
-            strongSelf.descriptionView.textColor = Colors.shared.metal
+            strongSelf.descriptionView.textColor = .toasterMetal
             strongSelf.onlineView.setRounded()
             strongSelf.onlineImage.image = UIImage(named: "online")?.withRenderingMode(.alwaysTemplate)
-            strongSelf.onlineImage.tintColor = Colors.shared.blue
+            strongSelf.onlineImage.tintColor = .toasterBlue
         }
     }
 }

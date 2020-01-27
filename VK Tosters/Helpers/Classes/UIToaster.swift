@@ -59,13 +59,13 @@ open class UIToasterView: UIView {
         
         switch style {
         case .default:
-            color = Colors.shared.blue
+            color = .toasterBlue
         case .success:
-            color = Colors.shared.green
+            color = .toasterGreen
         case .warning:
-            color = Colors.shared.orange
+            color = .toasterOrange
         case .error:
-            color = Colors.shared.red
+            color = .toasterRed
         }
         self.backgroundColor = color
         

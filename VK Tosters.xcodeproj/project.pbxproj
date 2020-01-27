@@ -88,6 +88,9 @@
 		23A2A3D423D61EE90060E76D /* BottomPopupNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A3CC23D61EE90060E76D /* BottomPopupNavigationController.swift */; };
 		23A2A3D523D61EE90060E76D /* BottomPopupTransitionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A3CD23D61EE90060E76D /* BottomPopupTransitionHandler.swift */; };
 		23A2A3D623D61EE90060E76D /* BottomPopupPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A3CE23D61EE90060E76D /* BottomPopupPresentationController.swift */; };
+		23A335AC23DEB62E00270FED /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A335AB23DEB62E00270FED /* back.png */; };
+		23A335AE23DEB88900270FED /* AndroidNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A335AD23DEB88900270FED /* AndroidNavigationBar.swift */; };
+		23A335B023DEBF9A00270FED /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A335AF23DEBF9A00270FED /* logout.png */; };
 		23B5BE3623D848C00038870C /* ApiFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5BE3523D848C00038870C /* ApiFields.swift */; };
 		23BB969223D9E06C006A659C /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969123D9E06C006A659C /* ViewControllerExtension.swift */; };
 		23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BB969323DA014A006A659C /* CompletionHandlers.swift */; };
@@ -214,6 +217,9 @@
 		23A2A3CC23D61EE90060E76D /* BottomPopupNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupNavigationController.swift; sourceTree = "<group>"; };
 		23A2A3CD23D61EE90060E76D /* BottomPopupTransitionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupTransitionHandler.swift; sourceTree = "<group>"; };
 		23A2A3CE23D61EE90060E76D /* BottomPopupPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupPresentationController.swift; sourceTree = "<group>"; };
+		23A335AB23DEB62E00270FED /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		23A335AD23DEB88900270FED /* AndroidNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndroidNavigationBar.swift; sourceTree = "<group>"; };
+		23A335AF23DEBF9A00270FED /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		23B5BE3523D848C00038870C /* ApiFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiFields.swift; sourceTree = "<group>"; };
 		23BB969123D9E06C006A659C /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		23BB969323DA014A006A659C /* CompletionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
@@ -283,6 +289,8 @@
 				23EDF65523DC4F6F00D7BEAB /* osmotr.gif */,
 				23EDF65623DC4F6F00D7BEAB /* prigi.gif */,
 				2383B24123DB6B6A007D7D76 /* online.png */,
+				23A335AB23DEB62E00270FED /* back.png */,
+				23A335AF23DEBF9A00270FED /* logout.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -336,6 +344,7 @@
 			children = (
 				2383B23823DB5529007D7D76 /* ErrorView.swift */,
 				239E0E5D23DC2B0C00047395 /* LoadingView.swift */,
+				23A335AD23DEB88900270FED /* AndroidNavigationBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -634,6 +643,7 @@
 				2383B24023DB6AB2007D7D76 /* golovakrug.gif in Resources */,
 				23A2A39B23D604810060E76D /* Lato-Black.ttf in Resources */,
 				23A2A39D23D604810060E76D /* Lato-Bold.ttf in Resources */,
+				23A335B023DEBF9A00270FED /* logout.png in Resources */,
 				23A2A33D23D5B5850060E76D /* LaunchScreen.storyboard in Resources */,
 				23EDF65823DC4F6F00D7BEAB /* prigi.gif in Resources */,
 				23A2A3A723D604820060E76D /* Lato-MediumItalic.ttf in Resources */,
@@ -656,6 +666,7 @@
 				23A2A33823D5B5840060E76D /* Main.storyboard in Resources */,
 				2383B19E23DB3B61007D7D76 /* error.png in Resources */,
 				23A2A3AB23D604820060E76D /* Lato-Thin.ttf in Resources */,
+				23A335AC23DEB62E00270FED /* back.png in Resources */,
 				23A2A3A523D604820060E76D /* Lato-LightItalic.ttf in Resources */,
 				2365852523D6E9710045A07B /* NewsViewController.xib in Resources */,
 				23A2A3A823D604820060E76D /* Lato-Regular.ttf in Resources */,
@@ -690,6 +701,7 @@
 				23FACC2423DC7D5B0021E569 /* Country.swift in Sources */,
 				23A2A3AE23D607270060E76D /* NotificationName.swift in Sources */,
 				23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */,
+				23A335AE23DEB88900270FED /* AndroidNavigationBar.swift in Sources */,
 				2365852023D6E9710045A07B /* NewsPresenter.swift in Sources */,
 				23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */,
 				23A2A36F23D5EFB30060E76D /* UIToaster.swift in Sources */,

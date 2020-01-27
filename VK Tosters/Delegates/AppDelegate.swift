@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyVK
+import PureLayout
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         vkDelegateReference = VKDelegate()
-        UILabel.appearance().font = UIFont(name: "Lato-Regular", size: 13)
         SwiftReachability.sharedManager?.startMonitoring()
+        UINavigationBar.appearance().tintColor = .toasterBlue
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Lato-Bold", size: 17)!], for: .normal)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.toasterBlue, NSAttributedString.Key.font: UIFont(name: "Lato-Regular", size: 17)!], for: .normal)
         return true
     }
 

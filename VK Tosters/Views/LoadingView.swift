@@ -29,7 +29,7 @@ class LoadingView: UIView {
         let label = UILabel()
         label.text = "Загрузка"
         label.font = UIFont(name: "Lato-Bold", size: 12)
-        label.textColor = Colors.shared.metal
+        label.textColor = .toasterMetal
         label.textAlignment = .center
         return label
     }()

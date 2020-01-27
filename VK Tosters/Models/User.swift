@@ -13,6 +13,7 @@ import RealmSwift
 class User: NSObject {
     var id: String = ""
     var name: String = ""
+    var screenName: String = ""
     var isClosed: Bool = false
     var canAccessClosed: Bool = false
     var sex = 0, online: Int = 0
@@ -26,6 +27,7 @@ class User: NSObject {
         self.init()
         self.id = jsonFullUser["id"].stringValue
         self.name = "\(jsonFullUser["first_name"].stringValue) \(jsonFullUser["last_name"].stringValue)"
+        self.screenName = jsonFullUser["screen_name"].stringValue
         self.isClosed = jsonFullUser["is_closed"].boolValue
         self.canAccessClosed = jsonFullUser["can_access_closed"].boolValue
         self.sex = jsonFullUser["sex"].intValue

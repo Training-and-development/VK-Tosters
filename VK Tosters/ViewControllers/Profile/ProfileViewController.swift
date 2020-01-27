@@ -11,18 +11,21 @@
 import UIKit
 import Kingfisher
 import SwiftyJSON
+import PureLayout
 
 class ProfileViewController: BaseViewController, ProfileViewProtocol {
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var photoProfile: UIImageView!
-    @IBOutlet weak var profileLabel: UILabel!
-    @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var contentTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var namesLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var messageButton: UIButton!
+    @IBOutlet weak var friendButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var jsonLabel: UILabel!
+    @IBOutlet weak var shortNameLabel: UILabel!
+    @IBOutlet weak var dividerView: UIView!
     
-	var presenter: ProfilePresenterProtocol?
+    var presenter: ProfilePresenterProtocol?
     
     let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
     let loadingView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
@@ -43,14 +46,14 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     }
     
     override func showErrorView() {
-        photoProfile.isHidden = true
-        profileLabel.isHidden = true
+        avatarImageView.isHidden = true
+        namesLabel.isHidden = true
         errorView.isHidden = false
     }
     
     override func hideErrorView() {
-        photoProfile.isHidden = false
-        profileLabel.isHidden = false
+        avatarImageView.isHidden = false
+        namesLabel.isHidden = false
         errorView.isHidden = true
     }
     
@@ -78,61 +81,35 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         return isLightImage ? .darkContent : .lightContent
     }
     
-    func statusBarHeight() -> CGFloat {
-        let height: CGFloat = UIApplication.shared.statusBarFrame.height
-        return height
-    }
-    
     func setData(model: User, JSON: Data) {
-        photoProfile.kf.setImage(with: URL(string: model.photoOriginal)) { result in
-            switch result {
-            case .success:
-                if (self.photoProfile.image?.averageColor?.isLight())! {
-                    self.isLightImage = true
-                    self.isHelpLight = true
-                    self.closeButton.imageView?.tintColor = Colors.shared.black
-                    self.profileLabel.textColor = Colors.shared.black
-                    
-                } else {
-                    self.isLightImage = false
-                    self.isHelpLight = false
-                    self.closeButton.imageView?.tintColor = Colors.shared.smoke
-                    self.profileLabel.textColor = Colors.shared.smoke
-                }
-                self.jsonLabel.text = String(data: JSON, encoding: String.Encoding.utf8)
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.profileLabel.text = "\(model.name) · \(model.online == 0 ? FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime) : "Онлайн")"
-
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
-        var options: JSONSerialization.WritingOptions = []
-        if prettyPrinted {
-          options = JSONSerialization.WritingOptions.prettyPrinted
-        }
-
-        do {
-          let data = try JSONSerialization.data(withJSONObject: json, options: options)
-          if let string = String(data: data, encoding: String.Encoding.utf8) {
-            return string
-          }
-        } catch {
-          print(error)
-        }
-
-        return ""
+        namesLabel.text = model.name
+        avatarImageView.kf.setImage(with: URL(string: model.photoOriginal))
+        statusLabel.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+        shortNameLabel.text = model.screenName
     }
     
     func setup() {
-        self.closeButton.setImage(closeButton.currentImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        scrollView.contentInset.top = -self.statusBarHeight()
-        scrollView.delegate = self
-        infoView.blurry()
-        profileLabel.font = UIFont(name: "Lato-Semibold", size: 15)
+        namesLabel.font = UIFont(name: "Lato-Bold", size: 20)
+        namesLabel.textColor = .toasterBlack
+        avatarImageView.setRounded()
+        statusLabel.font = UIFont(name: "Lato-Regular", size: 15)
+        statusLabel.textColor = .toasterMetal
+        messageButton.backgroundColor = .toasterBlue
+        friendButton.backgroundColor = .toasterSmoke
+        messageButton.titleLabel?.font = UIFont(name: "Lato-Semibold", size: 16)
+        friendButton.titleLabel?.font = UIFont(name: "Lato-Semibold", size: 16)
+        messageButton.setTitleColor(.toasterSmoke, for: .normal)
+        friendButton.setTitleColor(.toasterBlue, for: .normal)
+        messageButton.setTitle("Сообщение", for: .normal)
+        friendButton.setTitle("У вас в друзьях", for: .normal)
+        messageButton.setCorners(radius: 8)
+        friendButton.setCorners(radius: 8)
+        closeButton.imageView?.image = closeButton.currentImage?.withRenderingMode(.alwaysTemplate)
+        closeButton.imageView?.tintColor = .toasterBlue
+        shortNameLabel.font = UIFont(name: "Lato-Heavy", size: 22)
+        shortNameLabel.textColor = .toasterBlack
+        dividerView.autoSetDimension(.height, toSize: 0.5)
+        dividerView.backgroundColor = .toasterMetal
     }
     
     func setupError() {
@@ -156,28 +133,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     
     @IBAction func dismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-extension ProfileViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > self.photoProfile.bounds.size.height {
-            DispatchQueue.main.async {
-                self.animateConstraint(constant: -self.statusBarHeight(), isLight: true)
-            }
-        } else if scrollView.contentOffset.y < self.photoProfile.bounds.size.height {
-            DispatchQueue.main.async {
-                self.animateConstraint(constant: self.statusBarHeight(), isLight: self.isHelpLight)
-            }
-        }
-    }
-    
-    func animateConstraint(constant: CGFloat, isLight: Bool) {
-        contentTopConstraint.constant = constant
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            self.isLightImage = isLight
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.view.layoutIfNeeded()
-        })
     }
 }
 

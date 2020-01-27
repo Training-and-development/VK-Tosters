@@ -46,12 +46,17 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         setupSearch()
         setupError()
         setupPreloader()
+        setupNavigationController()
+    }
+    
+    override func setupNavigationController() {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     func setupTable() {
         mainTable.delegate = self
         mainTable.dataSource = self
-        mainTable.backgroundColor = Colors.shared.white
+        mainTable.backgroundColor = .toasterWhite
         refreshControl.backgroundColor = .clear
         refreshControl.tintColor = .clear
         mainTable.addSubview(refreshControl)
@@ -77,7 +82,7 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         footerView.sizeToFit()
         footerView.textAlignment = .center
         footerView.font = UIFont(name: "Lato-Regular", size: 12)
-        footerView.textColor = Colors.shared.metal
+        footerView.textColor = .toasterMetal
         mainTable.tableFooterView = footerView
         mainTable.tableFooterView?.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: -38, right: 0)
         mainTable.tableFooterView?.bounds.size.height = 38
@@ -176,13 +181,13 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         let editAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Сообщение", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
             self.getToast(message: "Отправка сообщений временно недоступна", .warning)
         })
-        editAction.backgroundColor = Colors.shared.blue
+        editAction.backgroundColor = .toasterBlue
         
         let deleteAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Удалить", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
             self.presenter?.getName(nameCase: .acc, indexPath: indexPath)
             SavedVariables.indexPath = indexPath
         })
-        deleteAction.backgroundColor = Colors.shared.red
+        deleteAction.backgroundColor = .toasterRed
         return [deleteAction, editAction]
     }
     
@@ -193,5 +198,10 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
 extension FriendsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         //
+    }
+}
+extension FriendsViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

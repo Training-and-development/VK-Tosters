@@ -73,32 +73,32 @@ class PopupViewController: BottomPopupViewController {
         blurScreen.backgroundColor = .clear
         
         rootView.setCorners(radius: 16.0)
-        rootView.backgroundColor = Colors.shared.white.withAlphaComponent(0.5)
+        rootView.backgroundColor = UIColor.toasterWhite.withAlphaComponent(0.5)
         
         headerLabel.text = headerText ?? ""
-        headerLabel.textColor = Colors.shared.black
+        headerLabel.textColor = .toasterBlack
         headerLabel.font = UIFont(name: "Lato-Bold", size: 20)
         
         descriptionLabel.font = UIFont(name: "Lato-Regular", size: 15)
         descriptionLabel.text = descriptionText ?? ""
-        descriptionLabel.textColor = Colors.shared.black
+        descriptionLabel.textColor = .toasterBlack
         
-        declineButton.setCorners(radius: 5.0)
+        declineButton.setCorners(radius: 8.0)
         declineButton.setTitle(declineText, for: .normal)
         declineButton.autoresizingMask = [.flexibleWidth]
         declineButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        declineButton.backgroundColor = Colors.shared.red
-        declineButton.setTitleColor(Colors.shared.white, for: .normal)
+        declineButton.backgroundColor = .toasterRed
+        declineButton.setTitleColor(.toasterWhite, for: .normal)
         
-        confrimButton.setCorners(radius: 5.0)
+        confrimButton.setCorners(radius: 8.0)
         confrimButton.setTitle(confrimText, for: .normal)
         confrimButton.autoresizingMask = [.flexibleWidth]
         confrimButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        confrimButton.backgroundColor = Colors.shared.blue
-        confrimButton.setTitleColor(Colors.shared.white, for: .normal)
+        confrimButton.backgroundColor = .toasterBlue
+        confrimButton.setTitleColor(.toasterWhite, for: .normal)
     
         dismissControl.setImage(dismissControl.currentImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        dismissControl.imageView?.tintColor = Colors.shared.metal
+        dismissControl.imageView?.tintColor = .toasterMetal
     }
     
     @objc override func confrimActionHandler() -> () {

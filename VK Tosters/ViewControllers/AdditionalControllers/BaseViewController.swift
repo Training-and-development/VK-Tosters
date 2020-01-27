@@ -15,6 +15,7 @@ open class BaseViewController: UIViewController {
     var isFirstRun: Bool = true
 
     override open func viewDidLoad() {
+        setupNavigationController()
         setupObservers()
     }
     
@@ -28,7 +29,29 @@ open class BaseViewController: UIViewController {
         isFirstRun = true
     }
     
-    func setupObservers() {
+    open var isLogged: Bool {
+        guard currentSessionState == .authorized else { return false }
+        return true
+    }
+    
+    open var currentSessionState: SessionState {
+        switch sessionState {
+        case .destroyed:
+            return .destroyed
+        case .authorized:
+            return .authorized
+        case .initiated:
+            return .initiated
+        }
+    }
+    
+    override open func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
+    
+    open func setupNavigationController() { }
+    
+    open func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(onLogin(_:)), name: NotificationName.shared.onLogin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onLogout(_:)), name: NotificationName.shared.onLogout, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onReachabilityStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)

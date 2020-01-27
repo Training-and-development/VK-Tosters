@@ -32,9 +32,9 @@ class PlaceholderCell: UITableViewCell {
             strongSelf.avatarPlacceholder.setRounded()
             strongSelf.namePlacceholder.setRounded()
             strongSelf.descriptionPlacceholder.setRounded()
-            strongSelf.avatarPlacceholder.backgroundColor = Colors.shared.lightGray
-            strongSelf.namePlacceholder.backgroundColor = Colors.shared.lightGray
-            strongSelf.descriptionPlacceholder.backgroundColor = Colors.shared.lightGray
+            strongSelf.avatarPlacceholder.backgroundColor = .toasterLightGray
+            strongSelf.namePlacceholder.backgroundColor = .toasterLightGray
+            strongSelf.descriptionPlacceholder.backgroundColor = .toasterLightGray
         }
     }
 }

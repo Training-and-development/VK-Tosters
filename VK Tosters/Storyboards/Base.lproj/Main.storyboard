@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cvX-Fd-RTi">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,10 +10,13 @@
         <!--Navigation Controller-->
         <scene sceneID="g0W-oa-EL9">
             <objects>
-                <navigationController modalPresentationStyle="fullScreen" id="cvX-Fd-RTi" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Ply-ZQ-mjY">
+                <navigationController modalTransitionStyle="flipHorizontal" modalPresentationStyle="fullScreen" hidesBarsWhenKeyboardAppears="YES" hidesBarsWhenVerticallyCompact="YES" id="cvX-Fd-RTi" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Ply-ZQ-mjY">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="20"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ks4-A1-nFI"/>
@@ -50,7 +53,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="52"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kwn-xi-YcD">
-                                                <rect key="frame" x="16" y="15.5" width="330" height="21"/>
+                                                <rect key="frame" x="16" y="15.666666666666671" width="330" height="21"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -238,7 +241,11 @@ s</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zhV-xv-ykF"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Друзья" id="GHM-AL-ley"/>
+                    <navigationItem key="navigationItem" title="Друзья" id="GHM-AL-ley">
+                        <barButtonItem key="leftBarButtonItem" image="back.png" id="yAe-gj-ihn">
+                            <color key="tintColor" red="0.0" green="0.62" blue="0.90000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mainTable" destination="WRI-77-4tq" id="0j4-sS-S1c"/>
                     </connections>
@@ -249,7 +256,9 @@ s</string>
         </scene>
     </scenes>
     <resources>
+        <image name="back.png" width="18" height="18"/>
         <image name="cross_icon.png" width="30" height="30"/>
         <image name="person.3.fill" catalog="system" width="71" height="34"/>
     </resources>
+    <color key="tintColor" red="0.0" green="0.62" blue="0.90000000000000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -19,7 +19,7 @@ class ErrorView: UIView {
     let errorImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "error")?.withRenderingMode(.alwaysTemplate)
-        image.tintColor = Colors.shared.metal
+        image.tintColor = .toasterMetal
         image.contentMode = .scaleAspectFit
         return image
     }()
@@ -27,7 +27,7 @@ class ErrorView: UIView {
     let errorLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Lato-Bold", size: 12)
-        label.textColor = Colors.shared.metal
+        label.textColor = .toasterMetal
         label.textAlignment = .center
         return label
     }()
