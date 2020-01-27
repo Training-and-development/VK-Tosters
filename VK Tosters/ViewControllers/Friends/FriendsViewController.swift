@@ -15,7 +15,12 @@ struct SavedVariables {
 }
 
 class FriendsViewController: BaseViewController, FriendsViewProtocol {
+    @IBOutlet weak var backViewButton: UIButton!
     @IBOutlet weak var mainTable: UITableView!
+    @IBOutlet weak var friendsTitleLabel: UILabel!
+    @IBOutlet weak var dividerView: UIView!
+    @IBOutlet weak var toolbarView: UIView!
+    
     let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
     let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
     let preloaderView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
@@ -49,8 +54,26 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         setupNavigationController()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchController.hidesNavigationBarDuringPresentation = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchController.hidesNavigationBarDuringPresentation = false
+    }
+    
     override func setupNavigationController() {
+        self.navigationController?.navigationBar.frame = CGRect(origin: .zero, size: .zero)
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        friendsTitleLabel.text = "Друзья"
+        friendsTitleLabel.font = UIFont(name: "Lato-Bold", size: 20)
+        friendsTitleLabel.textColor = .toasterBlack
+        backViewButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backViewButton.tintColor = .toasterBlue
+        dividerView.autoSetDimension(.height, toSize: 0.5)
+        dividerView.backgroundColor = .toasterMetal
     }
     
     func setupTable() {
@@ -69,12 +92,24 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     }
     
     func setupSearch() {
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.searchTextField.borderStyle = .roundedRect
-        UITextField.appearance(whenContainedInInstancesOf: ([UISearchBar.self])).borderStyle = .roundedRect
-        searchController.searchBar.placeholder = "Поискать в друзьях"
-        searchController.searchBar.setValue("Отмена", forKey:"cancelButtonText")
-        definesPresentationContext = true
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.setCenteredPlaceHolder()
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Поиск"
+        searchController.searchBar.searchTextField.font = UIFont(name: "Lato-Regular", size: 15)
+        searchController.searchBar.setValue("Отмена", forKey: "cancelButtonText")
+        setSearchFieldBackgroundColor(.toasterLightGray)
+    }
+    
+    private func setSearchFieldBackgroundColor(_ searchFieldBackgroundColor: UIColor) {
+        let patternSize = CGSize(width: 32, height: 32)
+        
+        let imagePattern = UIImage.imageWithColor(searchFieldBackgroundColor, imageSize: patternSize)
+        let roundedImagePattern = imagePattern.flatMap { UIImage.roundedImage($0, cornerRadius: patternSize.height / 2) }
+        
+        if let roundedImagePattern = roundedImagePattern {
+            searchController.searchBar.setSearchFieldBackgroundImage(roundedImagePattern, for: .normal)
+        }
     }
     
     func setupFooter() {
@@ -141,6 +176,10 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, completion: nil)
     }
     
+    @IBAction func back(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     override func onReachabilityStatusChanged(_ notification: Notification) {
         if let info = notification.userInfo {
             if info[ReachabilityNotificationStatusItem] != nil {
@@ -195,9 +234,21 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         return 58
     }
 }
-extension FriendsViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        //
+extension FriendsViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.searchController.searchBar.setDefaultPlaceHolder()
+            self.view.layoutIfNeeded()
+            searchBar.layoutIfNeeded()
+        })
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.searchController.searchBar.setCenteredPlaceHolder()
+            self.view.layoutIfNeeded()
+            searchBar.layoutIfNeeded()
+        })
     }
 }
 extension FriendsViewController: UIGestureRecognizerDelegate {

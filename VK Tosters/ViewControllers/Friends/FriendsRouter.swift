@@ -35,6 +35,6 @@ class FriendsRouter: FriendsWireframeProtocol {
         let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
         ProfileViewController.userId = userId
         profileViewController.modalPresentationStyle = .fullScreen
-        self.baseViewController?.present(profileViewController, animated: true, completion: nil)
+        self.baseViewController?.performSegue(withIdentifier: "toProfile", sender: self)
     }
 }

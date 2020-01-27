@@ -24,15 +24,11 @@ class FriendsInteractor: FriendsInteractorProtocol {
     }
     
     func getFriends() {
-        VK.API.Friends.get([.count: String(50), .fields: ApiFriendsFields.getFriendsField])
+        VK.API.Friends.get([.fields: ApiFriendsFields.getFriendsField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.responseJSON = JSON(response)
-                self.friendsJSON = self.responseJSON[ApiFriendsResponse.items].arrayValue
-                DispatchQueue.main.async {
-                    self.presenter?.onRequestSend(isLoaded: true)
-                    self.presenter?.onLoadData(hasError: false)
-                }
+                self.handleResponse(response: self.responseJSON[ApiFriendsResponse.items].arrayValue)
         }
         .onError { error in
             DispatchQueue.main.async {
@@ -59,10 +55,11 @@ class FriendsInteractor: FriendsInteractorProtocol {
         .send()
     }
     
-    func handleResponse(response: JSON) {
-        let mapItems = self.friendsJSON.map { Friend(json: $0) }
+    func handleResponse(response: [JSON]) {
+        self.friendsJSON = response
         DispatchQueue.main.async {
-            
+            self.presenter?.onRequestSend(isLoaded: true)
+            self.presenter?.onLoadData(hasError: false)
         }
     }
     

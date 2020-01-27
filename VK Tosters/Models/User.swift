@@ -21,6 +21,7 @@ class User: NSObject {
     var time: Int = 0
     var platform: Int = 0
     var photoOriginal: String = ""
+    var photo100: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
     
     convenience init(jsonFullUser: JSON) {
@@ -37,6 +38,7 @@ class User: NSObject {
         self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
         self.platform = jsonFullUser["last_seen"]["platform"].intValue
         self.photoOriginal = jsonFullUser["photo_max_orig"].stringValue
+        self.photo100 = jsonFullUser["photo_100"].stringValue
     }
     
     convenience init(jsonRelationUser: JSON) {

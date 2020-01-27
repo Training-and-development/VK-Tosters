@@ -24,6 +24,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shortNameLabel: UILabel!
     @IBOutlet weak var dividerView: UIView!
+    @IBOutlet weak var toolbarView: UIView!
     
     var presenter: ProfilePresenterProtocol?
     
@@ -104,8 +105,8 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         friendButton.setTitle("У вас в друзьях", for: .normal)
         messageButton.setCorners(radius: 8)
         friendButton.setCorners(radius: 8)
-        closeButton.imageView?.image = closeButton.currentImage?.withRenderingMode(.alwaysTemplate)
-        closeButton.imageView?.tintColor = .toasterBlue
+        closeButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        closeButton.tintColor = .toasterBlue
         shortNameLabel.font = UIFont(name: "Lato-Heavy", size: 22)
         shortNameLabel.textColor = .toasterBlack
         dividerView.autoSetDimension(.height, toSize: 0.5)
@@ -132,7 +133,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     }
     
     @IBAction func dismiss(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

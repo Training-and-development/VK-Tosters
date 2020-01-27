@@ -60,8 +60,8 @@ class FriendCell: UITableViewCell {
             strongSelf.descriptionView.font = UIFont(name: "Lato-Regular", size: 15)
             strongSelf.descriptionView.textColor = .toasterMetal
             strongSelf.onlineView.setRounded()
-            strongSelf.onlineImage.image = UIImage(named: "online")?.withRenderingMode(.alwaysTemplate)
-            strongSelf.onlineImage.tintColor = .toasterBlue
+            strongSelf.onlineImage.backgroundColor = .toasterGreen
+            strongSelf.onlineImage.setRounded()
         }
     }
 }

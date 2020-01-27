@@ -49,7 +49,13 @@ open class BaseViewController: UIViewController {
         
     }
     
-    open func setupNavigationController() { }
+    override open func viewWillLayoutSubviews() {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    open func setupNavigationController() {
+        self.navigationController?.navigationBar.frame = CGRect(origin: .zero, size: .zero)
+    }
     
     open func setupObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(onLogin(_:)), name: NotificationName.shared.onLogin, object: nil)
