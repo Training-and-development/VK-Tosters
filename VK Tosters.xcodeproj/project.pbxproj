@@ -39,6 +39,16 @@
 		2383B23E23DB5E87007D7D76 /* PureLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2383B23C23DB5E87007D7D76 /* PureLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2383B24023DB6AB2007D7D76 /* golovakrug.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2383B23F23DB6AB1007D7D76 /* golovakrug.gif */; };
 		2383B24223DB6B6A007D7D76 /* online.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B24123DB6B6A007D7D76 /* online.png */; };
+		2397AF1823E08B65007EAEDE /* account-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1723E08B65007EAEDE /* account-outline.png */; };
+		2397AF1A23E08BBF007EAEDE /* briefcase-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1923E08BBF007EAEDE /* briefcase-outline.png */; };
+		2397AF1D23E08C47007EAEDE /* signal-variant.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1B23E08C47007EAEDE /* signal-variant.png */; };
+		2397AF1E23E08C47007EAEDE /* information-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1C23E08C47007EAEDE /* information-outline.png */; };
+		2397AF2023E0952C007EAEDE /* Counters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397AF1F23E0952C007EAEDE /* Counters.swift */; };
+		2397AF2223E09D1C007EAEDE /* card-search-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF2123E09D1C007EAEDE /* card-search-outline.png */; };
+		2397AF2723E0A544007EAEDE /* PhotoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397AF2523E0A544007EAEDE /* PhotoViewCell.swift */; };
+		2397AF2823E0A544007EAEDE /* PhotoViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF2623E0A544007EAEDE /* PhotoViewCell.xib */; };
+		2397AF2A23E0A628007EAEDE /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397AF2923E0A628007EAEDE /* Photo.swift */; };
+		2397AF2C23E0ACD0007EAEDE /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397AF2B23E0ACD0007EAEDE /* Sizes.swift */; };
 		239E0E5C23DC295700047395 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E0E5B23DC295700047395 /* UIImage.swift */; };
 		239E0E5E23DC2B0C00047395 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239E0E5D23DC2B0C00047395 /* LoadingView.swift */; };
 		23A2A33123D5B5840060E76D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A2A33023D5B5840060E76D /* AppDelegate.swift */; };
@@ -173,6 +183,16 @@
 		2383B23C23DB5E87007D7D76 /* PureLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureLayout.framework; path = Carthage/Build/iOS/PureLayout.framework; sourceTree = "<group>"; };
 		2383B23F23DB6AB1007D7D76 /* golovakrug.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = golovakrug.gif; sourceTree = "<group>"; };
 		2383B24123DB6B6A007D7D76 /* online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = online.png; sourceTree = "<group>"; };
+		2397AF1723E08B65007EAEDE /* account-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "account-outline.png"; sourceTree = "<group>"; };
+		2397AF1923E08BBF007EAEDE /* briefcase-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "briefcase-outline.png"; sourceTree = "<group>"; };
+		2397AF1B23E08C47007EAEDE /* signal-variant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signal-variant.png"; sourceTree = "<group>"; };
+		2397AF1C23E08C47007EAEDE /* information-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "information-outline.png"; sourceTree = "<group>"; };
+		2397AF1F23E0952C007EAEDE /* Counters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counters.swift; sourceTree = "<group>"; };
+		2397AF2123E09D1C007EAEDE /* card-search-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "card-search-outline.png"; sourceTree = "<group>"; };
+		2397AF2523E0A544007EAEDE /* PhotoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewCell.swift; sourceTree = "<group>"; };
+		2397AF2623E0A544007EAEDE /* PhotoViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoViewCell.xib; sourceTree = "<group>"; };
+		2397AF2923E0A628007EAEDE /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		2397AF2B23E0ACD0007EAEDE /* Sizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
 		239E0E5B23DC295700047395 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		239E0E5D23DC2B0C00047395 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		23A2A32D23D5B5830060E76D /* VK Tosters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK Tosters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,10 +299,13 @@
 			isa = PBXGroup;
 			children = (
 				23FACC2123DC7D5B0021E569 /* City.swift */,
+				2397AF1F23E0952C007EAEDE /* Counters.swift */,
 				23FACC2223DC7D5B0021E569 /* Country.swift */,
 				2324A10323D75CAF004BC5EB /* Friend.swift */,
 				23FACC1A23DC6E4E0021E569 /* Profile.swift */,
 				23FE15F723D8BD8F00A19990 /* User.swift */,
+				2397AF2923E0A628007EAEDE /* Photo.swift */,
+				2397AF2B23E0ACD0007EAEDE /* Sizes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -290,15 +313,9 @@
 		2364B7CC23D6DE4900419A5B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				2364B7CD23D6DE6F00419A5B /* cross_icon.png */,
-				2383B19D23DB3B61007D7D76 /* error_image.png */,
-				2383B19C23DB3B61007D7D76 /* error.png */,
-				2383B23F23DB6AB1007D7D76 /* golovakrug.gif */,
-				23EDF65523DC4F6F00D7BEAB /* osmotr.gif */,
-				23EDF65623DC4F6F00D7BEAB /* prigi.gif */,
-				2383B24123DB6B6A007D7D76 /* online.png */,
-				23A335AB23DEB62E00270FED /* back.png */,
-				23A335AF23DEBF9A00270FED /* logout.png */,
+				2397AF1623E08B3B007EAEDE /* Gif */,
+				2397AF1523E08B36007EAEDE /* Common */,
+				2397AF1423E08B2E007EAEDE /* Profile */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -333,6 +350,7 @@
 			children = (
 				2365853623D72C3B0045A07B /* FriendCell.swift */,
 				23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */,
+				2397AF2523E0A544007EAEDE /* PhotoViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -355,6 +373,41 @@
 				23A335AD23DEB88900270FED /* AndroidNavigationBar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2397AF1423E08B2E007EAEDE /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				2397AF1723E08B65007EAEDE /* account-outline.png */,
+				2397AF1923E08BBF007EAEDE /* briefcase-outline.png */,
+				2397AF1C23E08C47007EAEDE /* information-outline.png */,
+				2397AF1B23E08C47007EAEDE /* signal-variant.png */,
+				2397AF2123E09D1C007EAEDE /* card-search-outline.png */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		2397AF1523E08B36007EAEDE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				2364B7CD23D6DE6F00419A5B /* cross_icon.png */,
+				2383B19D23DB3B61007D7D76 /* error_image.png */,
+				2383B19C23DB3B61007D7D76 /* error.png */,
+				2383B24123DB6B6A007D7D76 /* online.png */,
+				23A335AB23DEB62E00270FED /* back.png */,
+				23A335AF23DEBF9A00270FED /* logout.png */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		2397AF1623E08B3B007EAEDE /* Gif */ = {
+			isa = PBXGroup;
+			children = (
+				2383B23F23DB6AB1007D7D76 /* golovakrug.gif */,
+				23EDF65523DC4F6F00D7BEAB /* osmotr.gif */,
+				23EDF65623DC4F6F00D7BEAB /* prigi.gif */,
+			);
+			path = Gif;
 			sourceTree = "<group>";
 		};
 		23A2A32423D5B5830060E76D = {
@@ -445,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				2336E83623DE022D00502286 /* FriendCell.xib */,
+				2397AF2623E0A544007EAEDE /* PhotoViewCell.xib */,
 				23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */,
 			);
 			path = Xibs;
@@ -649,11 +703,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				23A335C223DF388000270FED /* DAOSearchBar.bundle in Resources */,
+				2397AF1823E08B65007EAEDE /* account-outline.png in Resources */,
 				23A2A3A123D604820060E76D /* Lato-Heavy.ttf in Resources */,
 				23EDF65723DC4F6F00D7BEAB /* osmotr.gif in Resources */,
 				23A2A3AC23D604820060E76D /* Lato-ThinItalic.ttf in Resources */,
 				23A2A3A423D604820060E76D /* Lato-Light.ttf in Resources */,
 				2383B24023DB6AB2007D7D76 /* golovakrug.gif in Resources */,
+				2397AF2823E0A544007EAEDE /* PhotoViewCell.xib in Resources */,
 				23A2A39B23D604810060E76D /* Lato-Black.ttf in Resources */,
 				23A2A39D23D604810060E76D /* Lato-Bold.ttf in Resources */,
 				23A335B023DEBF9A00270FED /* logout.png in Resources */,
@@ -661,6 +717,7 @@
 				23EDF65823DC4F6F00D7BEAB /* prigi.gif in Resources */,
 				23A2A3A723D604820060E76D /* Lato-MediumItalic.ttf in Resources */,
 				2383B19F23DB3B61007D7D76 /* error_image.png in Resources */,
+				2397AF2223E09D1C007EAEDE /* card-search-outline.png in Resources */,
 				23A2A3AA23D604820060E76D /* Lato-SemiboldItalic.ttf in Resources */,
 				23A2A39C23D604810060E76D /* Lato-BlackItalic.ttf in Resources */,
 				2364B7CE23D6DE6F00419A5B /* cross_icon.png in Resources */,
@@ -676,9 +733,12 @@
 				23A2A39F23D604810060E76D /* Lato-Hairline.ttf in Resources */,
 				23A2A3A323D604820060E76D /* Lato-Italic.ttf in Resources */,
 				23A2A33823D5B5840060E76D /* Main.storyboard in Resources */,
+				2397AF1E23E08C47007EAEDE /* information-outline.png in Resources */,
+				2397AF1A23E08BBF007EAEDE /* briefcase-outline.png in Resources */,
 				2383B19E23DB3B61007D7D76 /* error.png in Resources */,
 				23A2A3AB23D604820060E76D /* Lato-Thin.ttf in Resources */,
 				23A335AC23DEB62E00270FED /* back.png in Resources */,
+				2397AF1D23E08C47007EAEDE /* signal-variant.png in Resources */,
 				23A2A3A523D604820060E76D /* Lato-LightItalic.ttf in Resources */,
 				2365852523D6E9710045A07B /* NewsViewController.xib in Resources */,
 				23A2A3A823D604820060E76D /* Lato-Regular.ttf in Resources */,
@@ -711,6 +771,8 @@
 				2383B19A23DB384B007D7D76 /* BaseViewController.swift in Sources */,
 				23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */,
 				23C2C42623D88446008A3C6F /* DateExtension.swift in Sources */,
+				2397AF2A23E0A628007EAEDE /* Photo.swift in Sources */,
+				2397AF2723E0A544007EAEDE /* PhotoViewCell.swift in Sources */,
 				23FACC2423DC7D5B0021E569 /* Country.swift in Sources */,
 				23A2A3AE23D607270060E76D /* NotificationName.swift in Sources */,
 				23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */,
@@ -732,6 +794,7 @@
 				23A2A3D123D61EE90060E76D /* BottomPopupDismissInteractionController.swift in Sources */,
 				2383B23923DB5529007D7D76 /* ErrorView.swift in Sources */,
 				23FE15F223D8A71C00A19990 /* ProfileRouter.swift in Sources */,
+				2397AF2C23E0ACD0007EAEDE /* Sizes.swift in Sources */,
 				23A335C623DF388800270FED /* DAOBundle.swift in Sources */,
 				2365854B23D735DC0045A07B /* FriendsPresenter.swift in Sources */,
 				239E0E5C23DC295700047395 /* UIImage.swift in Sources */,
@@ -744,6 +807,7 @@
 				23FE15F523D8A71C00A19990 /* ProfileInteractor.swift in Sources */,
 				23FACC2823DCA6FE0021E569 /* UIColor.swift in Sources */,
 				2365853423D705DE0045A07B /* ViewExtension.swift in Sources */,
+				2397AF2023E0952C007EAEDE /* Counters.swift in Sources */,
 				23A2A36323D5DA930060E76D /* VKDelegate.swift in Sources */,
 				23A2A36823D5E07F0060E76D /* ApiV1.swift in Sources */,
 				239E0E5E23DC2B0C00047395 /* LoadingView.swift in Sources */,

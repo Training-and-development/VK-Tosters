@@ -17,6 +17,8 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var mainTable: UITableView!
     
+    let defaults = UserDefaults.standard
+    
     var profile: JSON = JSON()
     
     let subBar = AndroidNavigationBar(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 56)))
@@ -24,10 +26,6 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         avatarImageView.setRounded()
-        avatarImageView.kf.setImage(with: URL(string: "http://vk.com/images/deactivated_kis.png"))
-        if !isLogged {
-            ApiV1.authorize()
-        }
         setupImageTarget()
         setupNavigationController()
         setupObservers()
@@ -36,6 +34,9 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationController()
+        if !defaults.string(forKey: "userId")!.contains("none") {
+            ApiV1.authorize()
+        }
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
@@ -114,10 +115,10 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func singleTapping(recognizer: UIGestureRecognizer) {
-        guard currentSessionState == .authorized else {
-            ApiV1.authorize()
-            return
-        }
-        self.showPopup(headerText: "Выход из аккаунта", descriptionText: "Вы действительно хотите выйти?", confrimText: nil, declineText: "Выйти")
+        guard !defaults.string(forKey: "userId")!.contains("none") else { return }
+        guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController else { return }
+        profileViewController.modalPresentationStyle = .custom
+        ProfileViewController.userId = defaults.string(forKey: "userId")!
+        present(profileViewController, animated: true, completion: nil)
     }
 }

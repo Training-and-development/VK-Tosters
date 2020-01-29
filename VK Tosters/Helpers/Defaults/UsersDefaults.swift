@@ -9,5 +9,5 @@
 import Foundation
 
 class UsersDefaults: SwiftyDefaults {
-    dynamic var myProfile: Profile = Profile()
+    dynamic var info: [String : String]? = nil
 }

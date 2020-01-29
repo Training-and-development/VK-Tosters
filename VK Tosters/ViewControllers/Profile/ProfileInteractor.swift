@@ -16,32 +16,71 @@ import Realm
 import RealmSwift
 
 class ProfileInteractor: ProfileInteractorProtocol {
-
     weak var presenter: ProfilePresenterProtocol?
-    var user: [JSON] = []
+    var responseJSON: JSON = []
+    var user: JSON = JSON()
+    var userModel: User!
+    var photos: [JSON] = []
+    var photoModels: [Photo] = []
     
     func start(userId: String) {
+        getUser(userId: userId)
+        getPhotos(ownerId: userId)
+    }
+    
+    func getUser(userId: String) {
         VK.API.Users.get([.userId: userId, .fields: ApiUsersFields.getUsersField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
-                self.user = JSON(response).arrayValue
-                self.handleDataLoad(user: self.user)
-                DispatchQueue.main.async {
-                    let mapItems = self.user.map { User(jsonFullUser: $0) }
-                    self.presenter?.onRequestSend(isLoaded: true)
-                    self.presenter?.onDataLoad(user: mapItems[0], hasError: false, JSON: response)
-                }
+                self.user = JSON(response)[0]
+                self.handleDataLoad(user: self.user, completion: true)
         }
         .onError { error in
-            DispatchQueue.main.async {
-                self.presenter?.onRequestSend(isLoaded: true)
-                self.presenter?.onDataLoad(user: nil, hasError: true, JSON: nil)
-            }
+            self.handleDataLoad(user: self.user, completion: false)
         }
         .send()
     }
     
-    func handleDataLoad(user: [JSON]) {
-        
+    func handleDataLoad(user: JSON, completion: Bool) {
+        userModel = User(jsonProfileUser: user)
+        DispatchQueue.main.async {
+            self.presenter?.onRequestSend(isLoaded: true)
+            switch completion {
+            case true:
+                self.presenter?.onDataLoad(user: self.userModel, hasError: false)
+            case false:
+                self.presenter?.onDataLoad(user: nil, hasError: true)
+            }
+        }
+    }
+    
+    func getPhotos(ownerId: String, albumId: String = "profile") {
+        VK.API.Photos.get([.ownerId: ownerId, .albumId: albumId, .rev: "1", .count: "6", .photoSizes: "1"])
+            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
+            .onSuccess { response in
+                self.responseJSON = JSON(response)
+                self.handlePhotoLoad(photos: self.responseJSON[ApiFriendsResponse.items].arrayValue, completion: true)
+        }
+        .onError { error in
+            self.handlePhotoLoad(photos: self.photos, completion: false)
+        }
+    .send()
+    }
+    
+    func handlePhotoLoad(photos: [JSON], completion: Bool) {
+        self.photos = photos
+        photoModels = photos.map { Photo(json: $0) }
+        DispatchQueue.main.async {
+            switch completion {
+            case true:
+                self.presenter?.onPhotoLoad(hasError: true)
+            case false:
+                self.presenter?.onPhotoLoad(hasError: false)
+            }
+        }
+    }
+    
+    func getPhotos() -> [Photo] {
+        return photoModels
     }
 }

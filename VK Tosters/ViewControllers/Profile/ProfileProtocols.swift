@@ -18,22 +18,29 @@ protocol ProfileWireframeProtocol: class {
 //MARK: Presenter -
 protocol ProfilePresenterProtocol: class {
     func start(userId: String)
-    func onDataLoad(user: User?, hasError: Bool, JSON: Data?)
+    func onDataLoad(user: User?, hasError: Bool)
     func onRequestSend(isLoaded: Bool)
     func onEvent(message: String, _ style: ToastStyle)
+    func onPhotoLoad(hasError: Bool)
+    func getPhoto(indexPath: IndexPath) -> Photo
+    func getPhotosCount() -> Int
 }
 
 //MARK: Interactor -
 protocol ProfileInteractorProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
+    var photos: [JSON] { get }
     func start(userId: String)
+    func getPhotos(ownerId: String, albumId: String)
+    func getPhotos() -> [Photo]
 }
 
 //MARK: View -
 protocol ProfileViewProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
     static var userId: String { get }
-    func setData(model: User, JSON: Data)
+    func setData(model: User)
+    func reloadCollection()
     func showErrorView()
     func hideErrorView()
     func showLoadingView()

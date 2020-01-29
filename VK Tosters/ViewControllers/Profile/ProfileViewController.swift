@@ -19,14 +19,28 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var friendButton: UIButton!
+    @IBOutlet weak var editProfileButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shortNameLabel: UILabel!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var toolbarView: UIView!
+    /// ---- Info ----
+    @IBOutlet weak var accountIcon: UIImageView!
+    @IBOutlet weak var carrierIcon: UIImageView!
+    @IBOutlet weak var followersIcon: UIImageView!
+    @IBOutlet weak var infoIcon: UIImageView!
+    @IBOutlet weak var accountLabel: UILabel!
+    @IBOutlet weak var carrierLabel: UILabel!
+    @IBOutlet weak var followersLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var divider2: UIView!
+    /// ---- Collection photos ----
+    @IBOutlet weak var mainCollection: UICollectionView!
     
     var presenter: ProfilePresenterProtocol?
+    let defaults = UserDefaults.standard
     
     let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
     let loadingView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
@@ -41,9 +55,11 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
         presenter?.start(userId: ProfileViewController.userId)
+        setupDismissTarget()
         setup()
         setupError()
         setupPreloader()
+        self.automaticallyAdjustsScrollViewInsets = false
     }
     
     override func showErrorView() {
@@ -82,19 +98,90 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         return isLightImage ? .darkContent : .lightContent
     }
     
-    func setData(model: User, JSON: Data) {
+    func setupDismissTarget() {
+        closeButton.isUserInteractionEnabled = true
+        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
+        singleTap.numberOfTapsRequired = 1
+        closeButton.addGestureRecognizer(singleTap)
+    }
+    
+    func setData(model: User) {
         namesLabel.text = model.name
-        avatarImageView.kf.setImage(with: URL(string: model.photoOriginal))
-        statusLabel.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+        avatarImageView.kf.setImage(with: URL(string: model.photo100))
+        switch model.online {
+        case 0:
+            statusLabel.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+        case 1:
+            statusLabel.text = "Онлайн"
+        default: break
+        }
         shortNameLabel.text = model.screenName
+        accountLabel.text = "\(model.counters.friends) \(getStringByDeclension(number: model.counters.friends, arrayWords: ProfileLocalization.freindsString)) · \(model.counters.onlineFriends) онлайн"
+        followersLabel.text = "\(model.counters.followers) \(getStringByDeclension(number: model.counters.followers, arrayWords: ProfileLocalization.followersString))"
+        carrierLabel.text = "\(model.counters.pages) \(getStringByDeclension(number: model.counters.pages, arrayWords: ProfileLocalization.pagesString))"
+        infoLabel.text = "Подробная информация"
     }
     
     func setup() {
+        mainCollection.delegate = self
+        mainCollection.dataSource = self
+        mainCollection.register(UINib(nibName: "PhotoViewCell", bundle: nil), forCellWithReuseIdentifier: "photoViewCell")
         namesLabel.font = UIFont(name: "Lato-Bold", size: 20)
         namesLabel.textColor = .toasterBlack
         avatarImageView.setRounded()
         statusLabel.font = UIFont(name: "Lato-Regular", size: 15)
         statusLabel.textColor = .toasterMetal
+        closeButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        closeButton.tintColor = .toasterBlue
+        shortNameLabel.font = UIFont(name: "Lato-Heavy", size: 22)
+        shortNameLabel.textColor = .toasterBlack
+        dividerView.autoSetDimension(.height, toSize: 0.5)
+        dividerView.backgroundColor = .toasterMetal
+        divider2.autoSetDimension(.height, toSize: 0.5)
+        divider2.backgroundColor = .toasterMetal
+        
+        messageButton.isHidden = true
+        friendButton.isHidden = true
+        editProfileButton.isHidden = true
+        
+        setupInfo()
+        if ProfileViewController.userId == defaults.string(forKey: "userId") {
+            setupCurrentUser()
+        } else { setupAnotherUser() }
+    }
+    
+    func setupInfo() {
+        accountLabel.font = UIFont(name: "Lato-Semibold", size: 15)
+        carrierLabel.font = UIFont(name: "Lato-Semibold", size: 15)
+        followersLabel.font = UIFont(name: "Lato-Semibold", size: 15)
+        infoLabel.font = UIFont(name: "Lato-Semibold", size: 15)
+        accountLabel.textColor = .toasterMetal
+        carrierLabel.textColor = .toasterMetal
+        followersLabel.textColor = .toasterMetal
+        infoLabel.textColor = .toasterBlue
+        /// ---
+        accountIcon.image = UIImage(named: "account-outline")?.withRenderingMode(.alwaysTemplate)
+        accountIcon.tintColor = .toasterMetal
+        carrierIcon.image = UIImage(named: "card-search-outline")?.withRenderingMode(.alwaysTemplate)
+        carrierIcon.tintColor = .toasterMetal
+        followersIcon.image = UIImage(named: "signal-variant")?.withRenderingMode(.alwaysTemplate)
+        followersIcon.tintColor = .toasterMetal
+        infoIcon.image = UIImage(named: "information-outline")?.withRenderingMode(.alwaysTemplate)
+        infoIcon.tintColor = .toasterBlue
+    }
+    
+    func setupCurrentUser() {
+        editProfileButton.isHidden = false
+        editProfileButton.backgroundColor = .toasterSmoke
+        editProfileButton.titleLabel?.font = UIFont(name: "Lato-Semibold", size: 16)
+        editProfileButton.setTitleColor(.toasterBlue, for: .normal)
+        editProfileButton.setTitle("Редактировать профиль", for: .normal)
+        editProfileButton.setCorners(radius: 8)
+    }
+    
+    func setupAnotherUser() {
+        messageButton.isHidden = false
+        friendButton.isHidden = false
         messageButton.backgroundColor = .toasterBlue
         friendButton.backgroundColor = .toasterSmoke
         messageButton.titleLabel?.font = UIFont(name: "Lato-Semibold", size: 16)
@@ -105,12 +192,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         friendButton.setTitle("У вас в друзьях", for: .normal)
         messageButton.setCorners(radius: 8)
         friendButton.setCorners(radius: 8)
-        closeButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        closeButton.tintColor = .toasterBlue
-        shortNameLabel.font = UIFont(name: "Lato-Heavy", size: 22)
-        shortNameLabel.textColor = .toasterBlack
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
     }
     
     func setupError() {
@@ -128,12 +209,44 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         contentView.isHidden = true
     }
     
+    func reloadCollection() {
+        mainCollection.reloadData()
+    }
+    
     func getToast(message: String, _ style: ToastStyle) {
         self.showToast(message: message, style)
     }
     
-    @IBAction func dismiss(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+    @objc func dismiss(_ sender: Any) {
+        if ProfileViewController.userId != defaults.string(forKey: "userId") {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
-
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard presenter != nil else { return 1 }
+        return presenter!.getPhotosCount()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard presenter != nil else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoViewCell", for: indexPath) as! PhotoViewCell
+        cell.setup(model: presenter!.getPhoto(indexPath: indexPath))
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.frame.size.width / 3 - 20, height: self.view.frame.size.width / 3 - 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.view.frame.size.width / 3 - 20, height: self.view.frame.size.width / 3 - 20)
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+}

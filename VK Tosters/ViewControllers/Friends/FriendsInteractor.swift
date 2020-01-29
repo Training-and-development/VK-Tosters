@@ -18,7 +18,6 @@ class FriendsInteractor: FriendsInteractorProtocol {
     var friendsJSON: [JSON] = []
     var responseJSON: JSON = []
     
-    
     func start() {
         getFriends()
     }

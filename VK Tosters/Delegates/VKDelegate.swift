@@ -13,12 +13,14 @@ import UIKit
 
 class VKDelegate: SwiftyVKDelegate {
     let scopes: Scopes = [.offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
+    let defaults = UserDefaults.standard
 
     init() {
         VK.setUp(appId: VKConstants.shared.appId, delegate: self)
         let state = VK.sessions.default.state
         guard state == .authorized else { return }
         startLongPollServer()
+        setOnline()
     }
     
     func startLongPollServer() {
@@ -35,6 +37,10 @@ class VKDelegate: SwiftyVKDelegate {
         }
     }
     
+    func setOnline() {
+        VK.API.Account.setOnline([.voip: "0"]).send()
+    }
+    
     func vkNeedsScopes(for sessionId: String) -> Scopes {
       return scopes
     }
@@ -49,27 +55,32 @@ class VKDelegate: SwiftyVKDelegate {
                 .filter({$0.isKeyWindow}).first
             if let rootController = keyWindow?.rootViewController {
                 rootController.view.backgroundColor = .clear
-                rootController.modalPresentationStyle = .fullScreen
+                rootController.modalPresentationStyle = .overCurrentContext
                 rootController.present(viewController, animated: true, completion: nil)
             }
         } else {
             if let rootController = UIApplication.shared.keyWindow?.rootViewController {
                 rootController.view.backgroundColor = .clear
-                rootController.modalPresentationStyle = .fullScreen
+                rootController.modalPresentationStyle = .overCurrentContext
                 rootController.present(viewController, animated: true, completion: nil)
             }
         }
     }
 
     func vkTokenCreated(for sessionId: String, info: [String : String]) {
-      print("token created in session \(sessionId) with info \(info)")
+        print("token created in session \(sessionId) with info \(info)")
+        let myUserId = info["user_id"]
+        defaults.set(myUserId, forKey: "userId")
     }
-
+    
     func vkTokenUpdated(for sessionId: String, info: [String : String]) {
-      print("token created in session \(sessionId) with info \(info)")
+        print("token created in session \(sessionId) with info \(info)")
+        let myUserId = info["user_id"]
+        defaults.set(myUserId, forKey: "userId")
     }
-
+    
     func vkTokenRemoved(for sessionId: String) {
-      print("token removed in session \(sessionId)")
+        print("token removed in session \(sessionId)")
+        defaults.set("none", forKey: "userId")
     }
 }

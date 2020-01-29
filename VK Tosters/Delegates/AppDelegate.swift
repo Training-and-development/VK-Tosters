@@ -13,8 +13,10 @@ import PureLayout
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var vkDelegateReference: SwiftyVKDelegate?
+    let defaults = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        defaults.set("none", forKey: "userId")
         vkDelegateReference = VKDelegate()
         SwiftReachability.sharedManager?.startMonitoring()
         UINavigationBar.appearance().tintColor = .toasterBlue

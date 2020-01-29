@@ -27,10 +27,10 @@ class ProfilePresenter: ProfilePresenterProtocol {
         interactor?.start(userId: userId)
     }
     
-    func onDataLoad(user: User?, hasError: Bool, JSON: Data?) {
+    func onDataLoad(user: User?, hasError: Bool) {
         if !hasError {
             view?.hideErrorView()
-            view?.setData(model: user!, JSON: JSON!)
+            view?.setData(model: user!)
         } else {
             view?.showErrorView()
         }
@@ -46,5 +46,19 @@ class ProfilePresenter: ProfilePresenterProtocol {
     
     func onEvent(message: String, _ style: ToastStyle) {
         view?.getToast(message: message, style)
+    }
+    
+    func onPhotoLoad(hasError: Bool) {
+        view?.reloadCollection()
+    }
+    
+    func getPhoto(indexPath: IndexPath) -> Photo {
+        let photosJSON = interactor?.photos[indexPath.row]
+        let photo = photosJSON.map { Photo(json: $0) }
+        return photo!
+    }
+    
+    func getPhotosCount() -> Int {
+        return interactor!.photos.count
     }
 }

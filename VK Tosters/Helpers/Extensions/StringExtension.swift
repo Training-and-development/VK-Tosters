@@ -49,3 +49,25 @@ extension String{
         return self
     }
 }
+extension BaseViewController {
+    func getStringByDeclension(number: Int, arrayWords: [String?]) -> String {
+        var resultString: String = ""
+        let number = number % 100
+        if number >= 11 && number <= 19 {
+            resultString = arrayWords[2]!
+        } else {
+            let i: Int = number % 10
+            switch i {
+            case 1: resultString = arrayWords[0]!
+                break
+            case 2, 3, 4:
+                resultString = arrayWords[1]!
+                break
+            default:
+                resultString = arrayWords[2]!
+                break
+            }
+        }
+        return resultString
+    }
+}

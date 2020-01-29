@@ -50,3 +50,8 @@ struct CommonLocalization {
     static let connected: String = "Подключено"
     static let notConnected: String = "Нет подключения к интернету"
 }
+struct ProfileLocalization {
+    static let freindsString: [String?] = ["друг", "друга", "друзей", nil]
+    static let followersString: [String?] = ["подписчик", "подписчика", "подписчиков", nil]
+    static let pagesString: [String?] = ["интересная страница", "интересных страницы", "интересных страницы", nil]
+}

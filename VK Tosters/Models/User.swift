@@ -23,6 +23,7 @@ class User: NSObject {
     var photoOriginal: String = ""
     var photo100: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
+    var counters: Counters = Counters()
     
     convenience init(jsonFullUser: JSON) {
         self.init()
@@ -47,5 +48,19 @@ class User: NSObject {
         self.name = "\(jsonRelationUser["first_name"].stringValue) \(jsonRelationUser["last_name"].stringValue)"
         self.isClosed = jsonRelationUser["is_closed"].boolValue
         self.canAccessClosed = jsonRelationUser["can_access_closed"].boolValue
+    }
+    
+    convenience init(jsonProfileUser: JSON) {
+        self.init()
+        self.id = jsonProfileUser["id"].stringValue
+        self.name = "\(jsonProfileUser["first_name"].stringValue) \(jsonProfileUser["last_name"].stringValue)"
+        self.screenName = jsonProfileUser["screen_name"].stringValue
+        self.canAccessClosed = jsonProfileUser["can_access_closed"].boolValue
+        self.deactivated = jsonProfileUser["deactivated"].stringValue
+        self.counters = Counters(json: jsonProfileUser["counters"])
+        self.photoOriginal = jsonProfileUser["photo_max_orig"].stringValue
+        self.photo100 = jsonProfileUser["photo_100"].stringValue
+        self.sex = jsonProfileUser["sex"].intValue
+        self.online = jsonProfileUser["online"].intValue
     }
 }

@@ -29,7 +29,7 @@ extension SwiftyDefaults {
         if let keyPath = keyPath {
             if let value = change?[.newKey] , !(value is NSNull) {
                 userDefaults.set(value is NSCoding ? NSKeyedArchiver.archivedData(withRootObject: value) : value, forKey: storeKey(keyPath))
-            }else{
+            }else {
                 userDefaults.removeObject(forKey: storeKey(keyPath))
             }
             
@@ -57,9 +57,9 @@ extension SwiftyDefaults {
     fileprivate func setupProperty() {
         propertyNames.forEach {
             let value = userDefaults.object(forKey: storeKey($0))
-            if let data = value as? Data, let decodedValue = NSKeyedUnarchiver.unarchiveObject(with: data){
+            if let data = value as? Data, let decodedValue = NSKeyedUnarchiver.unarchiveObject(with: data) {
                 setValue(decodedValue, forKey: $0)
-            }else{
+            } else {
                 setValue(value, forKey: $0)
             }
         }
