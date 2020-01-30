@@ -13,7 +13,7 @@ import SwiftyJSON
 
 //MARK: Wireframe -
 protocol ProfileWireframeProtocol: class {
-    
+    func openFriends(userId: String)
 }
 //MARK: Presenter -
 protocol ProfilePresenterProtocol: class {
@@ -22,17 +22,23 @@ protocol ProfilePresenterProtocol: class {
     func onRequestSend(isLoaded: Bool)
     func onEvent(message: String, _ style: ToastStyle)
     func onPhotoLoad(hasError: Bool)
+    func onTapFriends(userId: String)
+    func onTapToFriendAction(userId: String, friendStatus: Int)
     func getPhoto(indexPath: IndexPath) -> Photo
     func getPhotosCount() -> Int
+    func getUser() -> User
 }
 
 //MARK: Interactor -
 protocol ProfileInteractorProtocol: class {
     var presenter: ProfilePresenterProtocol?  { get set }
     var photos: [JSON] { get }
+    var user: JSON { get }
+    var userModel: User! { get }
     func start(userId: String)
     func getPhotos(ownerId: String, albumId: String)
-    func getPhotos() -> [Photo]
+    func addToFriends(userId: String)
+    func deleteToFriends(userId: String)
 }
 
 //MARK: View -

@@ -17,22 +17,24 @@ protocol FriendsWireframeProtocol: class {
 }
 //MARK: Presenter -
 protocol FriendsPresenterProtocol: class {
-    func start()
+    func start(userId: String)
     func onEvent(message: String, _ style: ToastStyle)
     func onLoadData(hasError: Bool)
-    func onTapUser(indexPath: IndexPath)
-    func onSwipeUser(indexPath: IndexPath, completion: DeleteFriendCompletionHandler?)
+    func onTapUser(indexPath: IndexPath, isOnlineSegment: Bool)
+    func onSwipeUser(indexPath: IndexPath, isOnlineSegment: Bool, completion: DeleteFriendCompletionHandler?)
     func onRequestSend(isLoaded: Bool)
     func getFriend(indexPath: IndexPath) -> Friend
+    func getFriends() -> [Friend]
+    func getOnlineFriends() -> [Friend]
     func getFriendsCount() -> Int
-    func getName(nameCase: NameCases, indexPath: IndexPath)
+    func getName(nameCase: NameCases, indexPath: IndexPath, isOnlineSegment: Bool)
 }
 
 //MARK: Interactor -
 protocol FriendsInteractorProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
     var friendsJSON: [JSON] { get }
-    func start()
+    func start(userId: String)
     func getNameWithCase(nameCase: NameCases, userId: String, completionHandler: GetUserNameHandler?)
     func deleteFriendsRequest(userId: String, completionHandler: DeleteFriendHandler?)
 }

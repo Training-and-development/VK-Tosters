@@ -52,6 +52,25 @@ class ProfilePresenter: ProfilePresenterProtocol {
         view?.reloadCollection()
     }
     
+    func onTapFriends(userId: String) {
+        router.openFriends(userId: userId)
+    }
+    
+    func onTapToFriendAction(userId: String, friendStatus: Int) {
+        switch friendStatus {
+        case 0:
+            interactor?.addToFriends(userId: userId)
+        case 1:
+            interactor?.deleteToFriends(userId: userId)
+        case 2:
+            interactor?.addToFriends(userId: userId)
+        case 3:
+            interactor?.deleteToFriends(userId: userId)
+        default:
+            break
+        }
+    }
+    
     func getPhoto(indexPath: IndexPath) -> Photo {
         let photosJSON = interactor?.photos[indexPath.row]
         let photo = photosJSON.map { Photo(json: $0) }
@@ -60,5 +79,11 @@ class ProfilePresenter: ProfilePresenterProtocol {
     
     func getPhotosCount() -> Int {
         return interactor!.photos.count
+    }
+    
+    func getUser() -> User {
+        let userJSON = interactor?.user
+        let user = User(jsonProfileUser: userJSON!)
+        return user
     }
 }

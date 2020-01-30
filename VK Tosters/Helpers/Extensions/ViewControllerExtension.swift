@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 import SwiftyVK
 
-public protocol UIViewControllerProtocol: class {
-    func confrimAction(controller: UIViewController?)
-}
 extension BaseViewController {
     open func showPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?) {
         guard let popupViewController = storyboard?.instantiateViewController(withIdentifier: "popupViewController") as? PopupViewController else { return }

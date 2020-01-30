@@ -13,8 +13,9 @@ import UIKit
 class ProfileRouter: ProfileWireframeProtocol {
     
     weak var viewController: ProfileViewProtocol?
+    var baseViewController: UIViewController?
     
-    class func createModule(viewController: ProfileViewProtocol) {
+    class func createModule(viewController: ProfileViewController) {
         let interactor = ProfileInteractor()
         let router = ProfileRouter()
         let presenter = ProfilePresenter(interface: viewController, interactor: interactor, router: router)
@@ -23,5 +24,13 @@ class ProfileRouter: ProfileWireframeProtocol {
         interactor.presenter = presenter
         router.viewController = viewController
         presenter.interactor = interactor
+        router.baseViewController = viewController
+    }
+    
+    func openFriends(userId: String) {
+        let friendsViewController = FriendsViewController(nibName: "FriendsViewController", bundle: nil)
+        friendsViewController.modalPresentationStyle = .fullScreen
+        FriendsViewController.userId = userId
+        self.baseViewController?.performSegue(withIdentifier: "toFriendsFromProfile", sender: self)
     }
 }

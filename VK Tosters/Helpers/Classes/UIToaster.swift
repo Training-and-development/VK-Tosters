@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import PureLayout
 
 public enum ToastStyle: Int {
     case `default` = 1, success, warning, error
@@ -18,11 +19,13 @@ open class UIToaster: UIView {
     open var toast = UIToasterView(frame: .zero, style: .default, message: "", font: UIFont(name: "Lato-Regular", size: 13.5)!)
     
     open func show(view: UIView, style: ToastStyle, message: String, duration: TimeInterval) {
-        self.toast = UIToasterView(frame: CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight), style: style, message: message, font: UIFont(name: "Lato-Regular", size: 13)!)
+        self.toast = UIToasterView(frame: CGRect(x: 12, y: -self.toastHeight, width: view.frame.width - 24, height: self.toastHeight), style: style, message: message, font: UIFont(name: "Lato-Regular", size: 13)!)
         view.addSubview(self.toast)
+        toast.alpha = 0
         
         UIView.animate(withDuration: 0.25, animations: {
-            self.toast.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: self.toastHeight)
+            self.toast.alpha = 1
+            self.toast.frame = CGRect(x: 12, y: self.statusBarHeight, width: view.frame.width - 24, height: self.toastHeight)
             view.layoutIfNeeded()
         }, completion: { finished in
             guard duration > 0 else { return }
@@ -35,7 +38,8 @@ open class UIToaster: UIView {
     open func hide(view: UIView, toast: UIToasterView, isNeedAnimation: Bool) {
         if isNeedAnimation {
             UIView.animate(withDuration: 0.25, animations: {
-                toast.frame = CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight)
+                toast.alpha = 0
+                toast.frame = CGRect(x: 12, y: -self.toastHeight, width: view.frame.width - 24, height: -self.toastHeight)
                 view.layoutIfNeeded()
             }, completion: { finished in
                 if finished {
@@ -44,10 +48,16 @@ open class UIToaster: UIView {
             })
         } else {
             UIView.performWithoutAnimation {
-                toast.frame = CGRect(x: 0, y: -self.toastHeight, width: view.frame.width, height: self.toastHeight)
+                toast.alpha = 0
+                toast.frame = CGRect(x: 12, y: -self.toastHeight, width: view.frame.width - 24, height: -self.toastHeight)
                 toast.removeFromSuperview()
             }
         }
+    }
+    
+    var statusBarHeight: CGFloat {
+        let height = UIApplication.shared.statusBarFrame.height + 8
+        return height
     }
 }
 
@@ -77,6 +87,7 @@ open class UIToasterView: UIView {
         label.textAlignment = .center
         
         self.addSubview(label)
+        self.setCorners(radius: 5)
     }
     
     public required init?(coder aDecoder: NSCoder) {

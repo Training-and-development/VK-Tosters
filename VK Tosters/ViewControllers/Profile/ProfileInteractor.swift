@@ -80,7 +80,11 @@ class ProfileInteractor: ProfileInteractorProtocol {
         }
     }
     
-    func getPhotos() -> [Photo] {
-        return photoModels
+    func addToFriends(userId: String) {
+        VK.API.Friends.add([.userId: userId]).send()
+    }
+    
+    func deleteToFriends(userId: String) {
+        VK.API.Friends.delete([.userId: userId]).send()
     }
 }

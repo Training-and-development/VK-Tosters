@@ -35,9 +35,12 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var carrierLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var friendsView: UIView!
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var divider2: UIView!
     /// ---- Collection photos ----
     @IBOutlet weak var mainCollection: UICollectionView!
+    @IBOutlet weak var collectionHeight: NSLayoutConstraint!
     
     var presenter: ProfilePresenterProtocol?
     let defaults = UserDefaults.standard
@@ -48,18 +51,30 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     static var userId: String = ""
     static var nameWithGenCase: String = ""
     
-    var isLightImage: Bool = true
-    var isHelpLight: Bool = true
+    var model: User?
+    
+    lazy var refreshControl = UIRefreshControl()
+    
+    deinit {
+        print("Profile VC deinited")
+    }
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
-        presenter?.start(userId: ProfileViewController.userId)
+        SavedVariables.userIdsFriendsViewController.append(ProfileViewController.userId)
+        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
         setupDismissTarget()
-        setup()
         setupError()
         setupPreloader()
-        self.automaticallyAdjustsScrollViewInsets = false
+        mainCollection.isPrefetchingEnabled = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParent {
+            SavedVariables.userIdsFriendsViewController.removeLast()
+        }
     }
     
     override func showErrorView() {
@@ -80,8 +95,11 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     }
     
     override func hideLoadingView() {
-        loadingView.isHidden = true
-        contentView.isHidden = false
+        setup()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.loadingView.isHidden = true
+            self.contentView.isHidden = false
+        })
     }
     
     override func onReachabilityStatusChanged(_ notification: Notification) {
@@ -94,18 +112,20 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return isLightImage ? .darkContent : .lightContent
-    }
-    
     func setupDismissTarget() {
         closeButton.isUserInteractionEnabled = true
-        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
+        let dismissTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
+        dismissTap.numberOfTapsRequired = 1
+        closeButton.addGestureRecognizer(dismissTap)
+        
+        friendsView.isUserInteractionEnabled = true
+        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapFriends(_:)))
         singleTap.numberOfTapsRequired = 1
-        closeButton.addGestureRecognizer(singleTap)
+        friendsView.addGestureRecognizer(singleTap)
     }
     
     func setData(model: User) {
+        self.model = model
         namesLabel.text = model.name
         avatarImageView.kf.setImage(with: URL(string: model.photo100))
         switch model.online {
@@ -120,9 +140,15 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         followersLabel.text = "\(model.counters.followers) \(getStringByDeclension(number: model.counters.followers, arrayWords: ProfileLocalization.followersString))"
         carrierLabel.text = "\(model.counters.pages) \(getStringByDeclension(number: model.counters.pages, arrayWords: ProfileLocalization.pagesString))"
         infoLabel.text = "Подробная информация"
+        refreshControl.endRefreshing()
     }
     
     func setup() {
+        scrollView.delegate = self
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        scrollView.refreshControl = refreshControl
+        mainCollection.isScrollEnabled = false
+        collectionHeight.constant = (self.view.frame.size.width - 32) / 3 * 2
         mainCollection.delegate = self
         mainCollection.dataSource = self
         mainCollection.register(UINib(nibName: "PhotoViewCell", bundle: nil), forCellWithReuseIdentifier: "photoViewCell")
@@ -147,7 +173,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         setupInfo()
         if ProfileViewController.userId == defaults.string(forKey: "userId") {
             setupCurrentUser()
-        } else { setupAnotherUser() }
+        } else { setupAnotherUser(friendStatus: (presenter?.getUser())!.friendStatus) }
     }
     
     func setupInfo() {
@@ -179,7 +205,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         editProfileButton.setCorners(radius: 8)
     }
     
-    func setupAnotherUser() {
+    func setupAnotherUser(friendStatus: Int) {
         messageButton.isHidden = false
         friendButton.isHidden = false
         messageButton.backgroundColor = .toasterBlue
@@ -189,9 +215,31 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         messageButton.setTitleColor(.toasterSmoke, for: .normal)
         friendButton.setTitleColor(.toasterBlue, for: .normal)
         messageButton.setTitle("Сообщение", for: .normal)
-        friendButton.setTitle("У вас в друзьях", for: .normal)
         messageButton.setCorners(radius: 8)
         friendButton.setCorners(radius: 8)
+        setTitleFromButton(friendStatus: friendStatus)
+    }
+    
+    func setTitleFromButton(friendStatus: Int) {
+        switch friendStatus {
+        case 0:
+            friendButton.setTitle("Добавить в друзья", for: .normal)
+            friendButton.backgroundColor = .toasterBlue
+            friendButton.setTitleColor(.toasterSmoke, for: .normal)
+        case 1:
+            friendButton.setTitle("Вы отправили заявку", for: .normal)
+            friendButton.backgroundColor = .toasterSmoke
+            friendButton.setTitleColor(.toasterBlue, for: .normal)
+        case 2:
+            friendButton.setTitle("Действия с заявкой", for: .normal)
+            friendButton.backgroundColor = .toasterSmoke
+            friendButton.setTitleColor(.toasterBlue, for: .normal)
+        case 3:
+            friendButton.setTitle("У вас в друзьях", for: .normal)
+            friendButton.backgroundColor = .toasterSmoke
+            friendButton.setTitleColor(.toasterBlue, for: .normal)
+        default: break
+        }
     }
     
     func setupError() {
@@ -218,11 +266,24 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     }
     
     @objc func dismiss(_ sender: Any) {
-        if ProfileViewController.userId != defaults.string(forKey: "userId") {
-            self.navigationController?.popViewController(animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func onTapFriends(_ sender: Any) {
+        presenter?.onTapFriends(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+    }
+    
+    @objc func refresh(_ sender: Any) {
+        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+    }
+    
+    @IBAction func friendsButtonAction(_ sender: Any) {
+        presenter?.onTapToFriendAction(userId: SavedVariables.userIdsFriendsViewController.last ?? "", friendStatus: presenter!.getUser().friendStatus)
+        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+    }
+    
+    @IBAction func sendMessageAction(_ sender: Any) {
+        self.getToast(message: "Отправка сообщений временно недоступна", .warning)
     }
 }
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -234,19 +295,30 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard presenter != nil else { return UICollectionViewCell() }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoViewCell", for: indexPath) as! PhotoViewCell
-        cell.setup(model: presenter!.getPhoto(indexPath: indexPath))
+        cell.contentView.frame = cell.bounds
+        cell.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        cell.setup(model: presenter!.getPhoto(indexPath: indexPath), view: self.view)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.size.width / 3 - 20, height: self.view.frame.size.width / 3 - 20)
+        return CGSize(width: (self.view.frame.size.width - 32) / 3 - 4, height: (self.view.frame.size.width - 32) / 3 - 4)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.size.width / 3 - 20, height: self.view.frame.size.width / 3 - 20)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+}
+extension ProfileViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
     }
 }

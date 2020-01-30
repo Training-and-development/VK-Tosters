@@ -18,12 +18,12 @@ class FriendsInteractor: FriendsInteractorProtocol {
     var friendsJSON: [JSON] = []
     var responseJSON: JSON = []
     
-    func start() {
-        getFriends()
+    func start(userId: String) {
+        getFriends(userId: userId)
     }
     
-    func getFriends() {
-        VK.API.Friends.get([.fields: ApiFriendsFields.getFriendsField])
+    func getFriends(userId: String) {
+        VK.API.Friends.get([.userId: userId, .fields: ApiFriendsFields.getFriendsField])
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.responseJSON = JSON(response)
@@ -67,7 +67,7 @@ class FriendsInteractor: FriendsInteractorProtocol {
             .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
             .onSuccess{ _ in
                 DispatchQueue.main.async {
-                    self.getFriends()
+                    self.getFriends(userId: userId)
                     self.presenter?.onEvent(message: "Вы удалили \(UserNameWithCase.name)", .success)
                     completionHandler!(true)
                 }

@@ -30,8 +30,8 @@ class FriendsPresenter: FriendsPresenterProtocol {
         print("FriendsPresenter deinited")
     }
 
-    func start() {
-        interactor?.start()
+    func start(userId: String = "") {
+        interactor?.start(userId: userId)
     }
     
     func onEvent(message: String, _ style: ToastStyle) {
@@ -47,14 +47,18 @@ class FriendsPresenter: FriendsPresenterProtocol {
         }
     }
     
-    func onTapUser(indexPath: IndexPath) {
+    func onTapUser(indexPath: IndexPath, isOnlineSegment: Bool) {
         DispatchQueue.main.async {
-            self.router.openProfile(userId: self.getFriend(indexPath: indexPath).id)
+            if isOnlineSegment {
+                self.router.openProfile(userId: self.getOnlineFriends()[indexPath.row].id)
+            } else {
+                self.router.openProfile(userId: self.getFriend(indexPath: indexPath).id)
+            }
         }
     }
     
-    func onSwipeUser(indexPath: IndexPath, completion: DeleteFriendCompletionHandler?) {
-        interactor?.deleteFriendsRequest(userId: getFriend(indexPath: indexPath).id, completionHandler: { success in
+    func onSwipeUser(indexPath: IndexPath, isOnlineSegment: Bool, completion: DeleteFriendCompletionHandler?) {
+        interactor?.deleteFriendsRequest(userId: isOnlineSegment ? self.getOnlineFriends()[indexPath.row].id : getFriend(indexPath: indexPath).id, completionHandler: { success in
             if success {
                 self.view?.getToast(message: "Вы удалили \(UserNameWithCase.name)", .success)
                 completion?(true)
@@ -80,12 +84,22 @@ class FriendsPresenter: FriendsPresenterProtocol {
         return friend!
     }
     
+    func getOnlineFriends() -> [Friend] {
+        let onlinesUsers = getFriends().filter { $0.online == 1 }
+        return onlinesUsers
+    }
+    
+    func getFriends() -> [Friend] {
+        let friend: [Friend] = (interactor?.friendsJSON.map { Friend(json: $0) })!
+        return friend
+    }
+    
     func getFriendsCount() -> Int {
         return interactor!.friendsJSON.count
     }
     
-    func getName(nameCase: NameCases, indexPath: IndexPath) {
-        interactor?.getNameWithCase(nameCase: nameCase, userId: getFriend(indexPath: indexPath).id, completionHandler: { success in
+    func getName(nameCase: NameCases, indexPath: IndexPath, isOnlineSegment: Bool) {
+        interactor?.getNameWithCase(nameCase: nameCase, userId: isOnlineSegment ? self.getOnlineFriends()[indexPath.row].id : getFriend(indexPath: indexPath).id, completionHandler: { success in
             if success {
                 DispatchQueue.main.async {
                     self.view?.openPopup(headerText: "Удаление из друзей", descriptionText: "Действительно удалить \(UserNameWithCase.name) из друзей?", confrimText: "Да", declineText: "Отмена")

@@ -13,11 +13,7 @@ import UIKit
 class FriendsRouter: FriendsWireframeProtocol {
     
     weak var viewController: FriendsViewProtocol?
-    var baseViewController: UIViewController? {
-        didSet {
-            print("")
-        }
-    }
+    var baseViewController: UIViewController?
     
     static func createModule(viewController: FriendsViewController) {
         let interactor = FriendsInteractor()

@@ -12,6 +12,8 @@ import UIKit
 
 struct SavedVariables {
     static var indexPath: IndexPath?
+    static var userIdsFriendsViewController: [String] = []
+    static var userIdsProfileViewController: [String] = []
 }
 
 class FriendsViewController: BaseViewController, FriendsViewProtocol {
@@ -20,24 +22,21 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     @IBOutlet weak var friendsTitleLabel: UILabel!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var toolbarView: UIView!
+    @IBOutlet weak var dividerSegmentView: UIView!
+    @IBOutlet weak var dividerSegmentHeight: NSLayoutConstraint!
+    @IBOutlet weak var segmentBlur: UIView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
     let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
     let preloaderView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
 
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        let preloader = UIView()
-        let loadControl = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: refreshControl.bounds.height)))
-        refreshControl.addSubview(preloader)
-        preloader.frame = CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: refreshControl.bounds.height))
-        preloader.addSubview(loadControl)
-        loadControl.autoAlignAxis(toSuperviewAxis: .vertical)
-        loadControl.autoAlignAxis(toSuperviewAxis: .horizontal)
-        return refreshControl
-    }()
+    lazy var refreshControl = UIRefreshControl()
     
     fileprivate var statusBarShouldLight = true
+    static var userId: String = ""
+    
+    static var usersIds: [String] = []
 
 	var presenter: FriendsPresenterProtocol?
     let searchController = UISearchController(searchResultsController: nil)
@@ -45,7 +44,8 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
 	override func viewDidLoad() {
         super.viewDidLoad()
         FriendsRouter.createModule(viewController: self)
-        presenter?.start()
+        SavedVariables.userIdsFriendsViewController.append(FriendsViewController.userId)
+        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
         refreshControl = UIRefreshControl()
         setupTable()
         setupSearch()
@@ -62,6 +62,9 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         searchController.hidesNavigationBarDuringPresentation = false
+        if isMovingFromParent {
+            SavedVariables.userIdsFriendsViewController.removeLast()
+        }
     }
     
     override func setupNavigationController() {
@@ -74,14 +77,17 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         backViewButton.tintColor = .toasterBlue
         dividerView.autoSetDimension(.height, toSize: 0.5)
         dividerView.backgroundColor = .toasterMetal
+        dividerSegmentHeight.constant = 0.5
+        dividerSegmentView.backgroundColor = .toasterDarkGray
+        segmentBlur.blurry()
     }
     
     func setupTable() {
         mainTable.delegate = self
         mainTable.dataSource = self
+        mainTable.contentInset = UIEdgeInsets(top: 52, left: 0, bottom: 55, right: 0)
         mainTable.backgroundColor = .toasterWhite
-        refreshControl.backgroundColor = .clear
-        refreshControl.tintColor = .clear
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         mainTable.addSubview(refreshControl)
         mainTable.keyboardDismissMode = .onDrag
         mainTable.allowsMultipleSelectionDuringEditing = true
@@ -163,9 +169,12 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     }
     
     func reloadTableView() {
-        UIView.transition(with: mainTable, duration: 0.3, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: mainTable, duration: 0.0, options: .transitionCrossDissolve, animations: {
             self.mainTable.reloadData()
-        }, completion: nil)
+        }, completion: { _ in
+            guard self.refreshControl.isRefreshing else { return }
+            self.refreshControl.endRefreshing()
+        })
     }
     
     func openPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?) {
@@ -173,18 +182,36 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     }
     
     override func confrimAction() {
-        self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, completion: nil)
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, isOnlineSegment: false, completion: nil)
+        case 1:
+            self.presenter?.onSwipeUser(indexPath: SavedVariables.indexPath!, isOnlineSegment: true, completion: nil)
+        default:
+            return
+        }
     }
     
     @IBAction func back(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func refresh(_ sender: Any) {
+        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+    }
+    
+    @IBAction func indexChanged(_ sender: Any) {
+        switch segmentControl.selectedSegmentIndex {
+        default:
+            reloadTableView()
+        }
+    }
+    
     override func onReachabilityStatusChanged(_ notification: Notification) {
         if let info = notification.userInfo {
             if info[ReachabilityNotificationStatusItem] != nil {
                 if (SwiftReachability.sharedManager?.isReachable())! {
-                    self.presenter?.start()
+                    self.presenter?.start(userId: FriendsViewController.usersIds.last ?? "")
                 }
             }
         }
@@ -193,38 +220,70 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard presenter != nil else { return 1 }
-        footerView.text = "Количество друзей: \(presenter!.getFriendsCount())"
-        return presenter!.getFriendsCount()
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            footerView.text = "Количество друзей: \(presenter!.getFriendsCount())"
+            return presenter!.getFriendsCount()
+        case 1:
+            footerView.text = "Количество онлайн: \(presenter!.getOnlineFriends().count)"
+            return presenter!.getOnlineFriends().count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard presenter != nil else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendCell
-        cell.setup(model: presenter!.getFriend(indexPath: indexPath))
-        return cell
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            cell.setup(model: presenter!.getFriend(indexPath: indexPath))
+            return cell
+        case 1:
+            cell.setup(model: presenter!.getOnlineFriends()[indexPath.row])
+            return cell
+        default:
+            return UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard presenter != nil else { return }
-        presenter?.onTapUser(indexPath: indexPath)
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            presenter?.onTapUser(indexPath: indexPath, isOnlineSegment: false)
+        case 1:
+            presenter?.onTapUser(indexPath: indexPath, isOnlineSegment: true)
+        default:
+            return
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard FriendsViewController.userId == UserDefaults.standard.string(forKey: "userId") else { return false }
         return true
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let editAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Сообщение", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
+        guard FriendsViewController.userId == UserDefaults.standard.string(forKey: "userId") else { return nil }
+        let editAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Сообщение", handler: { (action: UITableViewRowAction ,indexPath: IndexPath ) in
             self.getToast(message: "Отправка сообщений временно недоступна", .warning)
         })
         editAction.backgroundColor = .toasterBlue
         
-        let deleteAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Удалить", handler:{ (action:UITableViewRowAction ,indexPath: IndexPath ) in
-            self.presenter?.getName(nameCase: .acc, indexPath: indexPath)
+        let deleteAction: UITableViewRowAction = UITableViewRowAction(style: .destructive, title: "Удалить", handler: { (action: UITableViewRowAction ,indexPath: IndexPath ) in
             SavedVariables.indexPath = indexPath
+            switch self.segmentControl.selectedSegmentIndex{
+            case 0:
+                self.presenter?.getName(nameCase: .acc, indexPath: indexPath, isOnlineSegment: false)
+            case 1:
+                self.presenter?.getName(nameCase: .acc, indexPath: indexPath, isOnlineSegment: true)
+            default:
+                return
+            }
         })
         deleteAction.backgroundColor = .toasterRed
         return [deleteAction, editAction]

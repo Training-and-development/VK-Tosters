@@ -24,6 +24,7 @@ class User: NSObject {
     var photo100: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
     var counters: Counters = Counters()
+    var friendStatus: Int = 0
     
     convenience init(jsonFullUser: JSON) {
         self.init()
@@ -40,6 +41,7 @@ class User: NSObject {
         self.platform = jsonFullUser["last_seen"]["platform"].intValue
         self.photoOriginal = jsonFullUser["photo_max_orig"].stringValue
         self.photo100 = jsonFullUser["photo_100"].stringValue
+        self.friendStatus = jsonFullUser["friend_status"].intValue
     }
     
     convenience init(jsonRelationUser: JSON) {
@@ -60,7 +62,10 @@ class User: NSObject {
         self.counters = Counters(json: jsonProfileUser["counters"])
         self.photoOriginal = jsonProfileUser["photo_max_orig"].stringValue
         self.photo100 = jsonProfileUser["photo_100"].stringValue
+        self.time = jsonProfileUser["last_seen"]["time"].intValue
+        self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
         self.sex = jsonProfileUser["sex"].intValue
         self.online = jsonProfileUser["online"].intValue
+        self.friendStatus = jsonProfileUser["friend_status"].intValue
     }
 }

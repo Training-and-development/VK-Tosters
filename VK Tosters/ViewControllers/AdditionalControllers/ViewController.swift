@@ -111,14 +111,15 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
 
     @IBAction func onFriendsAction(_ sender: Any) {
+        FriendsViewController.userId = defaults.string(forKey: "userId")!
         self.performSegue(withIdentifier: "friendsSegue", sender: self)
     }
     
     @objc func singleTapping(recognizer: UIGestureRecognizer) {
         guard !defaults.string(forKey: "userId")!.contains("none") else { return }
-        guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController else { return }
-        profileViewController.modalPresentationStyle = .custom
+        let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
+        profileViewController.modalPresentationStyle = .fullScreen
         ProfileViewController.userId = defaults.string(forKey: "userId")!
-        present(profileViewController, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "toProfileFromStart", sender: self)
     }
 }

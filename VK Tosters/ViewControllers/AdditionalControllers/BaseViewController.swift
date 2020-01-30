@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyVK
+import PureLayout
 
 open class BaseViewController: UIViewController {
     var toaster = UIToaster()
