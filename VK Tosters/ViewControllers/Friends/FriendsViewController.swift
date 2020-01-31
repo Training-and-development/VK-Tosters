@@ -59,10 +59,11 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         searchController.hidesNavigationBarDuringPresentation = false
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         searchController.hidesNavigationBarDuringPresentation = false
         if isMovingFromParent {
+            guard SavedVariables.userIdsFriendsViewController != [] else { return }
             SavedVariables.userIdsFriendsViewController.removeLast()
         }
     }
@@ -172,6 +173,8 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         UIView.transition(with: mainTable, duration: 0.0, options: .transitionCrossDissolve, animations: {
             self.mainTable.reloadData()
         }, completion: { _ in
+            self.segmentControl.setTitle("\(self.presenter!.getFriendsCount()) \(self.getStringByDeclension(number: self.presenter!.getFriendsCount(), arrayWords: ProfileLocalization.freindsString))", forSegmentAt: 0)
+            self.segmentControl.setTitle("\(self.presenter!.getOnlineFriends().count) онлайн", forSegmentAt: 1)
             guard self.refreshControl.isRefreshing else { return }
             self.refreshControl.endRefreshing()
         })
@@ -222,10 +225,10 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         guard presenter != nil else { return 1 }
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            footerView.text = "Количество друзей: \(presenter!.getFriendsCount())"
+            footerView.text = "\(presenter!.getFriendsCount()) \(getStringByDeclension(number: presenter!.getFriendsCount(), arrayWords: ProfileLocalization.freindsString))"
             return presenter!.getFriendsCount()
         case 1:
-            footerView.text = "Количество онлайн: \(presenter!.getOnlineFriends().count)"
+            footerView.text = "\(presenter!.getOnlineFriends().count) онлайн"
             return presenter!.getOnlineFriends().count
         default:
             return 0

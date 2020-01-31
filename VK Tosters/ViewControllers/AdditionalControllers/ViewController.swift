@@ -16,6 +16,7 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var mainTable: UITableView!
+    @IBOutlet weak var menuTabItem: UITabBarItem!
     
     let defaults = UserDefaults.standard
     
@@ -34,9 +35,6 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationController()
-        if !defaults.string(forKey: "userId")!.contains("none") {
-            ApiV1.authorize()
-        }
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 

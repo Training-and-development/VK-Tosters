@@ -54,6 +54,8 @@ open class BaseViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    open func setup() { }
+    
     open func setupNavigationController() {
         self.navigationController?.navigationBar.frame = CGRect(origin: .zero, size: .zero)
     }

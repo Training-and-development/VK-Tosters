@@ -62,18 +62,19 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
 	override func viewDidLoad() {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
-        SavedVariables.userIdsFriendsViewController.append(ProfileViewController.userId)
-        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+        SavedVariables.userIdsProfileViewController.append(ProfileViewController.userId)
+        presenter?.start(userId: SavedVariables.userIdsProfileViewController.last ?? "")
         setupDismissTarget()
         setupError()
         setupPreloader()
         mainCollection.isPrefetchingEnabled = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         if isMovingFromParent {
-            SavedVariables.userIdsFriendsViewController.removeLast()
+            guard SavedVariables.userIdsProfileViewController != [] else { return }
+            SavedVariables.userIdsProfileViewController.removeLast()
         }
     }
     
@@ -143,7 +144,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         refreshControl.endRefreshing()
     }
     
-    func setup() {
+    override func setup() {
         scrollView.delegate = self
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         scrollView.refreshControl = refreshControl
@@ -270,16 +271,16 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     }
     
     @objc func onTapFriends(_ sender: Any) {
-        presenter?.onTapFriends(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+        presenter?.onTapFriends(userId: SavedVariables.userIdsProfileViewController.last ?? "")
     }
     
     @objc func refresh(_ sender: Any) {
-        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+        presenter?.start(userId: SavedVariables.userIdsProfileViewController.last ?? "")
     }
     
     @IBAction func friendsButtonAction(_ sender: Any) {
-        presenter?.onTapToFriendAction(userId: SavedVariables.userIdsFriendsViewController.last ?? "", friendStatus: presenter!.getUser().friendStatus)
-        presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
+        presenter?.onTapToFriendAction(userId: SavedVariables.userIdsProfileViewController.last ?? "", friendStatus: presenter!.getUser().friendStatus)
+        presenter?.start(userId: SavedVariables.userIdsProfileViewController.last ?? "")
     }
     
     @IBAction func sendMessageAction(_ sender: Any) {

@@ -12,7 +12,7 @@ import SwiftyJSON
 import UIKit
 
 class VKDelegate: SwiftyVKDelegate {
-    let scopes: Scopes = [.offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
+    let scopes: Scopes = [.messages, .offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
     let defaults = UserDefaults.standard
 
     init() {

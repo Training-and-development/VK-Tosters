@@ -42,6 +42,22 @@
 		2383B24223DB6B6A007D7D76 /* online.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B24123DB6B6A007D7D76 /* online.png */; };
 		2384E7CF23E1DE3E00F218D5 /* delete-empty-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2384E7CD23E1DE3E00F218D5 /* delete-empty-outline.png */; };
 		2384E7D023E1DE3E00F218D5 /* message-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2384E7CE23E1DE3E00F218D5 /* message-outline.png */; };
+		2397947D23E2D37A005E548E /* newspaper-variant-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397947A23E2D379005E548E /* newspaper-variant-outline.png */; };
+		2397947E23E2D37A005E548E /* bell-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397947B23E2D37A005E548E /* bell-outline.png */; };
+		2397947F23E2D37A005E548E /* magnify.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397947C23E2D37A005E548E /* magnify.png */; };
+		2397948123E2D4F1005E548E /* TabBarStartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948023E2D4F1005E548E /* TabBarStartController.swift */; };
+		2397948923E2E5E3005E548E /* MessagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948323E2E5E3005E548E /* MessagesPresenter.swift */; };
+		2397948A23E2E5E3005E548E /* MessagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948423E2E5E3005E548E /* MessagesRouter.swift */; };
+		2397948B23E2E5E3005E548E /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948523E2E5E3005E548E /* MessagesViewController.swift */; };
+		2397948C23E2E5E3005E548E /* MessagesProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948623E2E5E3005E548E /* MessagesProtocols.swift */; };
+		2397948D23E2E5E3005E548E /* MessagesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397948723E2E5E3005E548E /* MessagesInteractor.swift */; };
+		2397949223E2E96A005E548E /* LastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949123E2E96A005E548E /* LastMessage.swift */; };
+		2397949423E2E97C005E548E /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949323E2E97C005E548E /* Conversation.swift */; };
+		2397949A23E2EA0A005E548E /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949923E2EA0A005E548E /* Peer.swift */; };
+		2397949C23E2EA9F005E548E /* Writing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949B23E2EA9F005E548E /* Writing.swift */; };
+		2397949E23E2EB0A005E548E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949D23E2EB0A005E548E /* ChatSettings.swift */; };
+		239794A123E2F174005E548E /* MessageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397949F23E2F174005E548E /* MessageViewCell.swift */; };
+		239794A223E2F174005E548E /* MessageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 239794A023E2F174005E548E /* MessageViewCell.xib */; };
 		2397AF1823E08B65007EAEDE /* account-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1723E08B65007EAEDE /* account-outline.png */; };
 		2397AF1A23E08BBF007EAEDE /* briefcase-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1923E08BBF007EAEDE /* briefcase-outline.png */; };
 		2397AF1D23E08C47007EAEDE /* signal-variant.png in Resources */ = {isa = PBXBuildFile; fileRef = 2397AF1B23E08C47007EAEDE /* signal-variant.png */; };
@@ -186,6 +202,22 @@
 		2383B24123DB6B6A007D7D76 /* online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = online.png; sourceTree = "<group>"; };
 		2384E7CD23E1DE3E00F218D5 /* delete-empty-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-empty-outline.png"; sourceTree = "<group>"; };
 		2384E7CE23E1DE3E00F218D5 /* message-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "message-outline.png"; sourceTree = "<group>"; };
+		2397947A23E2D379005E548E /* newspaper-variant-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newspaper-variant-outline.png"; sourceTree = "<group>"; };
+		2397947B23E2D37A005E548E /* bell-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bell-outline.png"; sourceTree = "<group>"; };
+		2397947C23E2D37A005E548E /* magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magnify.png; sourceTree = "<group>"; };
+		2397948023E2D4F1005E548E /* TabBarStartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStartController.swift; sourceTree = "<group>"; };
+		2397948323E2E5E3005E548E /* MessagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesPresenter.swift; sourceTree = "<group>"; };
+		2397948423E2E5E3005E548E /* MessagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesRouter.swift; sourceTree = "<group>"; };
+		2397948523E2E5E3005E548E /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		2397948623E2E5E3005E548E /* MessagesProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesProtocols.swift; sourceTree = "<group>"; };
+		2397948723E2E5E3005E548E /* MessagesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesInteractor.swift; sourceTree = "<group>"; };
+		2397949123E2E96A005E548E /* LastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMessage.swift; sourceTree = "<group>"; };
+		2397949323E2E97C005E548E /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		2397949923E2EA0A005E548E /* Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		2397949B23E2EA9F005E548E /* Writing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writing.swift; sourceTree = "<group>"; };
+		2397949D23E2EB0A005E548E /* ChatSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
+		2397949F23E2F174005E548E /* MessageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewCell.swift; sourceTree = "<group>"; };
+		239794A023E2F174005E548E /* MessageViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageViewCell.xib; sourceTree = "<group>"; };
 		2397AF1723E08B65007EAEDE /* account-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "account-outline.png"; sourceTree = "<group>"; };
 		2397AF1923E08BBF007EAEDE /* briefcase-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "briefcase-outline.png"; sourceTree = "<group>"; };
 		2397AF1B23E08C47007EAEDE /* signal-variant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signal-variant.png"; sourceTree = "<group>"; };
@@ -298,14 +330,10 @@
 		2324A10223D75C94004BC5EB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				23FACC2123DC7D5B0021E569 /* City.swift */,
-				2397AF1F23E0952C007EAEDE /* Counters.swift */,
-				23FACC2223DC7D5B0021E569 /* Country.swift */,
-				2324A10323D75CAF004BC5EB /* Friend.swift */,
-				23FACC1A23DC6E4E0021E569 /* Profile.swift */,
-				23FE15F723D8BD8F00A19990 /* User.swift */,
-				2397AF2923E0A628007EAEDE /* Photo.swift */,
-				2397AF2B23E0ACD0007EAEDE /* Sizes.swift */,
+				2397949823E2E9AF005E548E /* Friends */,
+				2397949523E2E982005E548E /* Messages */,
+				2397949623E2E995005E548E /* Profile */,
+				2397949723E2E9A1005E548E /* User */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -351,6 +379,7 @@
 				2365853623D72C3B0045A07B /* FriendCell.swift */,
 				23C2C42123D87F4C008A3C6F /* PlaceholderCell.swift */,
 				2397AF2523E0A544007EAEDE /* PhotoViewCell.swift */,
+				2397949F23E2F174005E548E /* MessageViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -359,8 +388,8 @@
 			isa = PBXGroup;
 			children = (
 				2383B19823DB384B007D7D76 /* BaseViewController.swift */,
-				23A2A3B323D61DCE0060E76D /* PopupViewController.swift */,
 				23A2A36B23D5E2500060E76D /* ViewController.swift */,
+				2397948023E2D4F1005E548E /* TabBarStartController.swift */,
 			);
 			path = AdditionalControllers;
 			sourceTree = "<group>";
@@ -373,6 +402,67 @@
 				23A335AD23DEB88900270FED /* AndroidNavigationBar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2397947923E2C9DC005E548E /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				23A2A3B323D61DCE0060E76D /* PopupViewController.swift */,
+			);
+			path = Popups;
+			sourceTree = "<group>";
+		};
+		2397948223E2E590005E548E /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				2397948323E2E5E3005E548E /* MessagesPresenter.swift */,
+				2397948423E2E5E3005E548E /* MessagesRouter.swift */,
+				2397948523E2E5E3005E548E /* MessagesViewController.swift */,
+				2397948623E2E5E3005E548E /* MessagesProtocols.swift */,
+				2397948723E2E5E3005E548E /* MessagesInteractor.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		2397949523E2E982005E548E /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				2397949D23E2EB0A005E548E /* ChatSettings.swift */,
+				2397949323E2E97C005E548E /* Conversation.swift */,
+				2397949123E2E96A005E548E /* LastMessage.swift */,
+				2397949923E2EA0A005E548E /* Peer.swift */,
+				2397949B23E2EA9F005E548E /* Writing.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		2397949623E2E995005E548E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				23FACC1A23DC6E4E0021E569 /* Profile.swift */,
+				2397AF2923E0A628007EAEDE /* Photo.swift */,
+				2397AF2B23E0ACD0007EAEDE /* Sizes.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		2397949723E2E9A1005E548E /* User */ = {
+			isa = PBXGroup;
+			children = (
+				23FACC2123DC7D5B0021E569 /* City.swift */,
+				2397AF1F23E0952C007EAEDE /* Counters.swift */,
+				23FACC2223DC7D5B0021E569 /* Country.swift */,
+				23FE15F723D8BD8F00A19990 /* User.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		2397949823E2E9AF005E548E /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				2324A10323D75CAF004BC5EB /* Friend.swift */,
+			);
+			path = Friends;
 			sourceTree = "<group>";
 		};
 		2397AF1423E08B2E007EAEDE /* Profile */ = {
@@ -399,6 +489,9 @@
 				23A335AF23DEBF9A00270FED /* logout.png */,
 				2384E7CD23E1DE3E00F218D5 /* delete-empty-outline.png */,
 				2384E7CE23E1DE3E00F218D5 /* message-outline.png */,
+				2397947B23E2D37A005E548E /* bell-outline.png */,
+				2397947C23E2D37A005E548E /* magnify.png */,
+				2397947A23E2D379005E548E /* newspaper-variant-outline.png */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -443,6 +536,7 @@
 				23A2A37523D5FF460060E76D /* UIElements */,
 				2383B23723DB5515007D7D76 /* Views */,
 				23A2A35D23D5CFF10060E76D /* ViewControllers */,
+				2397947923E2C9DC005E548E /* Popups */,
 				23A2A36023D5D00C0060E76D /* Xibs */,
 				23A2A33923D5B5850060E76D /* Assets.xcassets */,
 				23A2A33E23D5B5850060E76D /* Info.plist */,
@@ -472,6 +566,7 @@
 				2383B1A023DB3EC7007D7D76 /* AdditionalControllers */,
 				23A2A3B623D61EB20060E76D /* BottomPopupController */,
 				2365852623D6E9B00045A07B /* Friends */,
+				2397948223E2E590005E548E /* Messages */,
 				2364B7CF23D6E92100419A5B /* News */,
 				23FE15EA23D8A6EC00A19990 /* Profile */,
 			);
@@ -501,6 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				2336E83623DE022D00502286 /* FriendCell.xib */,
+				239794A023E2F174005E548E /* MessageViewCell.xib */,
 				2397AF2623E0A544007EAEDE /* PhotoViewCell.xib */,
 				23C2C42223D87F4C008A3C6F /* PlaceholderCell.xib */,
 			);
@@ -715,10 +811,12 @@
 				23A2A33D23D5B5850060E76D /* LaunchScreen.storyboard in Resources */,
 				23EDF65823DC4F6F00D7BEAB /* prigi.gif in Resources */,
 				23A2A3A723D604820060E76D /* Lato-MediumItalic.ttf in Resources */,
+				2397947F23E2D37A005E548E /* magnify.png in Resources */,
 				2383B19F23DB3B61007D7D76 /* error_image.png in Resources */,
 				2384E7D023E1DE3E00F218D5 /* message-outline.png in Resources */,
 				2397AF2223E09D1C007EAEDE /* card-search-outline.png in Resources */,
 				23A2A3AA23D604820060E76D /* Lato-SemiboldItalic.ttf in Resources */,
+				2397947D23E2D37A005E548E /* newspaper-variant-outline.png in Resources */,
 				2384E7CF23E1DE3E00F218D5 /* delete-empty-outline.png in Resources */,
 				23A2A39C23D604810060E76D /* Lato-BlackItalic.ttf in Resources */,
 				2364B7CE23D6DE6F00419A5B /* cross_icon.png in Resources */,
@@ -740,9 +838,11 @@
 				2383B19E23DB3B61007D7D76 /* error.png in Resources */,
 				23A2A3AB23D604820060E76D /* Lato-Thin.ttf in Resources */,
 				23A335AC23DEB62E00270FED /* back.png in Resources */,
+				2397947E23E2D37A005E548E /* bell-outline.png in Resources */,
 				2397AF1D23E08C47007EAEDE /* signal-variant.png in Resources */,
 				23A2A3A523D604820060E76D /* Lato-LightItalic.ttf in Resources */,
 				2365852523D6E9710045A07B /* NewsViewController.xib in Resources */,
+				239794A223E2F174005E548E /* MessageViewCell.xib in Resources */,
 				23A2A3A823D604820060E76D /* Lato-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -763,6 +863,7 @@
 				23B5BE3623D848C00038870C /* ApiFields.swift in Sources */,
 				2365853823D72C3B0045A07B /* FriendCell.swift in Sources */,
 				23A2A37123D5F5F80060E76D /* Colors.swift in Sources */,
+				2397949C23E2EA9F005E548E /* Writing.swift in Sources */,
 				23A2A3CF23D61EE90060E76D /* BottomPopupPresentAnimator.swift in Sources */,
 				23A2A3B423D61DCE0060E76D /* PopupViewController.swift in Sources */,
 				23A2A3D423D61EE90060E76D /* BottomPopupNavigationController.swift in Sources */,
@@ -773,29 +874,38 @@
 				23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */,
 				23C2C42623D88446008A3C6F /* DateExtension.swift in Sources */,
 				2397AF2A23E0A628007EAEDE /* Photo.swift in Sources */,
+				2397948A23E2E5E3005E548E /* MessagesRouter.swift in Sources */,
+				2397949E23E2EB0A005E548E /* ChatSettings.swift in Sources */,
 				2397AF2723E0A544007EAEDE /* PhotoViewCell.swift in Sources */,
+				2397949223E2E96A005E548E /* LastMessage.swift in Sources */,
 				23FACC2423DC7D5B0021E569 /* Country.swift in Sources */,
 				23A2A3AE23D607270060E76D /* NotificationName.swift in Sources */,
 				23C2C42323D87F4C008A3C6F /* PlaceholderCell.swift in Sources */,
 				23A335AE23DEB88900270FED /* AndroidNavigationBar.swift in Sources */,
 				2365852023D6E9710045A07B /* NewsPresenter.swift in Sources */,
+				2397948C23E2E5E3005E548E /* MessagesProtocols.swift in Sources */,
 				23BB969423DA014A006A659C /* CompletionHandlers.swift in Sources */,
 				23A2A36F23D5EFB30060E76D /* UIToaster.swift in Sources */,
 				2365852123D6E9710045A07B /* NewsRouter.swift in Sources */,
 				23A2A36523D5DB270060E76D /* VKConstants.swift in Sources */,
 				2365854223D731B40045A07B /* FriendsViewController.swift in Sources */,
+				2397949423E2E97C005E548E /* Conversation.swift in Sources */,
 				23A2A37423D5FA1A0060E76D /* StringExtension.swift in Sources */,
 				23FE15F323D8A71C00A19990 /* ProfileViewController.swift in Sources */,
 				2365854D23D735DC0045A07B /* FriendsProtocols.swift in Sources */,
 				23A2A36C23D5E2500060E76D /* ViewController.swift in Sources */,
+				239794A123E2F174005E548E /* MessageViewCell.swift in Sources */,
+				2397948D23E2E5E3005E548E /* MessagesInteractor.swift in Sources */,
 				2324A10423D75CAF004BC5EB /* Friend.swift in Sources */,
 				23FACC1B23DC6E4E0021E569 /* Profile.swift in Sources */,
 				2365852323D6E9710045A07B /* NewsProtocols.swift in Sources */,
 				23EDF65A23DC516900D7BEAB /* UINavigationBarExtension.swift in Sources */,
+				2397948923E2E5E3005E548E /* MessagesPresenter.swift in Sources */,
 				23A2A3D123D61EE90060E76D /* BottomPopupDismissInteractionController.swift in Sources */,
 				2383B23923DB5529007D7D76 /* ErrorView.swift in Sources */,
 				23FE15F223D8A71C00A19990 /* ProfileRouter.swift in Sources */,
 				2397AF2C23E0ACD0007EAEDE /* Sizes.swift in Sources */,
+				2397948123E2D4F1005E548E /* TabBarStartController.swift in Sources */,
 				2365854B23D735DC0045A07B /* FriendsPresenter.swift in Sources */,
 				239E0E5C23DC295700047395 /* UIImage.swift in Sources */,
 				23FACC2623DC95890021E569 /* Error.swift in Sources */,
@@ -805,9 +915,11 @@
 				23A2A3D523D61EE90060E76D /* BottomPopupTransitionHandler.swift in Sources */,
 				23FE15F123D8A71C00A19990 /* ProfilePresenter.swift in Sources */,
 				23FE15F523D8A71C00A19990 /* ProfileInteractor.swift in Sources */,
+				2397948B23E2E5E3005E548E /* MessagesViewController.swift in Sources */,
 				23FACC2823DCA6FE0021E569 /* UIColor.swift in Sources */,
 				2365853423D705DE0045A07B /* ViewExtension.swift in Sources */,
 				2397AF2023E0952C007EAEDE /* Counters.swift in Sources */,
+				2397949A23E2EA0A005E548E /* Peer.swift in Sources */,
 				23A2A36323D5DA930060E76D /* VKDelegate.swift in Sources */,
 				23A2A36823D5E07F0060E76D /* ApiV1.swift in Sources */,
 				239E0E5E23DC2B0C00047395 /* LoadingView.swift in Sources */,

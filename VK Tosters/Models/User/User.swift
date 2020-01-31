@@ -68,4 +68,12 @@ class User: NSObject {
         self.online = jsonProfileUser["online"].intValue
         self.friendStatus = jsonProfileUser["friend_status"].intValue
     }
+    
+    convenience init(messageJSON: JSON) {
+        self.init()
+        self.id = messageJSON["id"].stringValue
+        self.name = "\(messageJSON["first_name"].stringValue) \(messageJSON["last_name"].stringValue)"
+        self.online = messageJSON["online"].intValue
+        self.photo100 = messageJSON["photo_100"].stringValue
+    }
 }
