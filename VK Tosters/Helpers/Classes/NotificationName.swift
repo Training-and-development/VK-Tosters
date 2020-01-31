@@ -8,10 +8,11 @@
 
 import Foundation
 
-class NotificationName {
-    static let shared = NotificationName()
-
-    let onLogin = Notification.Name(rawValue: "VK.Login")
-    let onLogout = Notification.Name(rawValue: "VK.Logout")
-    let onChangeSessionState = Notification.Name(rawValue: "VK.SessionChanged")
+extension Notification.Name {
+    static let onLogin = Notification.Name(rawValue: "VK.Login")
+    static let onLogout = Notification.Name(rawValue: "VK.Logout")
+    static let onChangeSessionState = Notification.Name(rawValue: "VK.Session.Changed")
+    static let onMessagesUpdate = Notification.Name(rawValue: "VK.Messages.Update")
+    static let onFriendOnline = Notification.Name(rawValue: "VK.Friends.Online")
+    static let onFriendOffline = Notification.Name(rawValue: "VK.Friends.Offline")
 }

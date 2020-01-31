@@ -17,9 +17,18 @@ class FriendsInteractor: FriendsInteractorProtocol {
     weak var presenter: FriendsPresenterProtocol?
     var friendsJSON: [JSON] = []
     var responseJSON: JSON = []
+    var userId: String = ""
     
     func start(userId: String) {
+        self.userId = userId
         getFriends(userId: userId)
+        startObservers()
+    }
+    
+    func startObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onMessagesUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onFriendOffline, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onFriendOnline, object: nil)
     }
     
     func getFriends(userId: String) {
@@ -79,5 +88,9 @@ class FriendsInteractor: FriendsInteractorProtocol {
             }
         }
         .send()
+    }
+    
+    @objc func updateUsers(_ notification: Notification) {
+        getFriends(userId: self.userId)
     }
 }

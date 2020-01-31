@@ -32,6 +32,8 @@
 		2365855A23D743380045A07B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855623D743380045A07B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2365855B23D743380045A07B /* KingfisherSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855723D743380045A07B /* KingfisherSwiftUI.framework */; };
 		2365855C23D743380045A07B /* KingfisherSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2365855723D743380045A07B /* KingfisherSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		237AA34923E427F4006B50EB /* Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237AA34823E427F4006B50EB /* Attachments.swift */; };
+		237AA34B23E4B2BE006B50EB /* ForceTouchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237AA34A23E4B2BE006B50EB /* ForceTouchGestureRecognizer.swift */; };
 		2383B19A23DB384B007D7D76 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383B19823DB384B007D7D76 /* BaseViewController.swift */; };
 		2383B19E23DB3B61007D7D76 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B19C23DB3B61007D7D76 /* error.png */; };
 		2383B19F23DB3B61007D7D76 /* error_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 2383B19D23DB3B61007D7D76 /* error_image.png */; };
@@ -193,6 +195,8 @@
 		2365854923D735DC0045A07B /* FriendsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsInteractor.swift; sourceTree = "<group>"; };
 		2365855623D743380045A07B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		2365855723D743380045A07B /* KingfisherSwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KingfisherSwiftUI.framework; path = Carthage/Build/iOS/KingfisherSwiftUI.framework; sourceTree = "<group>"; };
+		237AA34823E427F4006B50EB /* Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachments.swift; sourceTree = "<group>"; };
+		237AA34A23E4B2BE006B50EB /* ForceTouchGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceTouchGestureRecognizer.swift; sourceTree = "<group>"; };
 		2383B19823DB384B007D7D76 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		2383B19C23DB3B61007D7D76 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		2383B19D23DB3B61007D7D76 /* error_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_image.png; sourceTree = "<group>"; };
@@ -432,6 +436,7 @@
 				2397949123E2E96A005E548E /* LastMessage.swift */,
 				2397949923E2EA0A005E548E /* Peer.swift */,
 				2397949B23E2EA9F005E548E /* Writing.swift */,
+				237AA34823E427F4006B50EB /* Attachments.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -714,6 +719,7 @@
 				23FACC1323DC6B330021E569 /* SwiftyDefaults.swift */,
 				23FACC2523DC95890021E569 /* Error.swift */,
 				23A335C723DF415D00270FED /* SearchTableView.swift */,
+				237AA34A23E4B2BE006B50EB /* ForceTouchGestureRecognizer.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -873,6 +879,7 @@
 				2383B19A23DB384B007D7D76 /* BaseViewController.swift in Sources */,
 				23A2A33323D5B5840060E76D /* SceneDelegate.swift in Sources */,
 				23C2C42623D88446008A3C6F /* DateExtension.swift in Sources */,
+				237AA34B23E4B2BE006B50EB /* ForceTouchGestureRecognizer.swift in Sources */,
 				2397AF2A23E0A628007EAEDE /* Photo.swift in Sources */,
 				2397948A23E2E5E3005E548E /* MessagesRouter.swift in Sources */,
 				2397949E23E2EB0A005E548E /* ChatSettings.swift in Sources */,
@@ -892,6 +899,7 @@
 				2397949423E2E97C005E548E /* Conversation.swift in Sources */,
 				23A2A37423D5FA1A0060E76D /* StringExtension.swift in Sources */,
 				23FE15F323D8A71C00A19990 /* ProfileViewController.swift in Sources */,
+				237AA34923E427F4006B50EB /* Attachments.swift in Sources */,
 				2365854D23D735DC0045A07B /* FriendsProtocols.swift in Sources */,
 				23A2A36C23D5E2500060E76D /* ViewController.swift in Sources */,
 				239794A123E2F174005E548E /* MessageViewCell.swift in Sources */,

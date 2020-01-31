@@ -49,21 +49,22 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     let loadingView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
     
     static var userId: String = ""
+    var previewUserId: String = ""
     static var nameWithGenCase: String = ""
+    
+    var isPreview: Bool = false
     
     var model: User?
     
     lazy var refreshControl = UIRefreshControl()
-    
-    deinit {
-        print("Profile VC deinited")
-    }
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         ProfileRouter.createModule(viewController: self)
-        SavedVariables.userIdsProfileViewController.append(ProfileViewController.userId)
-        presenter?.start(userId: SavedVariables.userIdsProfileViewController.last ?? "")
+        if !isPreview {
+            SavedVariables.userIdsProfileViewController.append(ProfileViewController.userId)
+        }
+        presenter?.start(userId: !isPreview ? SavedVariables.userIdsProfileViewController.last ?? "" : previewUserId)
         setupDismissTarget()
         setupError()
         setupPreloader()

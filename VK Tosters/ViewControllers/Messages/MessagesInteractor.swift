@@ -18,22 +18,27 @@ class MessagesInteractor: MessagesInteractorProtocol {
     var usersJSON: [JSON] = []
     var myUserJSON: JSON = JSON()
     var conversationsJSON: [JSON] = []
-    var lastMessageJSON: [JSON] = []
-    static var userModel: User = User()
-    var conversationsModels: Conversation!
-    var lastMessageModels: LastMessage!
+    var unread: Int = 0
+    var updates: JSON!
     
     func start() {
-        presenter?.onEvent(message: "Загрузка сообщений...", .default)
+        startObservers()
         getConversations()
     }
     
+    func startObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onMessagesUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOffline, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOnline, object: nil)
+    }
+    
     func getConversations() {
-        VK.API.Messages.getConversations([.filter: "all", .count: "200", .extended: "1"])
+        VK.API.Messages.getConversations([.filter: "all", .count: "200", .extended: "0"])
         .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
         .onSuccess { response in
             self.responseJSON = JSON(response)
             let firstParse = self.responseJSON["items"].arrayValue
+            self.unread = self.responseJSON["unread_count"].intValue
             let conversations = firstParse.map { Conversation(JSON: $0) }
             var userIds: [String] = []
             for conversation in conversations {
@@ -54,8 +59,17 @@ class MessagesInteractor: MessagesInteractorProtocol {
         .send()
     }
     
+    @objc func updateMessages(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if let updates = userInfo["updates"] {
+                self.updates = updates as? JSON
+                getConversations()
+            }
+        }
+    }
+    
     func getUsers(userIds: String) {
-        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100"])
+        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100, online"])
             .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 let responseJSON = JSON(response)
@@ -93,6 +107,22 @@ class MessagesInteractor: MessagesInteractorProtocol {
     
     func handleResponseMyUser(response: JSON) {
         myUserJSON = response
-        print("myUserJSON", myUserJSON)
+    }
+    
+    func readMessage(peerId: String) {
+        VK.API.Messages.markAsRead([.peerId: peerId])
+            .configure(with: Config(httpMethod: .GET, language: Language(rawValue: "ru")))
+            .onSuccess { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                    self.presenter?.onLoaded()
+                    self.presenter?.onEvent(message: "Сообщение прочитано", .default)
+                    self.presenter?.onLoaded()
+                })
+            }
+        .onError { error in
+            DispatchQueue.main.async {
+                self.presenter?.onEvent(message: "\(error)", .default)
+            }
+        }.send()
     }
 }

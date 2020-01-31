@@ -28,6 +28,7 @@ protocol FriendsPresenterProtocol: class {
     func getOnlineFriends() -> [Friend]
     func getFriendsCount() -> Int
     func getName(nameCase: NameCases, indexPath: IndexPath, isOnlineSegment: Bool)
+    func getUserIdBy(indexPath row: IndexPath, isOnlineSegment: Bool) -> String
 }
 
 //MARK: Interactor -

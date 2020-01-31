@@ -61,8 +61,8 @@ open class BaseViewController: UIViewController {
     }
     
     open func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(onLogin(_:)), name: NotificationName.shared.onLogin, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onLogout(_:)), name: NotificationName.shared.onLogout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onLogin(_:)), name: .onLogin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onLogout(_:)), name: .onLogout, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onReachabilityStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(controlNetwork(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
     }
@@ -81,7 +81,7 @@ open class BaseViewController: UIViewController {
     
     @objc func onLogin(_ notification: Notification) {
         sessionState = SessionState.authorized
-        NotificationCenter.default.post(name: NotificationName.shared.onChangeSessionState, object: nil)
+        NotificationCenter.default.post(name: .onChangeSessionState, object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
             self.showToast(message: "Вы авторизованы", .success, duration: 1)
         })
@@ -89,7 +89,7 @@ open class BaseViewController: UIViewController {
     
     @objc func onLogout(_ notification: Notification) {
         sessionState = SessionState.initiated
-        NotificationCenter.default.post(name: NotificationName.shared.onChangeSessionState, object: nil)
+        NotificationCenter.default.post(name: .onChangeSessionState, object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
             self.showToast(message: "Вы вышли из аккаунта", .warning, duration: 1)
         })

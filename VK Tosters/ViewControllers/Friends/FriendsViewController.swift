@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import UIKit.UIGestureRecognizerSubclass
 
 struct SavedVariables {
     static var indexPath: IndexPath?
@@ -57,6 +58,7 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searchController.hidesNavigationBarDuringPresentation = false
+        registerForPreviewingIfAvailable()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -66,6 +68,28 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
             guard SavedVariables.userIdsFriendsViewController != [] else { return }
             SavedVariables.userIdsFriendsViewController.removeLast()
         }
+    }
+    
+    var previewingContext: UIViewControllerPreviewing?
+    
+    func unregisterForPreviewing() {
+        guard let context = previewingContext else {
+            return
+        }
+        unregisterForPreviewing(withContext: context)
+    }
+    
+    func registerForPreviewingIfAvailable() {
+        unregisterForPreviewing()
+        guard traitCollection.forceTouchCapability == .available, let sourceView = viewIfLoaded else {
+            return
+        }
+        previewingContext = registerForPreviewing(with: self, sourceView: sourceView)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        registerForPreviewingIfAvailable()
     }
     
     override func setupNavigationController() {
@@ -238,6 +262,9 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard presenter != nil else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendCell
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: cell)
+        }
         switch segmentControl.selectedSegmentIndex {
         case 0:
             cell.setup(model: presenter!.getFriend(indexPath: indexPath))
@@ -316,5 +343,42 @@ extension FriendsViewController: UISearchBarDelegate {
 extension FriendsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+extension FriendsViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let cell = previewingContext.sourceView as? UITableViewCell {
+            // get the indexPath of the cell
+            let indexPath = mainTable.indexPath(for: cell)!
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            if let profileViewController = storyboard.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController {
+                profileViewController.preferredContentSize = CGSize.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                switch self.segmentControl.selectedSegmentIndex {
+                case 0:
+                    profileViewController.isPreview = true
+                    profileViewController.previewUserId = presenter!.getUserIdBy(indexPath: indexPath, isOnlineSegment: false)
+                case 1:
+                    profileViewController.isPreview = true
+                    profileViewController.previewUserId = presenter!.getUserIdBy(indexPath: indexPath, isOnlineSegment: true)
+                default:
+                    profileViewController.isPreview = true
+                    profileViewController.previewUserId = presenter!.getUserIdBy(indexPath: indexPath, isOnlineSegment: false)
+                }
+                return profileViewController
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        if let profileViewController = storyboard.instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController {
+            profileViewController.hidesBottomBarWhenPushed = true
+            profileViewController.isPreview = false
+            show(profileViewController, sender: self)
+        }
     }
 }

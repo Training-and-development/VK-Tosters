@@ -14,7 +14,7 @@ final class ApiV1 {
     class func authorize() {
         VK.sessions.default.logIn(
             onSuccess: { info in
-                NotificationCenter.default.post(name: NotificationName.shared.onLogin, object: nil)
+                NotificationCenter.default.post(name: .onLogin, object: nil)
                 print("SwiftyVK: success authorize with", info)
             },
             onError: { error in
@@ -25,7 +25,7 @@ final class ApiV1 {
     
     class func logout() {
         VK.sessions.default.logOut()
-        NotificationCenter.default.post(name: NotificationName.shared.onLogout, object: nil)
+        NotificationCenter.default.post(name: .onLogout, object: nil)
         print("SwiftyVK: LogOut")
     }
     

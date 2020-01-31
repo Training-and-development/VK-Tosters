@@ -20,11 +20,13 @@ protocol MessagesPresenterProtocol: class {
     func start()
     func onEvent(message: String, _ style: ToastStyle)
     func onLoaded()
+    func onTapRead(index: IndexPath)
     func getConversation(indexPath: IndexPath) -> Conversation
     func getLastMessage(indexPath: IndexPath) -> LastMessage
     func getUser(indexPath: IndexPath) -> User
     func getMe() -> User
     func getMessagesCount() -> Int
+    func getUnread() -> Int
 }
 
 //MARK: Interactor -
@@ -34,11 +36,9 @@ protocol MessagesInteractorProtocol: class {
     var usersJSON: [JSON] { get }
     var myUserJSON: JSON { get }
     var conversationsJSON: [JSON] { get }
-    var lastMessageJSON: [JSON] { get }
-    static var userModel: User { get }
-    var conversationsModels: Conversation! { get }
-    var lastMessageModels: LastMessage! { get }
+    var unread: Int { get }
     func start()
+    func readMessage(peerId: String)
 }
 
 //MARK: View -

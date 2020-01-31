@@ -17,6 +17,7 @@ class LastMessage: NSObject {
     var text: String = ""
     var randomId: Int = 0
     var isImportant: Bool = false
+    var attachments: Attachments = Attachments()
     
     convenience init(JSON: JSON) {
         self.init()
@@ -27,5 +28,6 @@ class LastMessage: NSObject {
         self.text = JSON["last_message"]["text"].stringValue
         self.randomId = JSON["last_message"]["random_id"].intValue
         self.isImportant = JSON["last_message"]["important"].boolValue
+        self.attachments = Attachments(json: JSON["last_message"]["attachments"].arrayValue)
     }
 }

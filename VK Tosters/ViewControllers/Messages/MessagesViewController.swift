@@ -14,8 +14,10 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
     @IBOutlet weak var toolbarLabel: UILabel!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var messagesTableView: UITableView!
+    @IBOutlet weak var item: UITabBarItem!
     
 	var presenter: MessagesPresenterProtocol?
+    lazy var refreshControl = UIRefreshControl()
 
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +26,18 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
         setup()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+            self.presenter?.start()
+        })
+    }
+    
     override func setup() {
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        messagesTableView.addSubview(refreshControl)
         messagesTableView.keyboardDismissMode = .onDrag
         messagesTableView.allowsMultipleSelectionDuringEditing = true
+        messagesTableView.separatorStyle = .none
         messagesTableView.delegate = self
         messagesTableView.dataSource = self
         messagesTableView.register(UINib(nibName: "MessageViewCell", bundle: nil), forCellReuseIdentifier: "MessageViewCell")
@@ -45,6 +56,16 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
     
     func reload() {
         messagesTableView.reloadData()
+        refreshControl.endRefreshing()
+        item.badgeValue = "\(presenter!.getUnread())"
+    }
+    
+    func readMessage(index: IndexPath) {
+        presenter?.onTapRead(index: index)
+    }
+    
+    @objc func refresh(_ sender: Any) {
+        presenter?.start()
     }
 }
 extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -66,6 +87,24 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+        return 72
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "Прочитать", handler: { (action: UITableViewRowAction ,indexPath: IndexPath ) in
+            self.readMessage(index: indexPath)
+        })
+        editAction.backgroundColor = .toasterGreen
+        return [editAction]
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

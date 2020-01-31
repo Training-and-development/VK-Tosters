@@ -98,6 +98,10 @@ class FriendsPresenter: FriendsPresenterProtocol {
         return interactor!.friendsJSON.count
     }
     
+    func getUserIdBy(indexPath row: IndexPath, isOnlineSegment: Bool) -> String {
+        return isOnlineSegment ? self.getOnlineFriends()[row.row].id : getFriend(indexPath: row).id
+    }
+    
     func getName(nameCase: NameCases, indexPath: IndexPath, isOnlineSegment: Bool) {
         interactor?.getNameWithCase(nameCase: nameCase, userId: isOnlineSegment ? self.getOnlineFriends()[indexPath.row].id : getFriend(indexPath: indexPath).id, completionHandler: { success in
             if success {

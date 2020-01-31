@@ -30,4 +30,25 @@ extension UIView {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = self.bounds.size.height / 2
     }
+    
+    func hideViewWithAnimation() {
+        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.alpha = 0
+        }, completion: { _ in
+            self.isHidden = true
+        })
+    }
+    
+    func showViewWithAnimation() {
+        self.isHidden = false
+        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.alpha = 1
+        })
+    }
+    
+    func changeColorViewWithAnimation(color: UIColor) {
+        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.backgroundColor = color
+        })
+    }
 }

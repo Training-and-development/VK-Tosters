@@ -450,6 +450,7 @@ s</string>
                     <tabBarItem key="tabBarItem" title="" image="message-outline.png" id="6cO-Ay-2t1"/>
                     <connections>
                         <outlet property="dividerView" destination="qdb-Yy-dTB" id="wKS-n4-xMs"/>
+                        <outlet property="item" destination="6cO-Ay-2t1" id="dP7-vb-lot"/>
                         <outlet property="messagesTableView" destination="pWE-gX-sNi" id="LNg-hw-fzb"/>
                         <outlet property="toolbarLabel" destination="g5t-Z5-ve6" id="OAj-m2-BmY"/>
                     </connections>
@@ -555,11 +556,11 @@ s</string>
             <objects>
                 <viewController storyboardIdentifier="friendsViewController" title="Друзья" id="YFD-Dt-LmD" customClass="FriendsViewController" customModule="VK_Tosters" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AXz-cZ-QfZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WRI-77-4tq">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRu-3b-GsG">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
@@ -600,7 +601,7 @@ s</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSe-zN-KRo">
-                                <rect key="frame" x="0.0" y="841" width="414" height="55"/>
+                                <rect key="frame" x="0.0" y="792" width="414" height="55"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7E-XX-16B">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
@@ -1097,7 +1098,7 @@ s</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NEJ-MM-STi"/>
-        <segue reference="kYz-gV-FKu"/>
+        <segue reference="11w-5x-jcq"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.62" blue="0.90000000000000002" alpha="1" colorSpace="calibratedRGB"/>
 </document>

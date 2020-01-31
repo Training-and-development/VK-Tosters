@@ -35,6 +35,10 @@ class MessagesPresenter: MessagesPresenterProtocol {
         view?.reload()
     }
     
+    func onTapRead(index: IndexPath) {
+        interactor?.readMessage(peerId: "\(getLastMessage(indexPath: index).peerId)")
+    }
+    
     func getConversation(indexPath: IndexPath) -> Conversation {
         let json = interactor?.conversationsJSON[indexPath.row]
         let conversation = json.map { Conversation(JSON: $0) }
@@ -61,5 +65,9 @@ class MessagesPresenter: MessagesPresenterProtocol {
     
     func getMessagesCount() -> Int {
         return interactor!.conversationsJSON.count
+    }
+    
+    func getUnread() -> Int {
+        return interactor!.unread
     }
 }
