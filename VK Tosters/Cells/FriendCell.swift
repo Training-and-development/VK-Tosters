@@ -38,13 +38,26 @@ class FriendCell: UITableViewCell {
     func setActiveUser(model: Friend) {
         nameView.text = model.name
         if model.online == 0 {
-            descriptionView.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+            descriptionView.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)
             onlineView.isHidden = true
         } else if model.online == 1 {
             descriptionView.text = "Онлайн"
             onlineView.isHidden = false
         }
+        onlineImage.image = setOnlinePlatform(platform: model.lastSeen.platform)
+        onlineImage.tintColor = .toasterGreen
         avatarView.kf.setImage(with: URL(string: model.photo100))
+    }
+    
+    func setOnlinePlatform(platform: Int) -> UIImage {
+        switch platform {
+        case 1: return UIImage(named: "mobile-online")!.withRenderingMode(.alwaysTemplate)
+        case 2, 3: return UIImage(named: "apple-online")!.withRenderingMode(.alwaysTemplate)
+        case 4: return UIImage(named: "android-online")!.withRenderingMode(.alwaysTemplate)
+        case 5, 6: return UIImage(named: "windows-online")!.withRenderingMode(.alwaysTemplate)
+        case 7: return UIImage(named: "online-pc")!.withRenderingMode(.alwaysTemplate)
+        default: return UIImage()
+        }
     }
     
     func setDeactiveUser(deactivated: String) {
@@ -60,8 +73,6 @@ class FriendCell: UITableViewCell {
             strongSelf.descriptionView.font = UIFont(name: "Lato-Regular", size: 15)
             strongSelf.descriptionView.textColor = .toasterMetal
             strongSelf.onlineView.setRounded()
-            strongSelf.onlineImage.backgroundColor = .toasterGreen
-            strongSelf.onlineImage.setRounded()
         }
     }
 }

@@ -67,6 +67,19 @@ open class BaseViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(controlNetwork(_:)), name: NSNotification.Name(rawValue: ReachabilityDidChangeNotification), object: nil)
     }
     
+    open func setOnlinePlatform(platform: Int) -> String {
+        switch platform {
+        case 1: return "(мобильная версия)"
+        case 2: return "(iPhone)"
+        case 3: return "(iPad)"
+        case 4: return "(Android)"
+        case 5: return "(Windows Phone)"
+        case 6: return "(Windows 10)"
+        case 7: return "(полная версия)"
+        default: return ""
+        }
+    }
+    
     open func confrimAction() { }
     
     open func declineAction() { }

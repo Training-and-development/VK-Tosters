@@ -39,6 +39,10 @@ class MessagesPresenter: MessagesPresenterProtocol {
         interactor?.readMessage(peerId: "\(getLastMessage(indexPath: index).peerId)")
     }
     
+    func onTapConversation(index: IndexPath) {
+        router.openDialog(user: getUser(indexPath: index), me: getMe())
+    }
+    
     func getConversation(indexPath: IndexPath) -> Conversation {
         let json = interactor?.conversationsJSON[indexPath.row]
         let conversation = json.map { Conversation(JSON: $0) }

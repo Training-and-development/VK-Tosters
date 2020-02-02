@@ -36,18 +36,22 @@ class MessagesInteractor: MessagesInteractorProtocol {
         VK.API.Messages.getConversations([.filter: "all", .count: "200", .extended: "0"])
         .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
         .onSuccess { response in
-            self.responseJSON = JSON(response)
-            let firstParse = self.responseJSON["items"].arrayValue
-            self.unread = self.responseJSON["unread_count"].intValue
-            let conversations = firstParse.map { Conversation(JSON: $0) }
-            var userIds: [String] = []
-            for conversation in conversations {
-                userIds.append("\(conversation.peer.localId)")
+            DispatchQueue.global(qos: .utility).async {
+                autoreleasepool {
+                    self.responseJSON = JSON(response)
+                    let firstParse = self.responseJSON["items"].arrayValue
+                    self.unread = self.responseJSON["unread_count"].intValue
+                    let conversations = firstParse.map { Conversation(JSON: $0) }
+                    var userIds: [String] = []
+                    for conversation in conversations {
+                        userIds.append("\(conversation.peer.localId)")
+                    }
+                    let userIdsString = userIds.joined(separator:",")
+                    self.getMe()
+                    self.getUsers(userIds: userIdsString)
+                    self.handleResponseMessages(response: self.responseJSON)
+                }
             }
-            let userIdsString = userIds.joined(separator:",")
-            self.getMe()
-            self.getUsers(userIds: userIdsString)
-            self.handleResponseMessages(response: self.responseJSON)
         }
         .onError { error in
             DispatchQueue.main.async {
@@ -63,13 +67,15 @@ class MessagesInteractor: MessagesInteractorProtocol {
         if let userInfo = notification.userInfo {
             if let updates = userInfo["updates"] {
                 self.updates = updates as? JSON
-                getConversations()
+                DispatchQueue.global(qos: .utility).async {
+                    self.getConversations()
+                }
             }
         }
     }
     
     func getUsers(userIds: String) {
-        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100, online"])
+        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100, online, last_seen"])
             .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 let responseJSON = JSON(response)

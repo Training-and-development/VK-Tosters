@@ -31,6 +31,13 @@ extension UIView {
         self.layer.cornerRadius = self.bounds.size.height / 2
     }
     
+    // Сделать обводку
+    func setupBorder(width: CGFloat, color: UIColor) {
+        self.layer.masksToBounds = true
+        self.layer.borderWidth = width
+        self.layer.borderColor = color.cgColor
+    }
+    
     func hideViewWithAnimation() {
         UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.alpha = 0

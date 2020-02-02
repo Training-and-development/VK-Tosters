@@ -49,6 +49,17 @@ struct FriendsLocalization {
 struct CommonLocalization {
     static let connected: String = "Подключено"
     static let notConnected: String = "Нет подключения к интернету"
+    
+    static func getTime(time: Date) -> String {
+        let timestamp: NSNumber = NSNumber(value: time.timeIntervalSince1970)
+        let seconds = timestamp.doubleValue
+        let timestampDate = Date(timeIntervalSince1970: seconds)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "H:mm"
+        let formatDate = dateFormatter.string(from: timestampDate)
+        return formatDate
+    }
 }
 struct ProfileLocalization {
     static let freindsString: [String?] = ["друг", "друга", "друзей", nil]

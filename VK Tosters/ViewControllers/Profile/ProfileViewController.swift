@@ -132,9 +132,9 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         avatarImageView.kf.setImage(with: URL(string: model.photo100))
         switch model.online {
         case 0:
-            statusLabel.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.parseTime)
+            statusLabel.text = "\(FriendsLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)) \(setOnlinePlatform(platform: model.lastSeen.platform))"
         case 1:
-            statusLabel.text = "Онлайн"
+            statusLabel.text = "Онлайн \(setOnlinePlatform(platform: model.lastSeen.platform))"
         default: break
         }
         shortNameLabel.text = model.screenName

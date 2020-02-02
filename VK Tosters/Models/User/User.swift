@@ -18,11 +18,9 @@ class User: NSObject {
     var canAccessClosed: Bool = false
     var sex = 0, online: Int = 0
     var deactivated: String?
-    var time: Int = 0
-    var platform: Int = 0
+    var lastSeen: LastSeen = LastSeen()
     var photoOriginal: String = ""
     var photo100: String = ""
-    var parseTime: Date = Date(timeIntervalSince1970: 0)
     var counters: Counters = Counters()
     var friendStatus: Int = 0
     
@@ -36,9 +34,7 @@ class User: NSObject {
         self.sex = jsonFullUser["sex"].intValue
         self.online = jsonFullUser["online"].intValue
         self.deactivated = jsonFullUser["deactivated"].stringValue
-        self.time = jsonFullUser["last_seen"]["time"].intValue
-        self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
-        self.platform = jsonFullUser["last_seen"]["platform"].intValue
+        self.lastSeen = LastSeen(json: jsonFullUser["last_seen"])
         self.photoOriginal = jsonFullUser["photo_max_orig"].stringValue
         self.photo100 = jsonFullUser["photo_100"].stringValue
         self.friendStatus = jsonFullUser["friend_status"].intValue
@@ -62,8 +58,7 @@ class User: NSObject {
         self.counters = Counters(json: jsonProfileUser["counters"])
         self.photoOriginal = jsonProfileUser["photo_max_orig"].stringValue
         self.photo100 = jsonProfileUser["photo_100"].stringValue
-        self.time = jsonProfileUser["last_seen"]["time"].intValue
-        self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
+        self.lastSeen = LastSeen(json: jsonProfileUser["last_seen"])
         self.sex = jsonProfileUser["sex"].intValue
         self.online = jsonProfileUser["online"].intValue
         self.friendStatus = jsonProfileUser["friend_status"].intValue
@@ -74,6 +69,7 @@ class User: NSObject {
         self.id = messageJSON["id"].stringValue
         self.name = "\(messageJSON["first_name"].stringValue) \(messageJSON["last_name"].stringValue)"
         self.online = messageJSON["online"].intValue
+        self.lastSeen = LastSeen(json: messageJSON["last_seen"])
         self.photo100 = messageJSON["photo_100"].stringValue
     }
 }

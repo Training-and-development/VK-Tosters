@@ -33,6 +33,7 @@ class ProfileInteractor: ProfileInteractorProtocol {
             .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.user = JSON(response)[0]
+                print(JSON(response)[0])
                 self.handleDataLoad(user: self.user, completion: true)
         }
         .onError { error in

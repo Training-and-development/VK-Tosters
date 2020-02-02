@@ -13,7 +13,7 @@ import SwiftyJSON
 
 //MARK: Wireframe -
 protocol MessagesWireframeProtocol: class {
-    
+    func openDialog(user: User, me: User)
 }
 //MARK: Presenter -
 protocol MessagesPresenterProtocol: class {
@@ -21,6 +21,7 @@ protocol MessagesPresenterProtocol: class {
     func onEvent(message: String, _ style: ToastStyle)
     func onLoaded()
     func onTapRead(index: IndexPath)
+    func onTapConversation(index: IndexPath)
     func getConversation(indexPath: IndexPath) -> Conversation
     func getLastMessage(indexPath: IndexPath) -> LastMessage
     func getUser(indexPath: IndexPath) -> User

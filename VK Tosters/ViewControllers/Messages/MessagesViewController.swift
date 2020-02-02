@@ -26,12 +26,6 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
         setup()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-            self.presenter?.start()
-        })
-    }
-    
     override func setup() {
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         messagesTableView.addSubview(refreshControl)
@@ -105,6 +99,8 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard presenter != nil else { return }
+        presenter!.onTapConversation(index: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

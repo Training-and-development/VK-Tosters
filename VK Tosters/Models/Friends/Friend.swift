@@ -18,8 +18,7 @@ class Friend: Object {
     var sex = 0, online: Int = 0
     var trackCode: String = ""
     var deactivated: String?
-    var time: Int = 0
-    var platform: Int = 0
+    var lastSeen: LastSeen = LastSeen()
     var photo100: String = ""
     var parseTime: Date = Date(timeIntervalSince1970: 0)
     
@@ -33,9 +32,7 @@ class Friend: Object {
         self.online = json["online"].intValue
         self.trackCode = json["track_code"].stringValue
         self.deactivated = json["deactivated"].stringValue
-        self.time = json["last_seen"]["time"].intValue
-        self.parseTime = Date(timeIntervalSince1970: TimeInterval(self.time))
-        self.platform = json["last_seen"]["platform"].intValue
+        self.lastSeen = LastSeen(json: json["last_seen"])
         self.photo100 = json["photo_100"].stringValue
     }
 }
