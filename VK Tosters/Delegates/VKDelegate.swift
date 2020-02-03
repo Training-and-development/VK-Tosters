@@ -11,6 +11,14 @@ import SwiftyVK
 import SwiftyJSON
 import UIKit
 
+struct MyData {
+    static var photo: String = ""
+    static var userName: String = ""
+    static var online: Int = 0
+    static var sex: Int = 0
+    static var userId: String = ""
+}
+
 class VKDelegate: SwiftyVKDelegate {
     let scopes: Scopes = [.messages, .offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
     let defaults = UserDefaults.standard
@@ -21,6 +29,7 @@ class VKDelegate: SwiftyVKDelegate {
         guard state == .authorized else { return }
         startLongPollServer()
         setOnline()
+        getMe()
     }
     
     func startLongPollServer() {
@@ -32,6 +41,8 @@ class VKDelegate: SwiftyVKDelegate {
                     print("type1",json)
                 case let .type2(data: data):
                     let json = JSON(data)
+                    let userInfo: [AnyHashable: Any]? = ["updates": json]
+                    NotificationCenter.default.post(name: .onMessagesRemoved, object: nil, userInfo: userInfo)
                     print("type2",json)
                 case let .type3(data):
                     let json = JSON(data)
@@ -39,7 +50,7 @@ class VKDelegate: SwiftyVKDelegate {
                 case let .type4(data: data):
                     let json = JSON(data)
                     let userInfo: [AnyHashable: Any]? = ["updates": json]
-                    NotificationCenter.default.post(name: .onMessagesUpdate, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(name: .onMessagesReceived, object: nil, userInfo: userInfo)
                     print("type4",json)
                 case let .type5(data):
                     let json = JSON(data)
@@ -47,12 +58,12 @@ class VKDelegate: SwiftyVKDelegate {
                 case let .type6(data: data):
                     let json = JSON(data)
                     let userInfo: [AnyHashable: Any]? = ["updates": json]
-                    NotificationCenter.default.post(name: .onMessagesUpdate, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(name: .onInMessagesRead, object: nil, userInfo: userInfo)
                     print("type6",json)
                 case let .type7(data):
                     let json = JSON(data)
                     let userInfo: [AnyHashable: Any]? = ["updates": json]
-                    NotificationCenter.default.post(name: .onMessagesUpdate, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(name: .onOutMessagesRead, object: nil, userInfo: userInfo)
                     print("type7",json)
                 case let .type8(data: data):
                     let json = JSON(data)
@@ -105,6 +116,24 @@ class VKDelegate: SwiftyVKDelegate {
                 }
             }
         }
+    }
+    
+    func getMe() {
+        VK.API.Users.get([.fields: ApiUsersFields.getUsersField])
+            .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
+            .onSuccess { response in
+                let responseJSON = JSON(response).arrayValue
+                let myUser = responseJSON.map { User(jsonFullUser: $0) }
+                MyData.photo = myUser[0].photo100
+                MyData.userName = myUser[0].name
+                MyData.online = myUser[0].online
+                MyData.sex = myUser[0].sex
+                MyData.userId = myUser[0].id
+        }
+        .onError { error in
+            print(String(describing: error))
+        }
+        .send()
     }
     
     func setOnline() {

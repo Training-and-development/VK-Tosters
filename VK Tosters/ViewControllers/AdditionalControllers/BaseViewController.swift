@@ -10,6 +10,10 @@ import UIKit
 import SwiftyVK
 import PureLayout
 
+struct ReachabilityState {
+    static var global = false
+}
+
 open class BaseViewController: UIViewController {
     var toaster = UIToaster()
     var sessionState = VK.sessions.default.state

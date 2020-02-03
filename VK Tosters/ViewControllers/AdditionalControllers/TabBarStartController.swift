@@ -48,7 +48,7 @@ class TabBarStartController: UITabBarController {
     }
     
     func handleResponse(user: JSON?) {
-        guard user != nil else {
+        guard user?["count"].intValue != 0 else {
             self.tabBar.items![4].badgeValue = nil
             return
         }
@@ -56,7 +56,7 @@ class TabBarStartController: UITabBarController {
     }
     
     func getConversations() {
-        VK.API.Messages.getConversations([.count: "20"])
+        VK.API.Messages.getConversations([.count: "200", .filter: "unread"])
         .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
             .onSuccess { response in
                 DispatchQueue.main.async {
@@ -76,7 +76,7 @@ class TabBarStartController: UITabBarController {
     }
     
     func handleResponseMessages(user: JSON?) {
-        guard user != nil else {
+        guard user?["count"].intValue != 0 else {
             self.tabBar.items![2].badgeValue = nil
             return
         }

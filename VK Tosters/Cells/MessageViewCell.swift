@@ -23,6 +23,7 @@ class MessageViewCell: UITableViewCell {
     @IBOutlet weak var unreadCountView: UIView!
     @IBOutlet weak var unreadLabel: UILabel!
     @IBOutlet weak var online: UIView!
+    @IBOutlet weak var messageTimeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,11 +33,10 @@ class MessageViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    // Общая настройка
-    func setup(conversation: Conversation, lastMessage: LastMessage, user: User, me: User) {
-        setupLastMessage(conversation, lastMessage)
-        setupInterlocutor(user, conversation)
-        setupSender(me, lastMessage)
+    func alternativeSetup(conversation: ConversationCore) {
+        setupLastMessage(conversation)
+        setupInterlocutor(conversation)
+        setupSender(conversation)
         setupLayer()
     }
     
@@ -57,54 +57,58 @@ class MessageViewCell: UITableViewCell {
             self.nameInterlocutor.textColor = .toasterBlack
             self.nameInterlocutor.font = UIFont(name: "Lato-Bold", size: 18)
             self.messageText.font = UIFont(name: "Lato-Regular", size: 16)
+            self.nameInterlocutor.textColor = .toasterBlack
+            self.messageTimeLabel.font = UIFont(name: "Lato-Regular", size: 14)
+            self.messageTimeLabel.textColor = .toasterMetal
         } 
     }
     
     // Установка последнего сообщения
-    func setupLastMessage(_ conversation: Conversation, _ lastMessage: LastMessage) {
-        setupUnreadMessage(conversation, lastMessage)
-        messageText.text = lastMessage.attachments.type == "" ? lastMessage.text : lastMessage.attachments.type
-        messageText.textColor = lastMessage.attachments.type == "" ? .toasterMetal : .toasterBlue
+    func setupLastMessage(_ conversation: ConversationCore) {
+        setupUnreadMessage(conversation)
+        messageText.text = conversation.attachments.type == "" ? conversation.text : conversation.attachments.type
+        messageText.textColor = conversation.attachments.type == "" ? .toasterMetal : .toasterBlue
         unreadLabel.text = "\(conversation.unreadCount)"
+        messageTimeLabel.text = conversation.parsingTime
     }
     
     // Установка непрочитанного сообщения
-    func setupUnreadMessage(_ conversation: Conversation, _ lastMessage: LastMessage) {
+    func setupUnreadMessage(_ conversation: ConversationCore) {
         // Установка непрочитанного исходящего
-        if conversation.inRead != lastMessage.id {
+        if conversation.inRead != conversation.idLastMessage {
             contentView.backgroundColor = UIColor.toasterBlue.withAlphaComponent(0.15)
         } else {
             contentView.backgroundColor = UIColor.clear
         }
         // Установка непрочитанного входящего
-        if conversation.outRead != lastMessage.id {
+        if conversation.outRead != conversation.idLastMessage {
             lastMessageViw.backgroundColor = UIColor.toasterBlue.withAlphaComponent(0.15)
         } else {
             lastMessageViw.backgroundColor = UIColor.clear
         }
         // Установка счетчика
         if conversation.unreadCount > 0 {
-            unreadCountView.showViewWithAnimation()
+            unreadCountView.isHidden = false
         } else {
-            unreadCountView.hideViewWithAnimation()
+            unreadCountView.isHidden = true
         }
     }
     
     // Установка собеседника и его данных
-    func setupInterlocutor(_ user: User, _ conversation: Conversation) {
-        avatarInterlocutor.kf.setImage(with: URL(string: user.photo100))
-        nameInterlocutor.text = user.name
-        if user.online == 1 {
-            online.showViewWithAnimation()
+    func setupInterlocutor(_ conversation: ConversationCore) {
+        avatarInterlocutor.kf.setImage(with: URL(string: conversation.photo100))
+        nameInterlocutor.text = conversation.userName
+        if conversation.online == 1 {
+            online.isHidden = false
         } else {
-            online.hideViewWithAnimation()
+            online.isHidden = true
         }
     }
     
     // Установка отправителя и его данных
-    func setupSender(_ user: User, _ lastMessage: LastMessage) {
-        avatarSender.kf.setImage(with: URL(string: user.photo100))
-        if "\(lastMessage.fromId)" != UserDefaults.standard.string(forKey: "userId") {
+    func setupSender(_ conversation: ConversationCore) {
+        avatarSender.kf.setImage(with: URL(string: conversation.senderPhoto100))
+        if "\(conversation.fromId)" != UserDefaults.standard.string(forKey: "userId") {
             avatarWidth.constant = 0
             avatarPadding.constant = 0
             avatarSender.isHidden = true

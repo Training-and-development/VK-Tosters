@@ -26,7 +26,6 @@ class DialogViewController: BaseViewController, DialogViewProtocol {
     let keyboardFrameTrackerView = KeyboardFrameTrackerView.init(height: 48)
 
     static var user: User!
-    static var me: User!
 
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +132,7 @@ extension DialogViewController: UITableViewDataSource, UITableViewDelegate {
         if presenter!.getDialogMessage(indexPath: indexPath).out == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "InMessageCell", for: indexPath) as! InMessageCell
             cell.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-            cell.setupCell(dialogMessageModel: presenter!.getDialogMessage(indexPath: indexPath), me: DialogViewController.me)
+            cell.setupCell(dialogMessageModel: presenter!.getDialogMessage(indexPath: indexPath))
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OutMessageCell", for: indexPath) as! OutMessageCell

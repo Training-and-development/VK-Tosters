@@ -27,10 +27,9 @@ class MessagesRouter: MessagesWireframeProtocol {
         router.baseViewController = viewController
     }
     
-    func openDialog(user: User, me: User) {
+    func openDialog(user: User) {
         let dialogViewController = DialogViewController(nibName: "DialogViewController", bundle: nil)
         DialogViewController.user = user
-        DialogViewController.me = me
         dialogViewController.modalPresentationStyle = .fullScreen
         self.baseViewController?.performSegue(withIdentifier: "toDialog", sender: self)
     }

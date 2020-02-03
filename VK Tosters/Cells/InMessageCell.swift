@@ -24,8 +24,8 @@ class InMessageCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setupCell(dialogMessageModel: DialogMessageModel, me: User) {
-        avatarSender.kf.setImage(with: URL(string: me.photo100))
+    func setupCell(dialogMessageModel: DialogMessageModel) {
+        avatarSender.kf.setImage(with: URL(string: MyData.photo))
         messageLabel.text = dialogMessageModel.attachments.type == "" ? dialogMessageModel.text : dialogMessageModel.attachments.type
         let timeInterval = Double(dialogMessageModel.date)
         let date = Date(timeIntervalSince1970: timeInterval)

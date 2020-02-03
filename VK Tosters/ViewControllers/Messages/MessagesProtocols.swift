@@ -13,7 +13,7 @@ import SwiftyJSON
 
 //MARK: Wireframe -
 protocol MessagesWireframeProtocol: class {
-    func openDialog(user: User, me: User)
+    func openDialog(user: User)
 }
 //MARK: Presenter -
 protocol MessagesPresenterProtocol: class {
@@ -22,10 +22,7 @@ protocol MessagesPresenterProtocol: class {
     func onLoaded()
     func onTapRead(index: IndexPath)
     func onTapConversation(index: IndexPath)
-    func getConversation(indexPath: IndexPath) -> Conversation
-    func getLastMessage(indexPath: IndexPath) -> LastMessage
-    func getUser(indexPath: IndexPath) -> User
-    func getMe() -> User
+    func getFullConversation(indexPath: IndexPath) -> ConversationCore
     func getMessagesCount() -> Int
     func getUnread() -> Int
 }
@@ -35,8 +32,7 @@ protocol MessagesInteractorProtocol: class {
     var presenter: MessagesPresenterProtocol?  { get set }
     var responseJSON: JSON { get }
     var usersJSON: [JSON] { get }
-    var myUserJSON: JSON { get }
-    var conversationsJSON: [JSON] { get }
+    var conversationsFullJSON: [JSON] { get }
     var unread: Int { get }
     func start()
     func readMessage(peerId: String)

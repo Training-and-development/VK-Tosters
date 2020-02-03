@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class Conversation: NSObject {
     var peer: Peer = Peer()
+    var lastMessageId: Int = 0
     var inRead: Int = 0
     var outRead: Int = 0
     var unreadCount: Int = 0
@@ -22,6 +23,7 @@ class Conversation: NSObject {
     convenience init(JSON: JSON) {
         self.init()
         self.peer = Peer(json: JSON["conversation"]["peer"])
+        self.lastMessageId = JSON["last_message_id"].intValue
         self.inRead = JSON["conversation"]["in_read"].intValue
         self.outRead = JSON["conversation"]["out_read"].intValue
         self.unreadCount = JSON["conversation"]["unread_count"].intValue

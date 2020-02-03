@@ -27,7 +27,7 @@ class DialogInteractor: DialogInteractorProtocol {
     }
     
     func startObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onMessagesUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onMessagesReceived, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOffline, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOnline, object: nil)
     }

@@ -26,7 +26,6 @@ class FriendsInteractor: FriendsInteractorProtocol {
     }
     
     func startObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onMessagesUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onFriendOffline, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUsers(_:)), name: .onFriendOnline, object: nil)
     }

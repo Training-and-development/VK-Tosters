@@ -10,12 +10,16 @@
 
 import UIKit
 import SwiftyJSON
+import RealmSwift
 
 class MessagesPresenter: MessagesPresenterProtocol {
-
     weak private var view: MessagesViewProtocol?
     var interactor: MessagesInteractorProtocol?
     private let router: MessagesWireframeProtocol
+    
+    let service = MessageService.shared
+    
+    let realm = try! Realm()
 
     init(interface: MessagesViewProtocol, interactor: MessagesInteractorProtocol?, router: MessagesWireframeProtocol) {
         self.view = interface
@@ -27,6 +31,10 @@ class MessagesPresenter: MessagesPresenterProtocol {
         interactor?.start()
     }
     
+    func isReachable() -> Bool {
+        return SwiftReachability.sharedManager!.isReachable()
+    }
+    
     func onEvent(message: String, _ style: ToastStyle) {
         view?.getToast(message: message, style)
     }
@@ -36,39 +44,30 @@ class MessagesPresenter: MessagesPresenterProtocol {
     }
     
     func onTapRead(index: IndexPath) {
-        interactor?.readMessage(peerId: "\(getLastMessage(indexPath: index).peerId)")
+        interactor?.readMessage(peerId: "\(getFullConversation(indexPath: index).peerId)")
     }
     
     func onTapConversation(index: IndexPath) {
-        router.openDialog(user: getUser(indexPath: index), me: getMe())
+        let json = interactor?.usersJSON[index.row]
+        guard json != nil else { return }
+        let user = json.map { User(jsonFullUser: $0) }
+        router.openDialog(user: user!)
     }
     
-    func getConversation(indexPath: IndexPath) -> Conversation {
-        let json = interactor?.conversationsJSON[indexPath.row]
-        let conversation = json.map { Conversation(JSON: $0) }
-        return conversation!
+    func getFullConversation(indexPath: IndexPath) -> ConversationCore {
+        guard interactor != nil else { return ConversationCore() }
+        var json = interactor!.conversationsFullJSON[indexPath.row]
+        json.appendIfDictionary(key: "profile", json: interactor!.usersJSON[indexPath.row])
+        let conversation = ConversationCore(JSON: json)
+        return conversation
     }
     
-    func getLastMessage(indexPath: IndexPath) -> LastMessage {
-        let json = interactor?.conversationsJSON[indexPath.row]
-        let lastMessage = json.map { LastMessage(JSON: $0) }
-        return lastMessage!
-    }
-    
-    func getUser(indexPath: IndexPath) -> User {
-        let json = interactor?.usersJSON[indexPath.row]
-        let user = json.map { User(messageJSON: $0) }
-        return user!
-    }
-    
-    func getMe() -> User {
-        let json = interactor?.myUserJSON[0]
-        let user = json.map { User(messageJSON: $0) }
-        return user!
+    func getRealmMessages(indexPath: IndexPath) -> DBConversation {
+        return service.getDBConversation(conversation: getFullConversation(indexPath: indexPath))!
     }
     
     func getMessagesCount() -> Int {
-        return interactor!.conversationsJSON.count
+        return interactor!.conversationsFullJSON.count
     }
     
     func getUnread() -> Int {

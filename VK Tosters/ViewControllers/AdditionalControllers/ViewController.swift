@@ -55,7 +55,6 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewTitleLabel.textColor = .toasterBlack
         dividerView.autoSetDimension(.height, toSize: 0.5)
         dividerView.backgroundColor = .toasterMetal
-        getMe()
     }
     
     @objc func manageAccountAction(_ sender: Any) {
@@ -72,7 +71,6 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @objc override func onLogin(_ notification: Notification) {
         sessionState = SessionState.authorized
-        getMe()
     }
     
     @objc override func onLogout(_ notification: Notification) {
@@ -87,24 +85,9 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
         avatarImageView.addGestureRecognizer(singleTap)
     }
     
-    func getMe() {
-        guard currentSessionState == .authorized else { return }
-        VK.API.Users.get([.fields: ApiUsersFields.getUsersField])
-            .configure(with: Config.init(httpMethod: .POST, language: Language(rawValue: "ru")))
-            .onSuccess { response in
-                let responseJSON = JSON(response).arrayValue
-                let myUser = responseJSON.map { User(jsonFullUser: $0) }
-                self.setProfileImage(url: myUser[0].photo100)
-        }
-        .onError { error in
-            print(String(describing: error))
-        }
-        .send()
-    }
-    
     func setProfileImage(url: String) {
         DispatchQueue.main.async {
-            self.avatarImageView.kf.setImage(with: URL(string: url))
+            self.avatarImageView.kf.setImage(with: URL(string: MyData.photo))
         }
     }
 

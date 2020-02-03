@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		23083ABC23E17AFF0056993A /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 23083ABB23E17AFF0056993A /* no-photo.png */; };
+		2317185423E85C02001CC481 /* ConversationCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2317185323E85C02001CC481 /* ConversationCore.swift */; };
 		2324A10023D7585E004BC5EB /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A0FF23D7585E004BC5EB /* Realm.framework */; };
 		2324A10123D7585E004BC5EB /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A0FF23D7585E004BC5EB /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2324A10423D75CAF004BC5EB /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2324A10323D75CAF004BC5EB /* Friend.swift */; };
 		2324A10623D76A55004BC5EB /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A10523D76A54004BC5EB /* RealmSwift.framework */; };
 		2324A10723D76A55004BC5EB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2324A10523D76A54004BC5EB /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2336E83723DE022D00502286 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2336E83623DE022D00502286 /* FriendCell.xib */; };
+		234290FB23E711A0001E3848 /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234290FA23E711A0001E3848 /* DBUser.swift */; };
+		2342910023E73B4D001E3848 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234290FF23E73B4D001E3848 /* MessageService.swift */; };
 		2364B7CE23D6DE6F00419A5B /* cross_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2364B7CD23D6DE6F00419A5B /* cross_icon.png */; };
 		2365852023D6E9710045A07B /* NewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2365851A23D6E9710045A07B /* NewsPresenter.swift */; };
 		2365852123D6E9710045A07B /* NewsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2365851B23D6E9710045A07B /* NewsRouter.swift */; };
@@ -150,6 +153,7 @@
 		23CE2DEE23E5DA6F00C330AB /* OutMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CE2DEC23E5DA6F00C330AB /* OutMessageCell.swift */; };
 		23CE2DEF23E5DA6F00C330AB /* OutMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23CE2DED23E5DA6F00C330AB /* OutMessageCell.xib */; };
 		23CE2DF123E5E5FE00C330AB /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CE2DF023E5E5FE00C330AB /* UITextView.swift */; };
+		23D6296523E6C376005704BA /* DBConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D6296423E6C376005704BA /* DBConversation.swift */; };
 		23EDF64C23DC303300D7BEAB /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23EDF64B23DC303300D7BEAB /* FLAnimatedImage.framework */; };
 		23EDF64D23DC303300D7BEAB /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23EDF64B23DC303300D7BEAB /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23EDF65723DC4F6F00D7BEAB /* osmotr.gif in Resources */ = {isa = PBXBuildFile; fileRef = 23EDF65523DC4F6F00D7BEAB /* osmotr.gif */; };
@@ -195,10 +199,13 @@
 
 /* Begin PBXFileReference section */
 		23083ABB23E17AFF0056993A /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
+		2317185323E85C02001CC481 /* ConversationCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCore.swift; sourceTree = "<group>"; };
 		2324A0FF23D7585E004BC5EB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		2324A10323D75CAF004BC5EB /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		2324A10523D76A54004BC5EB /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		2336E83623DE022D00502286 /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
+		234290FA23E711A0001E3848 /* DBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
+		234290FF23E73B4D001E3848 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		2364B7CD23D6DE6F00419A5B /* cross_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross_icon.png; sourceTree = "<group>"; };
 		2365851A23D6E9710045A07B /* NewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPresenter.swift; sourceTree = "<group>"; };
 		2365851B23D6E9710045A07B /* NewsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRouter.swift; sourceTree = "<group>"; };
@@ -331,6 +338,7 @@
 		23CE2DEC23E5DA6F00C330AB /* OutMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutMessageCell.swift; sourceTree = "<group>"; };
 		23CE2DED23E5DA6F00C330AB /* OutMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutMessageCell.xib; sourceTree = "<group>"; };
 		23CE2DF023E5E5FE00C330AB /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		23D6296423E6C376005704BA /* DBConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBConversation.swift; sourceTree = "<group>"; };
 		23EDF64B23DC303300D7BEAB /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = "<group>"; };
 		23EDF65523DC4F6F00D7BEAB /* osmotr.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = osmotr.gif; sourceTree = "<group>"; };
 		23EDF65623DC4F6F00D7BEAB /* prigi.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = prigi.gif; sourceTree = "<group>"; };
@@ -380,6 +388,14 @@
 				2397949723E2E9A1005E548E /* User */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		234290FE23E73B3E001E3848 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				234290FF23E73B4D001E3848 /* MessageService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		2364B7CC23D6DE4900419A5B /* Images */ = {
@@ -482,6 +498,7 @@
 				2397949923E2EA0A005E548E /* Peer.swift */,
 				2397949B23E2EA9F005E548E /* Writing.swift */,
 				237AA34823E427F4006B50EB /* Attachments.swift */,
+				2317185323E85C02001CC481 /* ConversationCore.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -577,9 +594,11 @@
 		23A2A32F23D5B5840060E76D /* VK Tosters */ = {
 			isa = PBXGroup;
 			children = (
+				234290FE23E73B3E001E3848 /* Service */,
 				23A2A36623D5E0700060E76D /* Api */,
 				2365853523D72C0D0045A07B /* Cells */,
 				23A2A36123D5D0120060E76D /* Constants */,
+				23D6296323E6C34F005704BA /* Databases */,
 				23A2A35E23D5CFF80060E76D /* Delegates */,
 				23A2A36D23D5EE610060E76D /* Helpers */,
 				2324A10223D75C94004BC5EB /* Models */,
@@ -791,6 +810,15 @@
 			path = Dialog;
 			sourceTree = "<group>";
 		};
+		23D6296323E6C34F005704BA /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				23D6296423E6C376005704BA /* DBConversation.swift */,
+				234290FA23E711A0001E3848 /* DBUser.swift */,
+			);
+			path = Databases;
+			sourceTree = "<group>";
+		};
 		23FACC1523DC6BCD0021E569 /* Defaults */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,6 +1014,7 @@
 				2397AF2A23E0A628007EAEDE /* Photo.swift in Sources */,
 				2397948A23E2E5E3005E548E /* MessagesRouter.swift in Sources */,
 				2397949E23E2EB0A005E548E /* ChatSettings.swift in Sources */,
+				2342910023E73B4D001E3848 /* MessageService.swift in Sources */,
 				2397AF2723E0A544007EAEDE /* PhotoViewCell.swift in Sources */,
 				2397949223E2E96A005E548E /* LastMessage.swift in Sources */,
 				23FACC2423DC7D5B0021E569 /* Country.swift in Sources */,
@@ -1018,12 +1047,14 @@
 				2397948923E2E5E3005E548E /* MessagesPresenter.swift in Sources */,
 				23A2A3D123D61EE90060E76D /* BottomPopupDismissInteractionController.swift in Sources */,
 				2383B23923DB5529007D7D76 /* ErrorView.swift in Sources */,
+				23D6296523E6C376005704BA /* DBConversation.swift in Sources */,
 				23CE2DCE23E587BB00C330AB /* LastSeen.swift in Sources */,
 				23FE15F223D8A71C00A19990 /* ProfileRouter.swift in Sources */,
 				2397AF2C23E0ACD0007EAEDE /* Sizes.swift in Sources */,
 				2397948123E2D4F1005E548E /* TabBarStartController.swift in Sources */,
 				2365854B23D735DC0045A07B /* FriendsPresenter.swift in Sources */,
 				239E0E5C23DC295700047395 /* UIImage.swift in Sources */,
+				2317185423E85C02001CC481 /* ConversationCore.swift in Sources */,
 				23FACC2623DC95890021E569 /* Error.swift in Sources */,
 				2365854E23D735DC0045A07B /* FriendsInteractor.swift in Sources */,
 				23CE2DEB23E5CDB600C330AB /* DialogMessageModel.swift in Sources */,
@@ -1047,6 +1078,7 @@
 				23A2A3D223D61EE90060E76D /* BottomPopupDismissAnimator.swift in Sources */,
 				23BB969223D9E06C006A659C /* UIViewController.swift in Sources */,
 				23A2A3B023D614D90060E76D /* ReachabilityDetect.swift in Sources */,
+				234290FB23E711A0001E3848 /* DBUser.swift in Sources */,
 				23A2A3D623D61EE90060E76D /* BottomPopupPresentationController.swift in Sources */,
 				23A335C823DF415D00270FED /* SearchTableView.swift in Sources */,
 				23FE15F823D8BD8F00A19990 /* User.swift in Sources */,

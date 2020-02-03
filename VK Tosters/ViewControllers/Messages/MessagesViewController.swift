@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MessagesViewController: BaseViewController, MessagesViewProtocol {
     @IBOutlet weak var toolbarLabel: UILabel!
@@ -44,6 +45,16 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
         dividerView.backgroundColor = .toasterMetal
     }
     
+    override func onReachabilityStatusChanged(_ notification: Notification) {
+        if let info = notification.userInfo {
+            if info[ReachabilityNotificationStatusItem] != nil {
+                if (SwiftReachability.sharedManager?.isReachable())! {
+                    self.presenter?.start()
+                }
+            }
+        }
+    }
+    
     func getToast(message: String, _ style: ToastStyle) {
         self.showToast(message: message, style, duration: 1)
     }
@@ -51,7 +62,7 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
     func reload() {
         messagesTableView.reloadData()
         refreshControl.endRefreshing()
-        item.badgeValue = "\(presenter!.getUnread())"
+        item.badgeValue = presenter!.getUnread() == 0 ? nil : "\(presenter!.getUnread())"
     }
     
     func readMessage(index: IndexPath) {
@@ -71,12 +82,7 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard presenter != nil else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageViewCell", for: indexPath) as! MessageViewCell
-        cell.setup(
-            conversation: presenter!.getConversation(indexPath: indexPath),
-            lastMessage: presenter!.getLastMessage(indexPath: indexPath),
-            user: presenter!.getUser(indexPath: indexPath),
-            me: presenter!.getMe()
-        )
+        cell.alternativeSetup(conversation: presenter!.getFullConversation(indexPath: indexPath))
         return cell
     }
     
