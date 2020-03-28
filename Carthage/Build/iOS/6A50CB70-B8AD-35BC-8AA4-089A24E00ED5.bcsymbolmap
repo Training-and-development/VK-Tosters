@@ -1,0 +1,293 @@
+BCSymbolMap Version: 2.0
+-[NSString(IGListDiffable) diffIdentifier]
+-[NSString(IGListDiffable) isEqualToDiffableObject:]
+__OBJC_PROTOCOL_$_IGListDiffable
+__OBJC_LABEL_PROTOCOL_$_IGListDiffable
+Apple clang version 11.0.0 (clang-1100.0.33.17)
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/NSString+IGListDiffable.m
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit
+Source/IGListDiffKit/NSString+IGListDiffable.m
+-[IGListMoveIndex initWithFrom:to:]
+-[IGListMoveIndex hash]
+-[IGListMoveIndex isEqual:]
+-[IGListMoveIndex compare:]
+-[IGListMoveIndex description]
+-[IGListMoveIndex from]
+-[IGListMoveIndex to]
+_OBJC_IVAR_$_IGListMoveIndex._from
+_OBJC_IVAR_$_IGListMoveIndex._to
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListMoveIndex.m
+Source/IGListDiffKit/IGListMoveIndex.h
+Source/IGListDiffKit/IGListMoveIndex.m
+-[IGListIndexSetResult initWithInserts:deletes:updates:moves:oldIndexMap:newIndexMap:]
+-[IGListIndexSetResult hasChanges]
+-[IGListIndexSetResult changeCount]
+-[IGListIndexSetResult resultForBatchUpdates]
+-[IGListIndexSetResult oldIndexForIdentifier:]
+-[IGListIndexSetResult newIndexForIdentifier:]
+-[IGListIndexSetResult description]
+-[IGListIndexSetResult inserts]
+-[IGListIndexSetResult deletes]
+-[IGListIndexSetResult updates]
+-[IGListIndexSetResult moves]
+-[IGListIndexSetResult .cxx_destruct]
+_OBJC_IVAR_$_IGListIndexSetResult._oldIndexMap
+_OBJC_IVAR_$_IGListIndexSetResult._newIndexMap
+_OBJC_IVAR_$_IGListIndexSetResult._inserts
+_OBJC_IVAR_$_IGListIndexSetResult._deletes
+_OBJC_IVAR_$_IGListIndexSetResult._updates
+_OBJC_IVAR_$_IGListIndexSetResult._moves
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListIndexSetResult.m
+Source/IGListDiffKit/IGListIndexSetResult.m
+Source/IGListDiffKit/IGListIndexSetResult.h
++[IGListBatchUpdateData _cleanIndexPathsWithMap:moves:indexPaths:deletes:inserts:]
+-[IGListBatchUpdateData initWithInsertSections:deleteSections:moveSections:insertIndexPaths:deleteIndexPaths:updateIndexPaths:moveIndexPaths:]
+-[IGListBatchUpdateData initWithInsertSections:deleteSections:moveSections:insertIndexPaths:deleteIndexPaths:updateIndexPaths:moveIndexPaths:fixIndexPathImbalance:]
+-[IGListBatchUpdateData isEqual:]
+-[IGListBatchUpdateData description]
+-[IGListBatchUpdateData insertSections]
+-[IGListBatchUpdateData deleteSections]
+-[IGListBatchUpdateData moveSections]
+-[IGListBatchUpdateData insertIndexPaths]
+-[IGListBatchUpdateData deleteIndexPaths]
+-[IGListBatchUpdateData updateIndexPaths]
+-[IGListBatchUpdateData moveIndexPaths]
+-[IGListBatchUpdateData .cxx_destruct]
+__ZNSt3__1L20__throw_length_errorEPKc
+__ZNSt12length_errorC1EPKc
+__ZNSt3__110unique_ptrINS_11__hash_nodeINS_17__hash_value_typeIiU8__strongP15IGListMoveIndexEEPvEENS_22__hash_node_destructorINS_9allocatorIS8_EEEEED1Ev
+_OBJC_IVAR_$_IGListBatchUpdateData._insertSections
+_OBJC_IVAR_$_IGListBatchUpdateData._deleteSections
+_OBJC_IVAR_$_IGListBatchUpdateData._moveSections
+_OBJC_IVAR_$_IGListBatchUpdateData._insertIndexPaths
+_OBJC_IVAR_$_IGListBatchUpdateData._deleteIndexPaths
+_OBJC_IVAR_$_IGListBatchUpdateData._updateIndexPaths
+_OBJC_IVAR_$_IGListBatchUpdateData._moveIndexPaths
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListBatchUpdateData.mm
+find<int>
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__hash_table
+__hash_iterator
+operator()
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/unordered_map
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/functional
+__constrain_hash
+__hash
+operator[]
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory
+first
+__get
+bucket_count
+size
+~unique_ptr
+reset
+deallocate
+__libcpp_deallocate
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/new
+__do_deallocate_handle_size_align
+__do_deallocate_handle_size
+__do_call
+destroy<std::__1::pair<const int, IGListMoveIndex *> >
+__destroy<std::__1::pair<const int, IGListMoveIndex *> >
+~pair
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/utility
+length_error
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/stdexcept
+__throw_length_error
+__rehash
+reset<std::__1::__hash_node_base<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> *> **>
+allocate
+__libcpp_allocate
+rehash
+max<unsigned long>
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/algorithm
+max<unsigned long, std::__1::__less<unsigned long, unsigned long> >
+__next_hash_pow2
+__clz
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/bit
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/math.h
+max_load_factor
+__is_hash_power2
+__hash_const_iterator
+__deallocate_node
+~__hash_table
+Source/IGListDiffKit/IGListBatchUpdateData.mm
+Source/IGListDiffKit/IGListBatchUpdateData.h
+__emplace_unique_key_args<int, const std::__1::piecewise_construct_t &, std::__1::tuple<const int &>, std::__1::tuple<> >
+release
+get
+operator->
+__construct_node_hash<const std::__1::piecewise_construct_t &, std::__1::tuple<const int &>, std::__1::tuple<> >
+construct<std::__1::pair<const int, IGListMoveIndex *>, const std::__1::piecewise_construct_t &, std::__1::tuple<const int &>, std::__1::tuple<> >
+__construct<std::__1::pair<const int, IGListMoveIndex *>, const std::__1::piecewise_construct_t &, std::__1::tuple<const int &>, std::__1::tuple<> >
+pair<const int &>
+pair<const int &, 0>
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/tuple
+unique_ptr<true, void>
+__compressed_pair<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> *&, std::__1::__hash_node_destructor<std::__1::allocator<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> > > >
+__compressed_pair_elem<std::__1::__hash_node_destructor<std::__1::allocator<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> > >, void>
+__compressed_pair_elem<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> *&, void>
+__hash_node_destructor
+__node_alloc
+~unordered_map
+operator!=
+operator==
+find
+unordered_map
+__hash_table
+__compressed_pair<float, const std::__1::__unordered_map_equal<int, std::__1::__hash_value_type<int, IGListMoveIndex *>, std::__1::equal_to<int>, true> &>
+__compressed_pair_elem<float, void>
+__compressed_pair<nullptr_t, std::__1::__bucket_list_deallocator<std::__1::allocator<std::__1::__hash_node_base<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> *> *> > >
+__compressed_pair_elem<std::__1::__bucket_list_deallocator<std::__1::allocator<std::__1::__hash_node_base<std::__1::__hash_node<std::__1::__hash_value_type<int, IGListMoveIndex *>, void *> *> *> >, void>
+__bucket_list_deallocator
+convertMoveToDeleteAndInsert
+__ZL13IGListDiffingaiiP7NSArrayIPU25objcproto14IGListDiffable11objc_objectES3_16IGListDiffOptioni
+__ZL24indexPathsAndPopulateMapP7NSArrayIPU25objcproto14IGListDiffable11objc_objectEiP10NSMapTable
+____ZL13IGListDiffingaiiP7NSArrayIPU25objcproto14IGListDiffable11objc_objectES3_16IGListDiffOptioni_block_invoke
+__ZL13addIndexToMapaiiPU25objcproto14IGListDiffable11objc_objectP10NSMapTable
+___copy_helper_block_ea4_20s
+___destroy_helper_block_ea4_20s
+____ZL13IGListDiffingaiiP7NSArrayIPU25objcproto14IGListDiffable11objc_objectES3_16IGListDiffOptioni_block_invoke.17
+__ZL20addIndexToCollectionaP11objc_objectii
+____ZL24indexPathsAndPopulateMapP7NSArrayIPU25objcproto14IGListDiffable11objc_objectEiP10NSMapTable_block_invoke
+__ZNSt3__110unique_ptrINS_11__hash_nodeINS_17__hash_value_typeIU8__strongPU18objcproto8NSObject11objc_object11IGListEntryEEPvEENS_22__hash_node_destructorINS_9allocatorIS9_EEEEED1Ev
+__ZNK13IGListEqualIDclEP11objc_objectS1_
+___block_descriptor_29_ea4_20s_e32_v16?0"<IGListDiffable>"4I8^c12l
+__ZL10NSNotFound
+___block_descriptor_32_ea4_20s_e32_v16?0"<IGListDiffable>"4I8^c12lu28l4
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListDiff.mm
+destroy<std::__1::pair<const id<NSObject>, IGListEntry> >
+__destroy<std::__1::pair<const id<NSObject>, IGListEntry> >
+~IGListEntry
+Source/IGListDiffKit/IGListDiff.mm
+~stack
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/stack
+~deque
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/deque
+__vallocate
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector
+__end_cap
+vector
+~__vector_base
+clear
+__destruct_at_end
+__construct_at_end
+construct<int>
+__construct<int>
+__vector_base
+__compressed_pair<nullptr_t, true>
+__compressed_pair_elem<nullptr_t, void>
+pop_back
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__split_buffer
+back
+__back_spare
+__capacity
+push_front
+construct<int *, int *const &>
+__construct<int *, int *const &>
+~__split_buffer
+swap<int **>
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/type_traits
+__construct_at_end<std::__1::move_iterator<int **> >
+operator!=<int **, int **>
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator
+operator++
+construct<int *, int *>
+__construct<int *, int *>
+__split_buffer
+move_backward<int **, int **>
+__move_backward<int *, int *>
+push_back
+move<int **, int **>
+__move<int *, int *>
+__add_back_capacity
+begin
+end
+__compressed_pair<nullptr_t, std::__1::allocator<int *> &>
+__compressed_pair_elem<std::__1::allocator<int *> &, void>
+__alloc
+pop_front
+__destruct_at_begin
+front
+capacity
+__front_spare
+construct<int, const int &>
+__construct<int, const int &>
+empty
+~__deque_base
+reset<std::__1::__hash_node_base<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> *> **>
+key_eq
+construct<IGListRecord>
+__construct<IGListRecord>
+IGListRecord
+___ZL24indexPathsAndPopulateMapP7NSArrayIPU25objcproto14IGListDiffable11objc_objectEiP10NSMapTable_block_invoke
+addIndexToCollection
+__emplace_unique_key_args<id<NSObject>, const std::__1::piecewise_construct_t &, std::__1::tuple<const __strong id<NSObject> &>, std::__1::tuple<> >
+__construct_node_hash<const std::__1::piecewise_construct_t &, std::__1::tuple<const __strong id<NSObject> &>, std::__1::tuple<> >
+construct<std::__1::pair<const id<NSObject>, IGListEntry>, const std::__1::piecewise_construct_t &, std::__1::tuple<const __strong id<NSObject> &>, std::__1::tuple<> >
+__construct<std::__1::pair<const id<NSObject>, IGListEntry>, const std::__1::piecewise_construct_t &, std::__1::tuple<const __strong id<NSObject> &>, std::__1::tuple<> >
+pair<const __strong id<NSObject> &>
+pair<const __strong id<NSObject> &, 0>
+IGListEntry
+__compressed_pair<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> *&, std::__1::__hash_node_destructor<std::__1::allocator<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> > > >
+__compressed_pair_elem<std::__1::__hash_node_destructor<std::__1::allocator<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> > >, void>
+__compressed_pair_elem<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> *&, void>
+___ZL13IGListDiffingaiiP7NSArrayIPU25objcproto14IGListDiffable11objc_objectES3_16IGListDiffOptioni_block_invoke.17
+__destroy_helper_block_ea4_20s
+__copy_helper_block_ea4_20s
+addIndexToMap
+___ZL13IGListDiffingaiiP7NSArrayIPU25objcproto14IGListDiffable11objc_objectES3_16IGListDiffOptioni_block_invoke
+indexPathsAndPopulateMap
+IGListDiffPathsExperiment
+IGListDiffExperiment
+IGListDiffPaths
+IGListDiffing
+~vector
+pop
+top
+push
+IGListTableKey
+__compressed_pair<float, true>
+__compressed_pair<std::__1::__hash_node_base<std::__1::__hash_node<std::__1::__hash_value_type<id<NSObject>, IGListEntry>, void *> *> **, true>
+__compressed_pair_elem
+__compressed_pair<int, true>
+__compressed_pair_elem<int, void>
+IGListDiff
+-[IGListMoveIndexPath initWithFrom:to:]
+-[IGListMoveIndexPath hash]
+-[IGListMoveIndexPath isEqual:]
+-[IGListMoveIndexPath compare:]
+-[IGListMoveIndexPath description]
+-[IGListMoveIndexPath from]
+-[IGListMoveIndexPath to]
+-[IGListMoveIndexPath .cxx_destruct]
+_OBJC_IVAR_$_IGListMoveIndexPath._from
+_OBJC_IVAR_$_IGListMoveIndexPath._to
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListMoveIndexPath.m
+Source/IGListDiffKit/IGListMoveIndexPath.m
+Source/IGListDiffKit/IGListMoveIndexPath.h
+-[IGListIndexPathResult initWithInserts:deletes:updates:moves:oldIndexPathMap:newIndexPathMap:]
+-[IGListIndexPathResult hasChanges]
+-[IGListIndexPathResult changeCount]
+-[IGListIndexPathResult resultForBatchUpdates]
+-[IGListIndexPathResult oldIndexPathForIdentifier:]
+-[IGListIndexPathResult newIndexPathForIdentifier:]
+-[IGListIndexPathResult description]
+-[IGListIndexPathResult inserts]
+-[IGListIndexPathResult deletes]
+-[IGListIndexPathResult updates]
+-[IGListIndexPathResult moves]
+-[IGListIndexPathResult .cxx_destruct]
+_OBJC_IVAR_$_IGListIndexPathResult._oldIndexPathMap
+_OBJC_IVAR_$_IGListIndexPathResult._newIndexPathMap
+_OBJC_IVAR_$_IGListIndexPathResult._inserts
+_OBJC_IVAR_$_IGListIndexPathResult._deletes
+_OBJC_IVAR_$_IGListIndexPathResult._updates
+_OBJC_IVAR_$_IGListIndexPathResult._moves
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/IGListIndexPathResult.m
+Source/IGListDiffKit/IGListIndexPathResult.m
+Source/IGListDiffKit/IGListIndexPathResult.h
+-[NSNumber(IGListDiffable) diffIdentifier]
+-[NSNumber(IGListDiffable) isEqualToDiffableObject:]
+/Users/programmist_np/Desktop/Epic Phrases/Carthage/Checkouts/IGListKit/Source/IGListDiffKit/NSNumber+IGListDiffable.m
+Source/IGListDiffKit/NSNumber+IGListDiffable.m
+/Users/programmist_np/Library/Caches/org.carthage.CarthageKit/DerivedData/11.3.1_11C504/IGListKit/4.0.0/Build/Intermediates.noindex/ArchiveIntermediates/IGListKit/IntermediateBuildFilesPath/IGListKit.build/Release-iphoneos/IGListDiffKit.build/DerivedSources/IGListDiffKit_vers.c

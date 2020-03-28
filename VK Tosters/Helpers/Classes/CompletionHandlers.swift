@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
 typealias GetUserNameHandler = (_ success: Bool) -> Void?
 typealias DeleteFriendHandler = (_ success: Bool) -> Void?
 typealias DeleteFriendCompletionHandler = (_ success: Bool) -> Void?
+typealias GetConversationsResponse = (_ loaded: Bool) -> UITableViewCell?

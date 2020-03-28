@@ -15,22 +15,20 @@ class DialogViewController: BaseViewController, DialogViewProtocol {
     @IBOutlet weak var attachImageView: UIImageView!
     @IBOutlet weak var inputField: UITextView!
     @IBOutlet weak var sendImageView: UIImageView!
-    @IBOutlet weak var toolbarLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var inputBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var mainTable: UITableView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     
 	var presenter: DialogPresenterProtocol?
     let keyboardFrameTrackerView = KeyboardFrameTrackerView.init(height: 48)
+    let footerView: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 56))
 
     static var user: User!
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         DialogRouter.createModule(viewController: self)
-        presenter?.start(userId: DialogViewController.user.id)
+        presenter?.start(userId: DialogViewController.user.id, offset: "0")
         setupTable()
         setupInputComponents()
         setupTapRecognizer()
@@ -38,24 +36,6 @@ class DialogViewController: BaseViewController, DialogViewProtocol {
     
     override var canBecomeFirstResponder: Bool {
         return false
-    }
-    
-    override func setupNavigationController() {
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        toolbarLabel.font = UIFont(name: "Lato-Bold", size: 20)
-        toolbarLabel.textColor = .toasterBlack
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
-        closeButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        closeButton.tintColor = .toasterBlue
-        keyboardFrameTrackerView.delegate = self
-        statusLabel.font = UIFont(name: "Lato-Semibold", size: 14)
-        statusLabel.textColor = .toasterMetal
-        inputField.inputAccessoryView = self.keyboardFrameTrackerView
-        inputField.font = UIFont(name: "Lato-Semibold", size: 17)
-        inputField.textColor = .toasterBlack
-        inputField.placeholder = "Сообщение"
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,10 +58,20 @@ class DialogViewController: BaseViewController, DialogViewProtocol {
         mainTable.register(UINib(nibName: "OutMessageCell", bundle: nil), forCellReuseIdentifier: "OutMessageCell")
         mainTable.keyboardDismissMode = .interactive
         mainTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        setupFooter()
+    }
+    
+    func setupFooter() {
+        footerView.startAnimating()
+        footerView.style = .medium
+        mainTable.tableFooterView = footerView
+        mainTable.tableFooterView?.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: -56, right: 0)
+        mainTable.tableFooterView?.bounds.size.height = 56
     }
     
     func reload() {
         mainTable.reloadData()
+        footerView.stopAnimating()
     }
     
     func clearTextView() {
@@ -99,7 +89,6 @@ class DialogViewController: BaseViewController, DialogViewProtocol {
         attachImageView.image = UIImage(named: "attach")?.withRenderingMode(.alwaysTemplate)
         sendImageView.image = UIImage(named: "send")
         attachImageView.tintColor = .toasterMetal
-        toolbarLabel.text = DialogViewController.user.name
     }
     
     func getToast(message: String, _ style: ToastStyle) {
@@ -119,7 +108,7 @@ extension DialogViewController: UITableViewDataSource, UITableViewDelegate {
         guard presenter != nil else { return 0 }
         switch DialogViewController.user.online {
         case 0:
-            statusLabel.text = "\(FriendsLocalization.getLastSeen(sex: DialogViewController.user.sex, time: DialogViewController.user.lastSeen.parseTime)) \(setOnlinePlatform(platform: DialogViewController.user.lastSeen.platform)) | \(presenter!.getAllMessagesCount()) ✉️"
+            statusLabel.text = "\(VKLocalization.getLastSeen(sex: DialogViewController.user.sex, time: DialogViewController.user.lastSeen.parseTime)) | \(presenter!.getAllMessagesCount()) ✉️"
         case 1:
             statusLabel.text = "Онлайн \(setOnlinePlatform(platform: DialogViewController.user.lastSeen.platform)) | \(presenter!.getAllMessagesCount()) ✉️"
         default: break
@@ -139,6 +128,16 @@ extension DialogViewController: UITableViewDataSource, UITableViewDelegate {
             cell.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
             cell.setupCell(dialogMessageModel: presenter!.getDialogMessage(indexPath: indexPath), user: DialogViewController.user)
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let offset = presenter!.getMessagesCount()
+        let lastItem = presenter!.getMessagesCount() - 20
+        
+        if indexPath.row == lastItem {
+            footerView.startAnimating()
+            presenter?.start(userId: DialogViewController.user.id, offset: "\(offset)")
         }
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import PureLayout
+import Material
 
 class ErrorView: UIView {
     var isConstraintInstall: Bool = false
@@ -19,15 +20,15 @@ class ErrorView: UIView {
     let errorImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "error")?.withRenderingMode(.alwaysTemplate)
-        image.tintColor = .toasterMetal
+        image.tintColor = .toasterDarkGray
         image.contentMode = .scaleAspectFit
         return image
     }()
     
     let errorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Lato-Bold", size: 12)
-        label.textColor = .toasterMetal
+        label.font = RobotoFont.medium(with: 14)
+        label.textColor = .toasterDarkGray
         label.textAlignment = .center
         return label
     }()
@@ -64,7 +65,7 @@ class ErrorView: UIView {
         super.updateConstraints()
     }
     
-    func setup() {
-        errorLabel.text = "Произошла ошибка подключения"
+    func setup(errorText: String) {
+        errorLabel.text = errorText
     }
 }

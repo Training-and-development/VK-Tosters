@@ -17,7 +17,7 @@ protocol DialogWireframeProtocol: class {
 }
 //MARK: Presenter -
 protocol DialogPresenterProtocol: class {
-    func start(userId: String)
+    func start(userId: String, offset: String)
     func onLoaded()
     func onSended()
     func onEvent(message: String, _ style: ToastStyle)
@@ -32,7 +32,7 @@ protocol DialogInteractorProtocol: class {
     var presenter: DialogPresenterProtocol?  { get set }
     var dialogMessagesJSON: [JSON] { get }
     var countJSON: Int { get }
-    func start(userId: String)
+    func start(userId: String, offset: String)
     func sendMessage(message: String, peerId: String)
 }
 

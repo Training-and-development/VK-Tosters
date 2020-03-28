@@ -32,7 +32,7 @@ class ProfilePresenter: ProfilePresenterProtocol {
             view?.hideErrorView()
             view?.setData(model: user!)
         } else {
-            view?.showErrorView()
+            view?.showErrorView(errorText: "ЪУЪ")
         }
     }
     

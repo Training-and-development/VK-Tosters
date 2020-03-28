@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:VK Tosters.xcodeproj">
+      location = "absolute:/Users/programmist_np/VK-Tosters/VK Tosters.xcodeproj">
    </FileRef>
 </Workspace>

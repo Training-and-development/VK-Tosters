@@ -52,7 +52,7 @@ class FriendsInteractor: FriendsInteractorProtocol {
             .onSuccess { response in
                 let responseJSON = JSON(response).arrayValue
                 let mapItems = responseJSON.map { User(jsonFullUser: $0) }
-                UserNameWithCase.name = mapItems[0].name
+                // UserNameWithCase.name = mapItems[0].name
                 completionHandler!(true)
         }
         .onError { error in
@@ -76,7 +76,7 @@ class FriendsInteractor: FriendsInteractorProtocol {
             .onSuccess{ _ in
                 DispatchQueue.main.async {
                     self.getFriends(userId: userId)
-                    self.presenter?.onEvent(message: "Вы удалили \(UserNameWithCase.name)", .success)
+                    // self.presenter?.onEvent(message: "Вы удалили \(UserNameWithCase.name)", .success)
                     completionHandler!(true)
                 }
         }

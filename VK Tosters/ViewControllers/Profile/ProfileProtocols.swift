@@ -47,7 +47,7 @@ protocol ProfileViewProtocol: class {
     static var userId: String { get }
     func setData(model: User)
     func reloadCollection()
-    func showErrorView()
+    func showErrorView(errorText: String)
     func hideErrorView()
     func showLoadingView()
     func hideLoadingView()

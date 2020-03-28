@@ -10,31 +10,25 @@ import UIKit
 import SwiftyVK
 import SwiftyJSON
 import Kingfisher
+import Material
 
 class ViewController: BaseViewController, UIGestureRecognizerDelegate {
-    @IBOutlet weak var viewTitleLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var mainTable: UITableView!
     @IBOutlet weak var menuTabItem: UITabBarItem!
-    
     let defaults = UserDefaults.standard
+    let names: [String] = ["Профиль", "Друзья", "Фотки", "Видео", "Музыка", "Избранное", "Понравившиеся", "Уведомления", "Настройки"]
+    let images: [UIImage?] = [UIImage(named: "smile_outline_24"), UIImage(named: "users_outline_24"), UIImage(named: "camera_outline_24"), UIImage(named: "videocam_outline_24"), UIImage(named: "music_outline_24"), UIImage(named: "favorite_outline_24"), UIImage(named: "like_outline_24"), UIImage(named: "notifcation_outline_24"), UIImage(named: "settings_outline_24")]
     
     var profile: JSON = JSON()
-    
-    let subBar = AndroidNavigationBar(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 56)))
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        avatarImageView.setRounded()
-        setupImageTarget()
-        setupNavigationController()
         setupObservers()
+        toolbar.title = "Аккаунт"
+        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigationController()
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
@@ -49,12 +43,17 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
         navigationItem.backBarButtonItem = backItem
     }
     
-    override func setupNavigationController() {
-        viewTitleLabel.text = "Меню"
-        viewTitleLabel.font = UIFont(name: "Lato-Bold", size: 20)
-        viewTitleLabel.textColor = .toasterBlack
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
+    override func configureTableView() {
+        super.configureTableView()
+        mainTable.delegate = self
+        mainTable.dataSource = self
+        mainTable.separatorStyle = .singleLine
+        mainTable.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        mainTable.separatorColor = .toasterDarkGray
+        mainTable.register(UINib(nibName: "MenuCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        self.view.addSubview(loadingContainer)
+        loadingContainer.autoPinEdgesToSuperviewEdges()
+        hideLoadingView()
     }
     
     @objc func manageAccountAction(_ sender: Any) {
@@ -62,7 +61,7 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
             ApiV1.authorize()
             return
         }
-        self.showPopup(headerText: "Выход из аккаунта", descriptionText: "Вы действительно хотите выйти?", confrimText: nil, declineText: "Выйти")
+        // self.showPopup(headerText: "Выход из аккаунта", descriptionText: "Вы действительно хотите выйти?", confrimText: nil, declineText: "Выйти")
     }
     
     override func declineAction() {
@@ -76,31 +75,36 @@ class ViewController: BaseViewController, UIGestureRecognizerDelegate {
     @objc override func onLogout(_ notification: Notification) {
         sessionState = SessionState.initiated
     }
-    
-    func setupImageTarget() {
-        avatarImageView.isUserInteractionEnabled = true
-
-        let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.singleTapping(recognizer:)))
-        singleTap.numberOfTapsRequired = 1
-        avatarImageView.addGestureRecognizer(singleTap)
+}
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
-    func setProfileImage(url: String) {
-        DispatchQueue.main.async {
-            self.avatarImageView.kf.setImage(with: URL(string: MyData.photo))
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.names.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
+        cell.setup(title: self.names[indexPath.row], icon: self.images[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.row {
+        case 0:
+            let userId = UserDefaults.standard.string(forKey: "userId")
+            let profileViewController = self.storyboard?.instantiateViewController(identifier: "profileViewController") as! ProfileViewController
+            ProfileViewController.userId = userId!
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        default:
+            self.showToast(message: "Секция недоступна", .warning)
         }
-    }
-
-    @IBAction func onFriendsAction(_ sender: Any) {
-        FriendsViewController.userId = defaults.string(forKey: "userId")!
-        self.performSegue(withIdentifier: "friendsSegue", sender: self)
-    }
-    
-    @objc func singleTapping(recognizer: UIGestureRecognizer) {
-        guard !defaults.string(forKey: "userId")!.contains("none") else { return }
-        let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
-        profileViewController.modalPresentationStyle = .fullScreen
-        ProfileViewController.userId = defaults.string(forKey: "userId")!
-        self.performSegue(withIdentifier: "toProfileFromStart", sender: self)
     }
 }

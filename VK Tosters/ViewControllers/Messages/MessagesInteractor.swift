@@ -15,54 +15,23 @@ import RealmSwift
 
 class MessagesInteractor: MessagesInteractorProtocol {
     weak var presenter: MessagesPresenterProtocol?
-    var responseJSON: JSON = []
-    var usersJSON: [JSON] = []
-    var myUserJSON: JSON = JSON()
-    var conversationsJSON: [JSON] = []
-    var conversationsFullJSON: [JSON] = []
     var unread: Int = 0
-    var updates: JSON!
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        print("MessagesInteractor deinited")
+    }
     
     func start() {
-        startObservers()
-        getConversations()
         getConversationsFull()
+        startObservers()
     }
     
     func startObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveMessages(_:)), name: .onMessagesRemoved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(removeMessages(_:)), name: .onMessagesReceived, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOffline, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOnline, object: nil)
-    }
-    
-    func getConversations() {
-        VK.API.Messages.getConversations([.filter: "all", .count: "200", .extended: "0"])
-        .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
-        .onSuccess { response in
-            DispatchQueue.global(qos: .utility).async {
-                autoreleasepool {
-                    self.responseJSON = JSON(response)
-                    let firstParse = self.responseJSON["items"].arrayValue
-                    self.unread = self.responseJSON["unread_count"].intValue
-                    let conversations = firstParse.map { Conversation(JSON: $0) }
-                    var userIds: [String] = []
-                    for conversation in conversations {
-                        userIds.append("\(conversation.peer.localId)")
-                    }
-                    let userIdsString = userIds.joined(separator:",")
-                    self.getMe()
-                    self.getUsers(userIds: userIdsString)
-                    self.handleResponseMessages(response: self.responseJSON)
-                }
-            }
-        }
-        .onError { error in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                self.presenter?.onLoaded()
-            })
-        }
-        .send()
+        //NotificationCenter.default.addObserver(self, selector: #selector(receiveMessages(_:)), name: .onMessagesReceived, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(removeMessages(_:)), name: .onMessagesRemoved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(friendOffline(_:)), name: .onFriendOffline, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(friendOnline(_:)), name: .onFriendOnline, object: nil)
     }
     
     func getConversationsFull() {
@@ -72,123 +41,14 @@ class MessagesInteractor: MessagesInteractorProtocol {
             DispatchQueue.global(qos: .utility).async {
                 autoreleasepool {
                     let responseJSON = JSON(response)
-                    self.conversationsFullJSON = responseJSON["items"].arrayValue
-                    
                     let firstParse = responseJSON["items"].arrayValue
-                    let conversations = firstParse.map { Conversation(JSON: $0) }
-                    var userIds: [String] = []
-                    for conversation in conversations {
-                        userIds.append("\(conversation.peer.localId)")
-                    }
-                    let userIdsString = userIds.joined(separator:",")
-                    self.getUsers2(userIds: userIdsString)
                 }
             }
         }
         .onError { error in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                self.presenter?.onLoaded()
-            })
+            self.presenter?.onError(message: "Нет доступа к API", .error)
         }
         .send()
-    }
-    
-    func getUsers2(userIds: String) {
-        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100, online, last_seen"])
-            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
-            .onSuccess { response in
-                DispatchQueue.global(qos: .utility).async {
-                    autoreleasepool {
-                        let responseJSON = JSON(response)
-                        let usersJSON = responseJSON.arrayValue
-                        
-                        print(self.conversationsFullJSON)
-                    }
-                }
-        }
-        .onError { error in
-            
-        }
-        .send()
-    }
-    
-    func getMe2() {
-        VK.API.Users.get([.fields: "photo_100"])
-            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
-            .onSuccess { response in
-                DispatchQueue.global(qos: .utility).async {
-                    autoreleasepool {
-                        let responseJSON = JSON(response)
-                        let myUserJSON = responseJSON
-                        
-                        self.conversationsFullJSON.append(myUserJSON)
-                    }
-                }
-                DispatchQueue.main.async {
-                    self.presenter?.onLoaded()
-                }
-        }
-        .onError { error in
-            
-        }
-        .send()
-    }
-    
-    @objc func receiveMessages(_ notification: Notification) {
-        if let userInfo = notification.userInfo {
-            if let updates = userInfo["updates"] {
-                self.updates = updates as? JSON
-            }
-        }
-    }
-    
-    @objc func removeMessages(_ notification: Notification) {
-        if let userInfo = notification.userInfo {
-            if let updates = userInfo["updates"] {
-                self.updates = updates as? JSON
-            }
-        }
-    }
-    
-    func getUsers(userIds: String) {
-        VK.API.Users.get([.userIDs: userIds, .fields: "photo_100, online, last_seen"])
-            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
-            .onSuccess { response in
-                let responseJSON = JSON(response)
-                self.handleResponseUsers(response: responseJSON)
-        }
-        .onError { error in
-            
-        }
-        .send()
-    }
-    
-    func getMe() {
-        VK.API.Users.get([.fields: "photo_100"])
-            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
-            .onSuccess { response in
-                let responseJSON = JSON(response)
-                self.handleResponseMyUser(response: responseJSON)
-        }
-        .onError { error in
-            
-        }
-        .send()
-    }
-    
-    func handleResponseMessages(response: JSON) {
-        conversationsJSON = response["items"].arrayValue
-    }
-    
-    func handleResponseUsers(response: JSON) {
-        usersJSON = response.arrayValue
-        DispatchQueue.main.async {
-            self.presenter?.onLoaded()
-        }
-    }
-    
-    func handleResponseMyUser(response: JSON) {
-        myUserJSON = response
     }
     
     func readMessage(peerId: String) {
@@ -206,6 +66,56 @@ class MessagesInteractor: MessagesInteractorProtocol {
                 self.presenter?.onEvent(message: "\(error)", .default)
             }
         }.send()
+    }
+    
+    @objc func receiveMessages(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if let updates = userInfo["updates"] {
+            }
+        }
+    }
+    
+     @objc func friendOnline(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if let updates = userInfo["updates"] {
+                let updates = updates as? JSON
+                let realm = try! Realm()
+                
+                let conversations = realm.objects(DBConversation.self).filter("id = %@", updates![0].intValue * -1)
+                print(updates![0].intValue * -1)
+                print(conversations)
+                
+                try! realm.write {
+                    conversations.first?.setValue(updates![4].intValue, forKeyPath: "online")
+                }
+                realm.refresh()
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_NOTIFICATION"), object: nil)
+                }
+            }
+        }
+    }
+    
+     @objc func friendOffline(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if let updates = userInfo["updates"] {
+                let updates = updates as? JSON
+                let realm = try! Realm()
+                
+                let conversations = realm.objects(DBConversation.self).filter("id = %@", updates![0].intValue * -1)
+                print(conversations)
+                
+                try! realm.write {
+                    conversations.first?.setValue(updates![4].intValue, forKeyPath: "online")
+                }
+                realm.refresh()
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RELOAD_NOTIFICATION"), object: nil)
+                }
+            }
+        }
     }
 }
 extension JSON {

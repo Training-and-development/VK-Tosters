@@ -20,8 +20,8 @@ class DialogInteractor: DialogInteractorProtocol {
     var peerId: String = ""
     var randomId: Int64 = 0
     
-    func start(userId: String) {
-        getChatHistory(peerId: userId)
+    func start(userId: String, offset: String) {
+        getChatHistory(peerId: userId, offset: offset)
         peerId = userId
         startObservers()
     }
@@ -32,8 +32,8 @@ class DialogInteractor: DialogInteractorProtocol {
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateMessages(_:)), name: .onFriendOnline, object: nil)
     }
     
-    func getChatHistory(peerId: String) {
-        VK.API.Messages.getHistory([.peerId: peerId, .rev: "0", .count: "200"])
+    func getChatHistory(peerId: String, offset: String = "0") {
+        VK.API.Messages.getHistory([.peerId: peerId, .offset: offset, .rev: "0", .count: "200"])
             .configure(with: Config.init(httpMethod: .GET,language: Language(rawValue: "ru")))
             .onSuccess { response in
                 self.responseJSON = JSON(response)["items"].arrayValue
@@ -47,7 +47,7 @@ class DialogInteractor: DialogInteractorProtocol {
     }
     
     func handleHistory(response: [JSON]) {
-        dialogMessagesJSON = response
+        dialogMessagesJSON += response
         DispatchQueue.main.async {
             self.presenter?.onLoaded()
         }

@@ -18,21 +18,10 @@ struct SavedVariables {
 }
 
 class FriendsViewController: BaseViewController, FriendsViewProtocol {
-    @IBOutlet weak var backViewButton: UIButton!
-    @IBOutlet weak var mainTable: UITableView!
-    @IBOutlet weak var friendsTitleLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
-    @IBOutlet weak var toolbarView: UIView!
     @IBOutlet weak var dividerSegmentView: UIView!
     @IBOutlet weak var dividerSegmentHeight: NSLayoutConstraint!
     @IBOutlet weak var segmentBlur: UIView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
-    
-    let footerView: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width , height: 38))
-    let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
-    let preloaderView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
-
-    lazy var refreshControl = UIRefreshControl()
     
     fileprivate var statusBarShouldLight = true
     static var userId: String = ""
@@ -47,12 +36,9 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         FriendsRouter.createModule(viewController: self)
         SavedVariables.userIdsFriendsViewController.append(FriendsViewController.userId)
         presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
-        refreshControl = UIRefreshControl()
-        setupTable()
+        configureTableView()
         setupSearch()
         setupError()
-        setupPreloader()
-        setupNavigationController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,34 +78,14 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         registerForPreviewingIfAvailable()
     }
     
-    override func setupNavigationController() {
-        self.navigationController?.navigationBar.frame = CGRect(origin: .zero, size: .zero)
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        friendsTitleLabel.text = "Друзья"
-        friendsTitleLabel.font = UIFont(name: "Lato-Bold", size: 20)
-        friendsTitleLabel.textColor = .toasterBlack
-        backViewButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backViewButton.tintColor = .toasterBlue
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
-        dividerSegmentHeight.constant = 0.5
-        dividerSegmentView.backgroundColor = .toasterDarkGray
-        segmentBlur.blurry()
-    }
-    
-    func setupTable() {
+    override func configureTableView() {
+        super.configureTableView()
+        showLoadingView()
         mainTable.delegate = self
         mainTable.dataSource = self
-        mainTable.contentInset = UIEdgeInsets(top: 52, left: 0, bottom: 55, right: 0)
-        mainTable.backgroundColor = .toasterWhite
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        mainTable.addSubview(refreshControl)
-        mainTable.keyboardDismissMode = .onDrag
-        mainTable.allowsMultipleSelectionDuringEditing = true
-        mainTable.tableHeaderView = searchController.searchBar
         mainTable.register(UINib(nibName: "FriendCell", bundle: nil), forCellReuseIdentifier: "FriendCell")
-        self.navigationController?.navigationItem.titleView = preloaderView
-        setupFooter()
+        self.view.addSubview(loadingContainer)
+        loadingContainer.autoPinEdgesToSuperviewEdges()
     }
     
     func setupSearch() {
@@ -143,69 +109,27 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         }
     }
     
-    func setupFooter() {
-        footerView.numberOfLines = 0
-        footerView.sizeToFit()
-        footerView.textAlignment = .center
-        footerView.font = UIFont(name: "Lato-Regular", size: 12)
-        footerView.textColor = .toasterMetal
-        mainTable.tableFooterView = footerView
-        mainTable.tableFooterView?.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: -38, right: 0)
-        mainTable.tableFooterView?.bounds.size.height = 38
-    }
-    
-    func setupError() {
-        self.view.addSubview(errorView)
-        errorView.autoAlignAxis(toSuperviewAxis: .vertical)
-        errorView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        errorView.setup()
-        errorView.isHidden = true
-    }
-    
-    func setupPreloader() {
-        self.view.addSubview(preloaderView)
-        preloaderView.autoAlignAxis(toSuperviewAxis: .vertical)
-        preloaderView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        mainTable.isHidden = true
-    }
-    
-    override func showErrorView() {
-        errorView.isHidden = false
-        mainTable.isHidden = true
-    }
-    
-    override func hideErrorView() {
-        errorView.isHidden = true
-        mainTable.isHidden = false
-    }
-    
-    override func showLoadingView() {
-        preloaderView.isHidden = false
-        mainTable.isHidden = true
-    }
-    
-    override func hideLoadingView() {
-        preloaderView.isHidden = true
-        mainTable.isHidden = false
-    }
-    
     func getToast(message: String, _ style: ToastStyle) {
         self.showToast(message: message, style, duration: 1)
     }
     
     func reloadTableView() {
-        UIView.transition(with: mainTable, duration: 0.0, options: .transitionCrossDissolve, animations: {
+        DispatchQueue.main.async {
             self.mainTable.reloadData()
-        }, completion: { _ in
-            self.segmentControl.setTitle("\(self.presenter!.getFriendsCount()) \(self.getStringByDeclension(number: self.presenter!.getFriendsCount(), arrayWords: ProfileLocalization.freindsString))", forSegmentAt: 0)
+            self.toolbar.title = "Друзья"
+            self.segmentControl.setTitle("\(self.presenter!.getFriendsCount()) \(self.getStringByDeclension(number: self.presenter!.getFriendsCount(), arrayWords: CaseLocalize.freindsString))", forSegmentAt: 0)
             self.segmentControl.setTitle("\(self.presenter!.getOnlineFriends().count) онлайн", forSegmentAt: 1)
-            guard self.refreshControl.isRefreshing else { return }
             self.refreshControl.endRefreshing()
-        })
+            // self.updateFooter(text: "\(self.presenter?.getAllCount() ?? 0) \(StringDeclension.getStringByDeclension(number: self.presenter?.getAllCount() ?? 0, arrayWords: TableViewLocalization.wallsCount))", 1)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                self.mainTable.reloadData()
+                self.hideLoadingView()
+            })
+        }
     }
     
     func openPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?) {
-        self.showPopup(headerText: headerText, descriptionText: descriptionText, confrimText: confrimText, declineText: declineText)
+        // self.showPopup(headerText: headerText, descriptionText: descriptionText, confrimText: confrimText, declineText: declineText)
     }
     
     override func confrimAction() {
@@ -223,7 +147,7 @@ class FriendsViewController: BaseViewController, FriendsViewProtocol {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func refresh(_ sender: Any) {
+    @objc override func refresh(_ sender: Any) {
         presenter?.start(userId: SavedVariables.userIdsFriendsViewController.last ?? "")
     }
     
@@ -249,10 +173,8 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         guard presenter != nil else { return 1 }
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            footerView.text = "\(presenter!.getFriendsCount()) \(getStringByDeclension(number: presenter!.getFriendsCount(), arrayWords: ProfileLocalization.freindsString))"
             return presenter!.getFriendsCount()
         case 1:
-            footerView.text = "\(presenter!.getOnlineFriends().count) онлайн"
             return presenter!.getOnlineFriends().count
         default:
             return 0

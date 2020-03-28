@@ -21,8 +21,8 @@ class DialogPresenter: DialogPresenterProtocol {
         self.router = router
     }
 
-    func start(userId: String) {
-        interactor?.start(userId: userId)
+    func start(userId: String, offset: String) {
+        interactor?.start(userId: userId, offset: offset)
     }
     
     func onLoaded() {

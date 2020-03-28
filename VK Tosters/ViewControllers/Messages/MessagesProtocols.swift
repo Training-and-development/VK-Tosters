@@ -18,21 +18,22 @@ protocol MessagesWireframeProtocol: class {
 //MARK: Presenter -
 protocol MessagesPresenterProtocol: class {
     func start()
+    func isReachable() -> Bool
     func onEvent(message: String, _ style: ToastStyle)
+    func onError(message: String, _ style: ToastStyle)
     func onLoaded()
-    func onTapRead(index: IndexPath)
     func onTapConversation(index: IndexPath)
-    func getFullConversation(indexPath: IndexPath) -> ConversationCore
-    func getMessagesCount() -> Int
-    func getUnread() -> Int
+    func getLastMessage(index: Int) -> DBLastMessage?
+    func getConversation(index: Int) -> DBConversation?
+    func getProfiles() -> [DBUser]?
+    func getGroups() -> [DBGroup]?
+    func getMessagesCount() -> Int?
+    func getUnread() -> Int?
 }
 
 //MARK: Interactor -
 protocol MessagesInteractorProtocol: class {
     var presenter: MessagesPresenterProtocol?  { get set }
-    var responseJSON: JSON { get }
-    var usersJSON: [JSON] { get }
-    var conversationsFullJSON: [JSON] { get }
     var unread: Int { get }
     func start()
     func readMessage(peerId: String)
@@ -42,5 +43,10 @@ protocol MessagesInteractorProtocol: class {
 protocol MessagesViewProtocol: class {
     var presenter: MessagesPresenterProtocol?  { get set }
     func getToast(message: String, _ style: ToastStyle)
-    func reload()
+    func finish()
+    func showErrorView(errorText: String)
+    func hideErrorView()
+    func showLoadingView()
+    func hideLoadingView()
+    func updateDB()
 }

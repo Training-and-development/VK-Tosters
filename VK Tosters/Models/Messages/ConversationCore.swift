@@ -31,7 +31,7 @@ class ConversationCore: NSObject {
     // Последнее сообщение
     var idLastMessage: Int = 0
     var date: Int = 0
-    var parsingTime: String = ""
+    var parseTime: String = ""
     var peerId: Int = 0
     var fromId: Int = 0
     var text: String = ""
@@ -39,10 +39,9 @@ class ConversationCore: NSObject {
     var isImportantLastMessage: Bool = false
     var attachments: Attachments = Attachments()
     // Пользователь
-    var userId: String = ""
-    var userName: String = ""
+    var interlocutorId: String = ""
+    var interlocutorName: String = ""
     var online: Int = 0
-    var lastSeen: LastSeen = LastSeen()
     var photo100: String = ""
     // Пользователь - отправитель
     var senderUserId: String = ""
@@ -53,7 +52,7 @@ class ConversationCore: NSObject {
     convenience init(JSON: JSON) {
         self.init()
         // Переписка
-        self.id = JSON["conversation"]["peer"]["id"].intValue
+        self.id = setId(JSON["conversation"]["peer"]["type"].stringValue, currentId: JSON["conversation"]["peer"]["local_id"].intValue)
         self.type = JSON["conversation"]["peer"]["type"].stringValue
         self.localId = JSON["conversation"]["peer"]["local_id"].intValue
         self.lastMessageId = JSON["last_message_id"].intValue
@@ -73,19 +72,14 @@ class ConversationCore: NSObject {
         // Последнее сообщение
         self.idLastMessage = JSON["last_message"]["id"].intValue
         self.date = JSON["last_message"]["date"].intValue
-        self.parsingTime = messageTime(time: JSON["last_message"]["date"].intValue)
+        self.parseTime = ConversationCore.messageTime(time: JSON["last_message"]["date"].intValue)
         self.peerId = JSON["last_message"]["peer_id"].intValue
         self.fromId = JSON["last_message"]["from_id"].intValue
         self.text = JSON["last_message"]["text"].stringValue
         self.randomId = JSON["last_message"]["random_id"].intValue
         self.isImportantLastMessage = JSON["last_message"]["important"].boolValue
         self.attachments = Attachments(json: JSON["last_message"]["attachments"].arrayValue)
-        // Пользователь
-        self.userId = JSON["profile"]["id"].stringValue
-        self.userName = "\(JSON["profile"]["first_name"].stringValue) \(JSON["profile"]["last_name"].stringValue)"
-        self.online = JSON["profile"]["online"].intValue
-        self.lastSeen = LastSeen(json: JSON["profile"]["last_seen"])
-        self.photo100 = JSON["profile"]["photo_100"].stringValue
+        self.interlocutorFromType(self.type, JSON)
         // Пользователь - отправитель
         self.senderUserId = MyData.userId
         self.senderUserName = MyData.userName
@@ -93,7 +87,53 @@ class ConversationCore: NSObject {
         self.senderPhoto100 = MyData.photo
     }
     
-    func messageTime(time: Int) -> String {
+    func interlocutorFromType(_ conversationType: String, _ json: JSON) {
+        switch conversationType {
+        case "user":
+            // Пользователь
+            self.interlocutorId = json["interlocutor"]["id"].stringValue
+            self.interlocutorName = "\(json["interlocutor"]["first_name"].stringValue) \(json["interlocutor"]["last_name"].stringValue)"
+            self.online = json["interlocutor"]["online"].intValue
+            self.photo100 = json["interlocutor"]["photo_100"].stringValue
+            
+        case "chat":
+           // Пользователь
+           self.interlocutorId = json["profile"]["id"].stringValue
+           self.interlocutorName = json["interlocutor"]["title"].stringValue
+           self.online = 0
+           self.photo100 = json["interlocutor"]["photo_100"].stringValue
+            
+        case "group":
+            // Пользователь
+            self.interlocutorId = json["interlocutor"]["id"].stringValue
+            self.interlocutorName = json["interlocutor"]["name"].stringValue
+            self.online = 0
+            self.photo100 = json["interlocutor"]["photo_100"].stringValue
+            
+        default: break
+        }
+    }
+    
+    func setId(_ conversationType: String, currentId: Int) -> Int {
+        switch conversationType {
+        case "user":
+            self.id = currentId
+            return self.id
+            
+        case "chat":
+            self.id = currentId + 2000000000
+            return self.id
+            
+        case "group":
+            self.id = currentId * -1
+            return self.id
+            
+        default:
+            return 0
+        }
+    }
+    
+    static func messageTime(time: Int) -> String {
         let currentTime: NSNumber = NSNumber(value: Date().timeIntervalSince1970)
         let date = Date(timeIntervalSince1970: Double(time))
         let timestamp: NSNumber = NSNumber(value: date.timeIntervalSince1970)

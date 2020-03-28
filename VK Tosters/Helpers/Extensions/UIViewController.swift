@@ -10,26 +10,6 @@ import Foundation
 import UIKit
 import SwiftyVK
 
-extension BaseViewController {
-    open func showPopup(headerText: String, descriptionText: String, confrimText: String?, declineText: String?) {
-        guard let popupViewController = storyboard?.instantiateViewController(withIdentifier: "popupViewController") as? PopupViewController else { return }
-        popupViewController.setParameters(duration: 0.3, dimmingViewAlpha: 0.2, headerText: headerText, descriptionText: descriptionText, confrimText: confrimText, declineText: declineText)
-        popupViewController.popupDelegate = self
-        popupViewController.rootController = self
-        popupViewController.modalPresentationStyle = .custom
-        present(popupViewController, animated: true, completion: nil)
-        popupViewController.confrimButton.isHidden = confrimText == nil ? true : false
-        popupViewController.declineButton.isHidden = declineText == nil ? true : false
-    }
-    
-    func showToast(message: String, _ style: ToastStyle, duration: TimeInterval = 1) {
-        self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
-            self.toaster.hide(view: self.view, toast: self.toaster.toast, isNeedAnimation: false)
-            self.toaster.show(view: self.view, style: style, message: message, duration: duration)
-        })
-    }
-}
 extension UIViewController: BottomPopupDelegate {
     public func bottomPopupViewLoaded() {
         print("bottomPopupViewLoaded")
@@ -54,4 +34,42 @@ extension UIViewController: BottomPopupDelegate {
     public func bottomPopupDismissInteractionPercentChanged(from oldValue: CGFloat, to newValue: CGFloat) {
         print("bottomPopupDismissInteractionPercentChanged fromValue: \(oldValue) to: \(newValue)")
     }
-} 
+}
+extension UIViewController {
+    func reloadViewFromNib() {
+        let parent = view.superview
+        view.removeFromSuperview()
+        view = nil
+        parent?.addSubview(view) // This line causes the view to be reloaded
+    }
+    
+    func roundedImage(_ image: UIImage, cornerRadius: CGFloat) -> UIImage? {
+        let rect = CGRect(origin: CGPoint.zero, size: image.size)
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, 1)
+        UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).addClip()
+        image.draw(in: rect)
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return result
+    }
+    
+    func resignFirstResponder<T: UIView>(_ object: T) {
+        UIView.performWithoutAnimation {
+            object.resignFirstResponder()
+        }
+    }
+    
+    func becomeFirstResponder<T: UIView>(_ object: T) {
+        UIView.performWithoutAnimation {
+            object.becomeFirstResponder()
+        }
+    }
+}
+extension UIViewController {
+    var topbarHeight: CGFloat {
+        return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
+            (self.navigationController?.navigationBar.frame.height ?? 0.0)
+    }
+}

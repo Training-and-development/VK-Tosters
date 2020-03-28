@@ -88,15 +88,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rNB-wk-oNo">
                                 <rect key="frame" x="0.0" y="33.5" width="380" height="27.5"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fTu-QV-gD8">
-                                        <rect key="frame" x="1" y="1.5" width="25" height="25"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="25" id="WQt-Gs-w08"/>
-                                            <constraint firstAttribute="height" constant="25" id="lYR-hj-cMf"/>
-                                        </constraints>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bqp-vu-LrJ">
-                                        <rect key="frame" x="34" y="0.0" width="342" height="27.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="376" height="27.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -104,12 +97,10 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="Bqp-vu-LrJ" firstAttribute="leading" secondItem="fTu-QV-gD8" secondAttribute="trailing" constant="8" id="7oh-Yq-5SF"/>
+                                    <constraint firstItem="Bqp-vu-LrJ" firstAttribute="leading" secondItem="rNB-wk-oNo" secondAttribute="leading" id="302-Oe-9by"/>
                                     <constraint firstAttribute="bottom" secondItem="Bqp-vu-LrJ" secondAttribute="bottom" id="QGN-yb-nDP"/>
                                     <constraint firstItem="Bqp-vu-LrJ" firstAttribute="top" secondItem="rNB-wk-oNo" secondAttribute="top" id="UNj-eV-afe"/>
                                     <constraint firstAttribute="height" constant="27.5" id="czl-em-ACm"/>
-                                    <constraint firstItem="fTu-QV-gD8" firstAttribute="centerY" secondItem="rNB-wk-oNo" secondAttribute="centerY" id="iqw-qa-vnT"/>
-                                    <constraint firstItem="fTu-QV-gD8" firstAttribute="leading" secondItem="rNB-wk-oNo" secondAttribute="leading" constant="1" id="x6f-ka-6f0"/>
                                     <constraint firstAttribute="trailing" secondItem="Bqp-vu-LrJ" secondAttribute="trailing" constant="4" id="yzU-CG-1Zj"/>
                                 </constraints>
                             </view>
@@ -150,9 +141,6 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="avatarInterlocutor" destination="Ifx-NR-VZH" id="c4q-8V-76C"/>
-                <outlet property="avatarPadding" destination="7oh-Yq-5SF" id="hOk-kH-fE4"/>
-                <outlet property="avatarSender" destination="fTu-QV-gD8" id="oag-zD-A0S"/>
-                <outlet property="avatarWidth" destination="WQt-Gs-w08" id="eZL-zs-ulp"/>
                 <outlet property="lastMessageViw" destination="rNB-wk-oNo" id="L5P-b3-mvG"/>
                 <outlet property="messageText" destination="Bqp-vu-LrJ" id="CNc-GF-ruU"/>
                 <outlet property="messageTimeLabel" destination="dMM-gS-Vl0" id="VMs-mh-Xnd"/>

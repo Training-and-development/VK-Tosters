@@ -40,7 +40,7 @@ class FriendsPresenter: FriendsPresenterProtocol {
     
     func onLoadData(hasError: Bool) {
         if hasError {
-            view?.showErrorView()
+            view?.showErrorView(errorText: "0")
         } else {
             view?.hideErrorView()
             view?.reloadTableView()
@@ -60,7 +60,7 @@ class FriendsPresenter: FriendsPresenterProtocol {
     func onSwipeUser(indexPath: IndexPath, isOnlineSegment: Bool, completion: DeleteFriendCompletionHandler?) {
         interactor?.deleteFriendsRequest(userId: isOnlineSegment ? self.getOnlineFriends()[indexPath.row].id : getFriend(indexPath: indexPath).id, completionHandler: { success in
             if success {
-                self.view?.getToast(message: "Вы удалили \(UserNameWithCase.name)", .success)
+                //self.view?.getToast(message: "Вы удалили \(UserNameWithCase.name)", .success)
                 completion?(true)
             } else {
                 self.view?.getToast(message: "Произошла ошибка", .error)
@@ -106,7 +106,7 @@ class FriendsPresenter: FriendsPresenterProtocol {
         interactor?.getNameWithCase(nameCase: nameCase, userId: isOnlineSegment ? self.getOnlineFriends()[indexPath.row].id : getFriend(indexPath: indexPath).id, completionHandler: { success in
             if success {
                 DispatchQueue.main.async {
-                    self.view?.openPopup(headerText: "Удаление из друзей", descriptionText: "Действительно удалить \(UserNameWithCase.name) из друзей?", confrimText: "Да", declineText: "Отмена")
+                    //self.view?.openPopup(headerText: "Удаление из друзей", descriptionText: "Действительно удалить \(UserNameWithCase.name) из друзей?", confrimText: "Да", declineText: "Отмена")
                 }
             } else {
                 DispatchQueue.main.async {

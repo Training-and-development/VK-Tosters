@@ -20,16 +20,21 @@ struct MyData {
 }
 
 class VKDelegate: SwiftyVKDelegate {
-    let scopes: Scopes = [.messages, .offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email]
+    let scopes: Scopes = [.offline,.friends,.wall,.photos,.audio,.video,.docs,.market,.email, .notifications]
     let defaults = UserDefaults.standard
 
     init() {
         VK.setUp(appId: VKConstants.shared.appId, delegate: self)
         let state = VK.sessions.default.state
         guard state == .authorized else { return }
+        setObservers()
         startLongPollServer()
-        setOnline()
         getMe()
+    }
+    
+    func setObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     func startLongPollServer() {
@@ -136,22 +141,16 @@ class VKDelegate: SwiftyVKDelegate {
         .send()
     }
     
-    func setOnline() {
-        VK.API.Account.setOnline([.voip: "0"]).send()
+    open var markOnline: Void {
+        get {
+            VK.API.Account.setOnline([.voip: "0"]).send()
+        }
     }
     
-    func registerDevice(token: String) {
-        VK.API.Account.registerDevice([.token: token,
-                                       .deviceId: UIDevice.current.identifierForVendor?.uuidString,
-                                       .deviceModel: UIDevice.current.model,
-                                       .systemVersion: UIDevice.current.systemVersion])
-            .onSuccess { response in
-                print("Push notifications registered", JSON(response))
+    open var markOffline: Void {
+        get {
+            VK.API.Account.setOffline(.empty).send()
         }
-        .onError { error in
-            print("Push notifications not registered", error.localizedDescription)
-        }
-        .send()
     }
     
     func vkNeedsScopes(for sessionId: String) -> Scopes {
@@ -182,14 +181,12 @@ class VKDelegate: SwiftyVKDelegate {
 
     func vkTokenCreated(for sessionId: String, info: [String : String]) {
         print("token created in session \(sessionId) with info \(info)")
-        registerDevice(token: info["access_token"]!)
         let myUserId = info["user_id"]
         defaults.set(myUserId, forKey: "userId")
     }
     
     func vkTokenUpdated(for sessionId: String, info: [String : String]) {
         print("token created in session \(sessionId) with info \(info)")
-        registerDevice(token: info["access_token"]!)
         let myUserId = info["user_id"]
         defaults.set(myUserId, forKey: "userId")
     }
@@ -197,5 +194,16 @@ class VKDelegate: SwiftyVKDelegate {
     func vkTokenRemoved(for sessionId: String) {
         print("token removed in session \(sessionId)")
         defaults.set("none", forKey: "userId")
+    }
+}
+extension VKDelegate {
+    @objc func onBackground(_ notification: Notification) {
+        print("You are offline")
+        self.markOffline
+    }
+    
+    @objc func onActive(_ notification: Notification) {
+        print("You are online")
+        self.markOnline
     }
 }

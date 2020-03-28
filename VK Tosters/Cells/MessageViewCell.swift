@@ -13,12 +13,9 @@ import SwiftyJSON
 
 class MessageViewCell: UITableViewCell {
     @IBOutlet weak var avatarInterlocutor: UIImageView!
-    @IBOutlet weak var avatarSender: UIImageView!
     @IBOutlet weak var nameInterlocutor: UILabel!
     @IBOutlet weak var messageText: UILabel!
     @IBOutlet weak var lastMessageViw: UIView!
-    @IBOutlet weak var avatarWidth: NSLayoutConstraint!
-    @IBOutlet weak var avatarPadding: NSLayoutConstraint!
     @IBOutlet weak var onlineView: UIView!
     @IBOutlet weak var unreadCountView: UIView!
     @IBOutlet weak var unreadLabel: UILabel!
@@ -33,10 +30,9 @@ class MessageViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func alternativeSetup(conversation: ConversationCore) {
-        setupLastMessage(conversation)
-        setupInterlocutor(conversation)
-        setupSender(conversation)
+    func alternativeSetup(conversation: DBConversation, lastMessage: DBLastMessage) {
+        setupUnreadMessage(conversation)
+        setupLastMessage(lastMessage)
         setupLayer()
     }
     
@@ -44,7 +40,6 @@ class MessageViewCell: UITableViewCell {
     func setupLayer() {
         DispatchQueue.main.async {
             self.avatarInterlocutor.setRounded()
-            self.avatarSender.setRounded()
             self.lastMessageViw.setRounded()
             self.onlineView.setRounded()
             self.unreadCountView.setRounded()
@@ -64,24 +59,21 @@ class MessageViewCell: UITableViewCell {
     }
     
     // Установка последнего сообщения
-    func setupLastMessage(_ conversation: ConversationCore) {
-        setupUnreadMessage(conversation)
-        messageText.text = conversation.attachments.type == "" ? conversation.text : conversation.attachments.type
-        messageText.textColor = conversation.attachments.type == "" ? .toasterMetal : .toasterBlue
-        unreadLabel.text = "\(conversation.unreadCount)"
-        messageTimeLabel.text = conversation.parsingTime
+    func setupLastMessage(_ lastMessage: DBLastMessage) {
+        messageText.text = lastMessage.text != "" ? lastMessage.text : "Пустое сообщение"
+        messageTimeLabel.text = lastMessage.date
     }
     
     // Установка непрочитанного сообщения
-    func setupUnreadMessage(_ conversation: ConversationCore) {
+    func setupUnreadMessage(_ conversation: DBConversation) {
         // Установка непрочитанного исходящего
-        if conversation.inRead != conversation.idLastMessage {
+        if conversation.inRead != conversation.lastMessageId {
             contentView.backgroundColor = UIColor.toasterBlue.withAlphaComponent(0.15)
         } else {
             contentView.backgroundColor = UIColor.clear
         }
         // Установка непрочитанного входящего
-        if conversation.outRead != conversation.idLastMessage {
+        if conversation.outRead != conversation.lastMessageId {
             lastMessageViw.backgroundColor = UIColor.toasterBlue.withAlphaComponent(0.15)
         } else {
             lastMessageViw.backgroundColor = UIColor.clear
@@ -89,35 +81,24 @@ class MessageViewCell: UITableViewCell {
         // Установка счетчика
         if conversation.unreadCount > 0 {
             unreadCountView.isHidden = false
+            unreadLabel.text = "\(conversation.unreadCount)"
         } else {
             unreadCountView.isHidden = true
         }
     }
     
-    // Установка собеседника и его данных
-    func setupInterlocutor(_ conversation: ConversationCore) {
-        avatarInterlocutor.kf.setImage(with: URL(string: conversation.photo100))
-        nameInterlocutor.text = conversation.userName
-        if conversation.online == 1 {
+    func setupUserInterlocutor(profile: DBUser) {
+        avatarInterlocutor.kf.setImage(with: URL(string: profile.photo100))
+        nameInterlocutor.text = "\(profile.firstName) \(profile.lastName)"
+        if profile.online == 1 {
             online.isHidden = false
         } else {
             online.isHidden = true
         }
     }
     
-    // Установка отправителя и его данных
-    func setupSender(_ conversation: ConversationCore) {
-        avatarSender.kf.setImage(with: URL(string: conversation.senderPhoto100))
-        if "\(conversation.fromId)" != UserDefaults.standard.string(forKey: "userId") {
-            avatarWidth.constant = 0
-            avatarPadding.constant = 0
-            avatarSender.isHidden = true
-            setNeedsUpdateConstraints()
-        } else {
-            avatarWidth.constant = 25
-            avatarPadding.constant = 8
-            avatarSender.isHidden = false
-            setNeedsUpdateConstraints()
-        }
+    func setupGroupInterlocutor(group: DBGroup) {
+        avatarInterlocutor.kf.setImage(with: URL(string: group.photo100))
+        nameInterlocutor.text = group.name
     }
 }

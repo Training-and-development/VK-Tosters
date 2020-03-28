@@ -9,8 +9,48 @@
 //
 
 import UIKit
+import SwiftyVK
+import SwiftyJSON
 
 class NewsInteractor: NewsInteractorProtocol {
 
     weak var presenter: NewsPresenterProtocol?
+    
+    func start() {
+        getConversationsFull()
+    }
+    
+    func getConversationsFull() {
+        VK.API.Messages.getConversations([.count: "10", .extended: "1"])
+            .configure(with: Config.init(httpMethod: .GET, language: Language(rawValue: "ru")))
+            .onSuccess { response in
+                DispatchQueue.global(qos: .utility).async {
+                    autoreleasepool {
+                        self.handleRequest(response: JSON(response))
+                    }
+                }
+        }
+        .onError { error in
+        }
+        .send()
+    }
+    
+    func handleRequest(response: JSON) {
+        let conversations = response["items"].arrayValue
+        let users = response["profiles"].arrayValue
+        let groups = response["groups"].arrayValue
+        for var conversation in conversations {
+            if conversation["conversation"]["peer"]["type"].stringValue.contains("user") {
+                for user in users {
+                    conversation.appendIfDictionary(key: "interlocutor", json: user)
+                }
+            } else if conversation["conversation"]["peer"]["type"].stringValue.contains("group") {
+                for group in groups {
+                    conversation.appendIfDictionary(key: "interlocutor", json: group)
+                }
+            }
+            let core = ConversationCore(JSON: conversation)
+            print(core.interlocutorId)
+        }
+    }
 }

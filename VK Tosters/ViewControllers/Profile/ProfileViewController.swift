@@ -12,6 +12,7 @@ import UIKit
 import Kingfisher
 import SwiftyJSON
 import PureLayout
+import Material
 
 class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -22,10 +23,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     @IBOutlet weak var editProfileButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var shortNameLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
-    @IBOutlet weak var toolbarView: UIView!
     /// ---- Info ----
     @IBOutlet weak var accountIcon: UIImageView!
     @IBOutlet weak var carrierIcon: UIImageView!
@@ -45,9 +42,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     var presenter: ProfilePresenterProtocol?
     let defaults = UserDefaults.standard
     
-    let errorView = ErrorView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 97)))
-    let loadingView = LoadingView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width - 24, height: 72)))
-    
     static var userId: String = ""
     var previewUserId: String = ""
     static var nameWithGenCase: String = ""
@@ -55,8 +49,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
     var isPreview: Bool = false
     
     var model: User?
-    
-    lazy var refreshControl = UIRefreshControl()
 
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +59,8 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         presenter?.start(userId: !isPreview ? SavedVariables.userIdsProfileViewController.last ?? "" : previewUserId)
         setupDismissTarget()
         setupError()
-        setupPreloader()
         mainCollection.isPrefetchingEnabled = false
+        updateToolbar()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -77,31 +69,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
             guard SavedVariables.userIdsProfileViewController != [] else { return }
             SavedVariables.userIdsProfileViewController.removeLast()
         }
-    }
-    
-    override func showErrorView() {
-        avatarImageView.isHidden = true
-        namesLabel.isHidden = true
-        errorView.isHidden = false
-    }
-    
-    override func hideErrorView() {
-        avatarImageView.isHidden = false
-        namesLabel.isHidden = false
-        errorView.isHidden = true
-    }
-    
-    override func showLoadingView() {
-        loadingView.isHidden = false
-        contentView.isHidden = true
-    }
-    
-    override func hideLoadingView() {
-        setup()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.loadingView.isHidden = true
-            self.contentView.isHidden = false
-        })
     }
     
     override func onReachabilityStatusChanged(_ notification: Notification) {
@@ -114,12 +81,21 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         }
     }
     
+    override func updateToolbar() {
+        super.updateToolbar()
+        self.toolbar.title = "Ярослав Стрельников"
+        let popButton: IconButton = IconButton(image: UIImage(named: "arrow_left_outline_24"), tintColor: UIColor(named: "Azure Blue"))
+        self.toolbar.leftViews = [popButton]
+        popButton.addTarget(self, action: #selector(pop(_:)), for: .touchUpInside)
+    }
+    
+    @objc func pop(_ sender: Any?) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func setupDismissTarget() {
-        closeButton.isUserInteractionEnabled = true
         let dismissTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismiss(_:)))
         dismissTap.numberOfTapsRequired = 1
-        closeButton.addGestureRecognizer(dismissTap)
-        
         friendsView.isUserInteractionEnabled = true
         let singleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapFriends(_:)))
         singleTap.numberOfTapsRequired = 1
@@ -132,15 +108,14 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         avatarImageView.kf.setImage(with: URL(string: model.photo100))
         switch model.online {
         case 0:
-            statusLabel.text = "\(FriendsLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)) \(setOnlinePlatform(platform: model.lastSeen.platform))"
+            statusLabel.text = "\(VKLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)) \(setOnlinePlatform(platform: model.lastSeen.platform))"
         case 1:
             statusLabel.text = "Онлайн \(setOnlinePlatform(platform: model.lastSeen.platform))"
         default: break
         }
-        shortNameLabel.text = model.screenName
-        accountLabel.text = "\(model.counters.friends) \(getStringByDeclension(number: model.counters.friends, arrayWords: ProfileLocalization.freindsString)) · \(model.counters.onlineFriends) онлайн"
-        followersLabel.text = "\(model.counters.followers) \(getStringByDeclension(number: model.counters.followers, arrayWords: ProfileLocalization.followersString))"
-        carrierLabel.text = "\(model.counters.pages) \(getStringByDeclension(number: model.counters.pages, arrayWords: ProfileLocalization.pagesString))"
+        accountLabel.text = "\(model.counters.friends) \(getStringByDeclension(number: model.counters.friends, arrayWords: CaseLocalize.freindsString)) · \(model.counters.onlineFriends) онлайн"
+        followersLabel.text = "\(model.counters.followers) \(getStringByDeclension(number: model.counters.followers, arrayWords: CaseLocalize.followersString))"
+        carrierLabel.text = "\(model.counters.pages) \(getStringByDeclension(number: model.counters.pages, arrayWords: CaseLocalize.pagesString))"
         infoLabel.text = "Подробная информация"
         refreshControl.endRefreshing()
     }
@@ -159,12 +134,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         avatarImageView.setRounded()
         statusLabel.font = UIFont(name: "Lato-Regular", size: 15)
         statusLabel.textColor = .toasterMetal
-        closeButton.setImage(UIImage(named: "back")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        closeButton.tintColor = .toasterBlue
-        shortNameLabel.font = UIFont(name: "Lato-Heavy", size: 22)
-        shortNameLabel.textColor = .toasterBlack
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
         divider2.autoSetDimension(.height, toSize: 0.5)
         divider2.backgroundColor = .toasterMetal
         
@@ -244,21 +213,6 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         }
     }
     
-    func setupError() {
-        self.view.addSubview(errorView)
-        errorView.autoAlignAxis(toSuperviewAxis: .vertical)
-        errorView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        errorView.setup()
-        errorView.isHidden = true
-    }
-    
-    func setupPreloader() {
-        self.view.addSubview(loadingView)
-        loadingView.autoAlignAxis(toSuperviewAxis: .vertical)
-        loadingView.autoAlignAxis(toSuperviewAxis: .horizontal)
-        contentView.isHidden = true
-    }
-    
     func reloadCollection() {
         mainCollection.reloadData()
     }
@@ -275,7 +229,7 @@ class ProfileViewController: BaseViewController, ProfileViewProtocol {
         presenter?.onTapFriends(userId: SavedVariables.userIdsProfileViewController.last ?? "")
     }
     
-    @objc func refresh(_ sender: Any) {
+    @objc override func refresh(_ sender: Any) {
         presenter?.start(userId: SavedVariables.userIdsProfileViewController.last ?? "")
     }
     

@@ -12,21 +12,21 @@ import Foundation
 
 //MARK: Wireframe -
 protocol NewsWireframeProtocol: class {
-
+    
 }
 //MARK: Presenter -
 protocol NewsPresenterProtocol: class {
-
+    func start()
 }
 
 //MARK: Interactor -
 protocol NewsInteractorProtocol: class {
-
-  var presenter: NewsPresenterProtocol?  { get set }
+    var presenter: NewsPresenterProtocol?  { get set }
+    func start()
 }
 
 //MARK: View -
 protocol NewsViewProtocol: class {
-
-  var presenter: NewsPresenterProtocol?  { get set }
+    
+    var presenter: NewsPresenterProtocol?  { get set }
 }

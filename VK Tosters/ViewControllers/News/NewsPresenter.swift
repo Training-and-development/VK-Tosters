@@ -22,4 +22,7 @@ class NewsPresenter: NewsPresenterProtocol {
         self.router = router
     }
 
+    func start() {
+        interactor?.start()
+    }
 }

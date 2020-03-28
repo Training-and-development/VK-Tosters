@@ -16,9 +16,7 @@ class MessagesPresenter: MessagesPresenterProtocol {
     weak private var view: MessagesViewProtocol?
     var interactor: MessagesInteractorProtocol?
     private let router: MessagesWireframeProtocol
-    
-    let service = MessageService.shared
-    
+
     let realm = try! Realm()
 
     init(interface: MessagesViewProtocol, interactor: MessagesInteractorProtocol?, router: MessagesWireframeProtocol) {
@@ -35,42 +33,62 @@ class MessagesPresenter: MessagesPresenterProtocol {
         return SwiftReachability.sharedManager!.isReachable()
     }
     
+    func onError(message: String, _ style: ToastStyle) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            self.onEvent(message: message, style)
+            self.view?.hideLoadingView()
+            self.view?.showErrorView(errorText: message)
+        })
+    }
+    
     func onEvent(message: String, _ style: ToastStyle) {
-        view?.getToast(message: message, style)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.view?.getToast(message: message, style)
+        })
     }
     
     func onLoaded() {
-        view?.reload()
-    }
-    
-    func onTapRead(index: IndexPath) {
-        interactor?.readMessage(peerId: "\(getFullConversation(indexPath: index).peerId)")
+        view?.finish()
     }
     
     func onTapConversation(index: IndexPath) {
-        let json = interactor?.usersJSON[index.row]
-        guard json != nil else { return }
-        let user = json.map { User(jsonFullUser: $0) }
-        router.openDialog(user: user!)
+//        guard interactor != nil else { return }
+//        let json = interactor?.interlocutorJSON[index.row]
+//        guard json != nil else { return }
+//        let user = json.map { User(jsonFullUser: $0) }
+//        router.openDialog(user: user!)
     }
     
-    func getFullConversation(indexPath: IndexPath) -> ConversationCore {
-        guard interactor != nil else { return ConversationCore() }
-        var json = interactor!.conversationsFullJSON[indexPath.row]
-        json.appendIfDictionary(key: "profile", json: interactor!.usersJSON[indexPath.row])
-        let conversation = ConversationCore(JSON: json)
-        return conversation
+    func getLastMessage(index: Int) -> DBLastMessage? {
+        let items = realm.objects(DBLastMessage.self)
+        guard items.count != 0 else { return nil }
+        return items.sorted { $0.date > $1.date }[index]
     }
     
-    func getRealmMessages(indexPath: IndexPath) -> DBConversation {
-        return service.getDBConversation(conversation: getFullConversation(indexPath: indexPath))!
+    func getConversation(index: Int) -> DBConversation? {
+        let items = realm.objects(DBConversation.self)
+        guard items.count != 0 else { return nil }
+        return items.sorted { $0.lastMessageId > $1.lastMessageId }[index]
     }
     
-    func getMessagesCount() -> Int {
-        return interactor!.conversationsFullJSON.count
+    func getProfiles() -> [DBUser]? {
+        let profiles = realm.objects(DBUser.self).toArray(ofType: DBUser.self)
+        guard profiles.count != 0 else { return nil }
+        return profiles
     }
     
-    func getUnread() -> Int {
+    func getGroups() -> [DBGroup]? {
+        let groups = realm.objects(DBGroup.self).toArray(ofType: DBGroup.self)
+        guard groups.count != 0 else { return nil }
+        return groups
+    }
+    
+    func getMessagesCount() -> Int? {
+        let items = realm.objects(DBConversation.self)
+        return items.count
+    }
+    
+    func getUnread() -> Int? {
         return interactor!.unread
     }
 }

@@ -13,18 +13,17 @@ import UIKit
 class NewsRouter: NewsWireframeProtocol {
     
     weak var viewController: UIViewController?
+    var baseViewController: UIViewController?
     
-    static func createModule() -> UIViewController {
-        // Change to get view from storyboard if not using progammatic UI
-        let view = NewsViewController(nibName: nil, bundle: nil)
+    class func createModule(viewController: NewsViewController) {
         let interactor = NewsInteractor()
         let router = NewsRouter()
-        let presenter = NewsPresenter(interface: view, interactor: interactor, router: router)
+        let presenter = NewsPresenter(interface: viewController, interactor: interactor, router: router)
         
-        view.presenter = presenter
+        viewController.presenter = presenter
         interactor.presenter = presenter
-        router.viewController = view
-        
-        return view
+        router.viewController = viewController
+        presenter.interactor = interactor
+        router.baseViewController = viewController
     }
 }

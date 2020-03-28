@@ -16,5 +16,7 @@ class NewsViewController: UIViewController, NewsViewProtocol {
 
 	override func viewDidLoad() {
         super.viewDidLoad()
+        NewsRouter.createModule(viewController: self)
+        presenter?.start()
     }
 }

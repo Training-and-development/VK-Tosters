@@ -38,7 +38,7 @@ class FriendCell: UITableViewCell {
     func setActiveUser(model: Friend) {
         nameView.text = model.name
         if model.online == 0 {
-            descriptionView.text = FriendsLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)
+            descriptionView.text = VKLocalization.getLastSeen(sex: model.sex, time: model.lastSeen.parseTime)
             onlineView.isHidden = true
         } else if model.online == 1 {
             descriptionView.text = "Онлайн"
@@ -61,7 +61,7 @@ class FriendCell: UITableViewCell {
     }
     
     func setDeactiveUser(deactivated: String) {
-        descriptionView.text = FriendsLocalization.getDeactivateState(deactivate: deactivated)
+        descriptionView.text = VKLocalization.getDeactivateState(deactivate: deactivated, hasShort: false)
     }
     
     func setupCellComponent() {

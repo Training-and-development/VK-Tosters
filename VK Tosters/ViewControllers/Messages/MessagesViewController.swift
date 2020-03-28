@@ -12,37 +12,63 @@ import UIKit
 import RealmSwift
 
 class MessagesViewController: BaseViewController, MessagesViewProtocol {
-    @IBOutlet weak var toolbarLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
-    @IBOutlet weak var messagesTableView: UITableView!
     @IBOutlet weak var item: UITabBarItem!
-    
+    var notificationToken: NotificationToken?
 	var presenter: MessagesPresenterProtocol?
-    lazy var refreshControl = UIRefreshControl()
+    let realm = try! Realm()
+    
+    deinit{
+        notificationToken?.invalidate()
+    }
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         MessagesRouter.createModule(viewController: self)
         presenter?.start()
+        //NotificationCenter.default.addObserver(self, selector: #selector(didReceiveReloadNotification), name: NSNotification.Name(rawValue: "RELOAD_NOTIFICATION"), object: nil)
         setup()
+    }
+    
+    /*@objc func didReceiveReloadNotification(_ notification: NSNotification) {
+        lastMessages = lastMessages.realm!.objects(DBConversation.self)
+        
+        notificationToken?.invalidate()
+        notificationToken = lastMessages.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let strongSelf = self else { return }
+            guard let tableView = strongSelf.mainTable else { return }
+            switch changes {
+            case .initial:
+                tableView.reloadData()
+                break
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .right)
+                tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .right)
+                tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .none)
+                tableView.endUpdates()
+                strongSelf.notificationToken?.invalidate()
+                break
+            case .error(let error):
+                print("Error: \(error)")
+                break
+            }
+        }
+    }*/
+    
+    func updateDB() {
+        
     }
     
     override func setup() {
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        messagesTableView.addSubview(refreshControl)
-        messagesTableView.keyboardDismissMode = .onDrag
-        messagesTableView.allowsMultipleSelectionDuringEditing = true
-        messagesTableView.separatorStyle = .none
-        messagesTableView.delegate = self
-        messagesTableView.dataSource = self
-        messagesTableView.register(UINib(nibName: "MessageViewCell", bundle: nil), forCellReuseIdentifier: "MessageViewCell")
-    }
-
-    override func setupNavigationController() {
-        toolbarLabel.font = UIFont(name: "Lato-Bold", size: 20)
-        toolbarLabel.textColor = .toasterBlack
-        dividerView.autoSetDimension(.height, toSize: 0.5)
-        dividerView.backgroundColor = .toasterMetal
+        mainTable.addSubview(refreshControl)
+        mainTable.keyboardDismissMode = .onDrag
+        mainTable.allowsMultipleSelectionDuringEditing = true
+        mainTable.separatorStyle = .none
+        mainTable.delegate = self
+        mainTable.dataSource = self
+        mainTable.register(UINib(nibName: "MessageViewCell", bundle: nil), forCellReuseIdentifier: "MessageViewCell")
+        self.toolbar.title = "Сообщения"
     }
     
     override func onReachabilityStatusChanged(_ notification: Notification) {
@@ -55,34 +81,46 @@ class MessagesViewController: BaseViewController, MessagesViewProtocol {
         }
     }
     
+    override func updateFooter(text: String, _ state: Int) {
+        super.updateFooter(text: text, state)
+        self.footer.setup(text: text, state)
+    }
+    
     func getToast(message: String, _ style: ToastStyle) {
         self.showToast(message: message, style, duration: 1)
     }
     
-    func reload() {
-        messagesTableView.reloadData()
-        refreshControl.endRefreshing()
-        item.badgeValue = presenter!.getUnread() == 0 ? nil : "\(presenter!.getUnread())"
+    func finish() {
+        DispatchQueue.main.async {
+            self.mainTable.reloadData()
+            self.refreshControl.endRefreshing()
+            // self.updateFooter(text: "\(self.presenter?.getAllCount() ?? 0) \(StringDeclension.getStringByDeclension(number: self.presenter?.getAllCount() ?? 0, arrayWords: TableViewLocalization.wallsCount))", 1)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                self.mainTable.reloadData()
+                self.hideLoadingView()
+            })
+        }
     }
     
     func readMessage(index: IndexPath) {
-        presenter?.onTapRead(index: index)
+        //presenter?.onTapRead(index: index)
     }
     
-    @objc func refresh(_ sender: Any) {
+    @objc override func refresh(_ sender: Any) {
         presenter?.start()
     }
 }
 extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard presenter != nil else { return 0 }
-        return presenter!.getMessagesCount()
+        guard let presenter = presenter else { return 0 }
+        guard let count = presenter.getMessagesCount() else { return 0 }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard presenter != nil else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageViewCell", for: indexPath) as! MessageViewCell
-        cell.alternativeSetup(conversation: presenter!.getFullConversation(indexPath: indexPath))
+        
         return cell
     }
     

@@ -45,7 +45,7 @@ protocol FriendsViewProtocol: class {
     var presenter: FriendsPresenterProtocol?  { get set }
     func getToast(message: String, _ style: ToastStyle)
     func reloadTableView()
-    func showErrorView()
+    func showErrorView(errorText: String)
     func hideErrorView()
     func showLoadingView()
     func hideLoadingView()
